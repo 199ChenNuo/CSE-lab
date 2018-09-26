@@ -1,0 +1,3144 @@
+===== alloc_inode(type: 1) =====
+===== im: put_inode, inum: 1 =====
+	size: 0
+end of put_inode()
+
+===== im: get_inode, inum: 1 =====
+	im: get_inode 1
+end of get_inode(), ino->size:0
+
+	im: alloc_inode, inum: 1
+end of im::alloc_inode()
+
+FUSE library version: 2.9.4
+unique: 1, opcode: INIT (26), nodeid: 0, insize: 56, pid: 0
+INIT: 7.26
+flags=0x001ffffb
+max_readahead=0x00020000
+   INIT: 7.19
+   flags=0x00000000
+   max_readahead=0x00020000
+   max_write=0x00020000
+   max_background=0
+   congestion_threshold=0
+   unique: 1, success, outsize: 40
+unique: 2, opcode: LOOKUP (1), nodeid: 1, insize: 45, pid: 129
+========== yfs::lookup(parent: 1, name: a129) ==========
+========== yfs::readdir(dir: 1) ==========
+extent_server: get 1
+===== read_file(inum: 1) =====
+===== im: get_inode, inum: 1 =====
+	im: get_inode 1
+end of get_inode(), ino->size:0
+
+size: 1225031316
+===== im: put_inode, inum: 1 =====
+	size: 0
+end of put_inode()
+
+===== im: get_inode, inum: 1 =====
+	im: get_inode 1
+end of get_inode(), ino->size:0
+
+end of read_file()
+
+print_list()
+end of yfs::readdir()
+
+end of yfs::lookup()
+
+   unique: 2, error: -2 (No such file or directory), outsize: 16
+unique: 3, opcode: CREATE (35), nodeid: 1, insize: 61, pid: 129
+=============== fuseserver_create(parent: 1, name: a129) ===============
+=============== fuseserver_createhelper(parent:	1, name:	a129 ===============
+========== yfs::create(parent: 1, name: a129) ==========
+========== yfs::readdir(dir: 1) ==========
+extent_server: get 1
+===== read_file(inum: 1) =====
+===== im: get_inode, inum: 1 =====
+	im: get_inode 1
+end of get_inode(), ino->size:0
+
+size: 1225030740
+===== im: put_inode, inum: 1 =====
+	size: 0
+end of put_inode()
+
+===== im: get_inode, inum: 1 =====
+	im: get_inode 1
+end of get_inode(), ino->size:0
+
+end of read_file()
+
+print_list()
+end of yfs::readdir()
+
+extent_server: create inode
+===== alloc_inode(type: 2) =====
+===== im: put_inode, inum: 2 =====
+	size: 0
+end of put_inode()
+
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:0
+
+	im: alloc_inode, inum: 2
+end of im::alloc_inode()
+
+===== write_file(inum: 1, size: 7) =====
+===== im: get_inode, inum: 1 =====
+	im: get_inode 1
+end of get_inode(), ino->size:0
+
+===== alloc_block() =====
+===== im: put_inode, inum: 1 =====
+	size: 7
+end of put_inode()
+
+===== im: get_inode, inum: 1 =====
+	im: get_inode 1
+end of get_inode(), ino->size:7
+
+end of write_file()
+
+end of create()
+
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:0
+
+end of getattr()
+
+isfile: 2 is a file
+getattr 0000000000000002 1
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:0
+
+end of getattr()
+
+isfile: 2 is a file
+getfile 0000000000000002
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:0
+
+end of getattr()
+
+getfile 0000000000000002 -> sz 0
+   getattr -> 0
+end of fuseserver_createhelper()
+
+   unique: 3, success, outsize: 160
+OK: create returns.
+unique: 4, opcode: IOCTL (39), nodeid: 2, insize: 72, pid: 129
+   unique: 4, error: -38 (Function not implemented), outsize: 16
+unique: 5, opcode: GETATTR (3), nodeid: 2, insize: 56, pid: 129
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:0
+
+end of getattr()
+
+isfile: 2 is a file
+getattr 0000000000000002 1
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:0
+
+end of getattr()
+
+isfile: 2 is a file
+getfile 0000000000000002
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:0
+
+end of getattr()
+
+getfile 0000000000000002 -> sz 0
+   getattr -> 0
+   unique: 5, success, outsize: 120
+unique: 6, opcode: GETXATTR (22), nodeid: 2, insize: 68, pid: 129
+   unique: 6, error: -38 (Function not implemented), outsize: 16
+unique: 7, opcode: WRITE (16), nodeid: 2, insize: 680, pid: 129
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:0
+
+end of getattr()
+
+write(),inum:2
+new_content: 0.230396022628160.4280024737558680.9925166739068450.5815219814857710.7871756692303120.4424795787635820.7583429807767420.4169360546339580.1283023171039620.104876047524840.5335670919319390.3369496748686980.6786203349774840.5796239698190820.978253140653120.07190382070267990.2832682435117170.8853050443567840.6917268399324250.7061353578037670.4183958615848450.1322892618377840.4905672066739970.1159267644217370.3027811757494630.3989875421960390.553110539775030.9073937636763180.9833538012242580.2863761572228470.4937708379546240.04243098943077680.6002803708003090.9909306586765470.938648110043470.619739
+extent_server: get 2
+===== read_file(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:0
+
+size: 1225031668
+===== im: put_inode, inum: 2 =====
+	size: 0
+end of put_inode()
+
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:0
+
+end of read_file()
+
+off: 0 ,buf.size():0 ,size: 600
+===== write_file(inum: 2, size: 600) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:0
+
+===== alloc_block() =====
+===== alloc_block() =====
+===== im: put_inode, inum: 2 =====
+	size: 600
+end of put_inode()
+
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:600
+
+end of write_file()
+
+   unique: 7, success, outsize: 24
+unique: 8, opcode: FLUSH (25), nodeid: 2, insize: 64, pid: 129
+   unique: 8, error: -38 (Function not implemented), outsize: 16
+unique: 9, opcode: RELEASE (18), nodeid: 2, insize: 64, pid: 0
+   unique: 9, success, outsize: 16
+unique: 10, opcode: LOOKUP (1), nodeid: 1, insize: 45, pid: 129
+========== yfs::lookup(parent: 1, name: a129) ==========
+========== yfs::readdir(dir: 1) ==========
+extent_server: get 1
+===== read_file(inum: 1) =====
+===== im: get_inode, inum: 1 =====
+	im: get_inode 1
+end of get_inode(), ino->size:7
+
+size: 1225031316
+===== im: put_inode, inum: 1 =====
+	size: 7
+end of put_inode()
+
+===== im: get_inode, inum: 1 =====
+	im: get_inode 1
+end of get_inode(), ino->size:7
+
+end of read_file()
+
+print_list()
+inum: 2, name: a129
+end of yfs::readdir()
+
+end of yfs::lookup()
+
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:600
+
+end of getattr()
+
+isfile: 2 is a file
+getattr 0000000000000002 1
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:600
+
+end of getattr()
+
+isfile: 2 is a file
+getfile 0000000000000002
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:600
+
+end of getattr()
+
+getfile 0000000000000002 -> sz 600
+   getattr -> 600
+   unique: 10, success, outsize: 144
+unique: 11, opcode: OPEN (14), nodeid: 2, insize: 48, pid: 129
+   unique: 11, success, outsize: 32
+unique: 12, opcode: IOCTL (39), nodeid: 2, insize: 72, pid: 129
+   unique: 12, error: -38 (Function not implemented), outsize: 16
+unique: 13, opcode: GETATTR (3), nodeid: 2, insize: 56, pid: 129
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:600
+
+end of getattr()
+
+isfile: 2 is a file
+getattr 0000000000000002 1
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:600
+
+end of getattr()
+
+isfile: 2 is a file
+getfile 0000000000000002
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:600
+
+end of getattr()
+
+getfile 0000000000000002 -> sz 600
+   getattr -> 600
+   unique: 13, success, outsize: 120
+unique: 14, opcode: GETATTR (3), nodeid: 2, insize: 56, pid: 129
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:600
+
+end of getattr()
+
+isfile: 2 is a file
+getattr 0000000000000002 1
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:600
+
+end of getattr()
+
+isfile: 2 is a file
+getfile 0000000000000002
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:600
+
+end of getattr()
+
+getfile 0000000000000002 -> sz 600
+   getattr -> 600
+   unique: 14, success, outsize: 120
+unique: 15, opcode: READ (15), nodeid: 2, insize: 80, pid: 129
+extent_server: get 2
+===== read_file(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:600
+
+size: 1225031860
+===== im: put_inode, inum: 2 =====
+	size: 600
+end of put_inode()
+
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:600
+
+end of read_file()
+
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:600
+
+end of getattr()
+
+   unique: 15, success, outsize: 616
+unique: 16, opcode: GETATTR (3), nodeid: 2, insize: 56, pid: 129
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:600
+
+end of getattr()
+
+isfile: 2 is a file
+getattr 0000000000000002 1
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:600
+
+end of getattr()
+
+isfile: 2 is a file
+getfile 0000000000000002
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:600
+
+end of getattr()
+
+getfile 0000000000000002 -> sz 600
+   getattr -> 600
+   unique: 16, success, outsize: 120
+unique: 17, opcode: RELEASE (18), nodeid: 2, insize: 64, pid: 0
+   unique: 17, success, outsize: 16
+unique: 18, opcode: LOOKUP (1), nodeid: 1, insize: 45, pid: 129
+========== yfs::lookup(parent: 1, name: b129) ==========
+========== yfs::readdir(dir: 1) ==========
+extent_server: get 1
+===== read_file(inum: 1) =====
+===== im: get_inode, inum: 1 =====
+	im: get_inode 1
+end of get_inode(), ino->size:7
+
+size: 1225031316
+===== im: put_inode, inum: 1 =====
+	size: 7
+end of put_inode()
+
+===== im: get_inode, inum: 1 =====
+	im: get_inode 1
+end of get_inode(), ino->size:7
+
+end of read_file()
+
+print_list()
+inum: 2, name: a129
+end of yfs::readdir()
+
+end of yfs::lookup()
+
+   unique: 18, error: -2 (No such file or directory), outsize: 16
+unique: 19, opcode: CREATE (35), nodeid: 1, insize: 61, pid: 129
+=============== fuseserver_create(parent: 1, name: b129) ===============
+=============== fuseserver_createhelper(parent:	1, name:	b129 ===============
+========== yfs::create(parent: 1, name: b129) ==========
+========== yfs::readdir(dir: 1) ==========
+extent_server: get 1
+===== read_file(inum: 1) =====
+===== im: get_inode, inum: 1 =====
+	im: get_inode 1
+end of get_inode(), ino->size:7
+
+size: 1225030740
+===== im: put_inode, inum: 1 =====
+	size: 7
+end of put_inode()
+
+===== im: get_inode, inum: 1 =====
+	im: get_inode 1
+end of get_inode(), ino->size:7
+
+end of read_file()
+
+print_list()
+inum: 2, name: a129
+end of yfs::readdir()
+
+extent_server: create inode
+===== alloc_inode(type: 2) =====
+===== im: put_inode, inum: 3 =====
+	size: 0
+end of put_inode()
+
+===== im: get_inode, inum: 3 =====
+	im: get_inode 3
+end of get_inode(), ino->size:0
+
+	im: alloc_inode, inum: 3
+end of im::alloc_inode()
+
+===== write_file(inum: 1, size: 14) =====
+===== im: get_inode, inum: 1 =====
+	im: get_inode 1
+end of get_inode(), ino->size:7
+
+===== im: put_inode, inum: 1 =====
+	size: 14
+end of put_inode()
+
+===== im: get_inode, inum: 1 =====
+	im: get_inode 1
+end of get_inode(), ino->size:14
+
+end of write_file()
+
+end of create()
+
+extent_server: getattr 3
+===== getattr(inum: 3) =====
+===== im: get_inode, inum: 3 =====
+	im: get_inode 3
+end of get_inode(), ino->size:0
+
+end of getattr()
+
+isfile: 3 is a file
+getattr 0000000000000003 1
+extent_server: getattr 3
+===== getattr(inum: 3) =====
+===== im: get_inode, inum: 3 =====
+	im: get_inode 3
+end of get_inode(), ino->size:0
+
+end of getattr()
+
+isfile: 3 is a file
+getfile 0000000000000003
+extent_server: getattr 3
+===== getattr(inum: 3) =====
+===== im: get_inode, inum: 3 =====
+	im: get_inode 3
+end of get_inode(), ino->size:0
+
+end of getattr()
+
+getfile 0000000000000003 -> sz 0
+   getattr -> 0
+end of fuseserver_createhelper()
+
+   unique: 19, success, outsize: 160
+OK: create returns.
+unique: 20, opcode: IOCTL (39), nodeid: 3, insize: 72, pid: 129
+   unique: 20, error: -38 (Function not implemented), outsize: 16
+unique: 21, opcode: GETATTR (3), nodeid: 3, insize: 56, pid: 129
+extent_server: getattr 3
+===== getattr(inum: 3) =====
+===== im: get_inode, inum: 3 =====
+	im: get_inode 3
+end of get_inode(), ino->size:0
+
+end of getattr()
+
+isfile: 3 is a file
+getattr 0000000000000003 1
+extent_server: getattr 3
+===== getattr(inum: 3) =====
+===== im: get_inode, inum: 3 =====
+	im: get_inode 3
+end of get_inode(), ino->size:0
+
+end of getattr()
+
+isfile: 3 is a file
+getfile 0000000000000003
+extent_server: getattr 3
+===== getattr(inum: 3) =====
+===== im: get_inode, inum: 3 =====
+	im: get_inode 3
+end of get_inode(), ino->size:0
+
+end of getattr()
+
+getfile 0000000000000003 -> sz 0
+   getattr -> 0
+   unique: 21, success, outsize: 120
+unique: 22, opcode: WRITE (16), nodeid: 3, insize: 4176, pid: 129
+extent_server: getattr 3
+===== getattr(inum: 3) =====
+===== im: get_inode, inum: 3 =====
+	im: get_inode 3
+end of get_inode(), ino->size:0
+
+end of getattr()
+
+write(),inum:3
+new_content: 0.303033331840840.01516358105901360.4406692543243160.9636654207854110.2395062636333340.03419495996774910.03245567692139770.1342379910289320.8056387602142540.6134242638171510.5059328946764450.7162297125671490.8811799699291820.3492682412635590.7202103379195930.6726277442877590.1242848549150220.02055800136592720.1674097455454810.6987121789918760.9178589438959970.6966519308675170.4169782413380110.8175899740905730.1963286126714830.6693453754937340.3627827090517110.4878549853449880.9033225509413150.04459493232727140.8172657568533270.710936521633990.08723887416302390.8479012806439950.5395956918542560.1322028975713110.8095991274655350.3305112815714890.3096338251225850.9191663985381880.8753380177552010.5946341650669780.9293674092530150.905980951847930.47775391254260.7324695585023450.7640358867935890.6402476808154990.8448827721923810.9594934570912270.5454572110801590.2209854679680560.8678150487535030.04624355499669260.02211010381266120.2311477320015810.05233400176352990.05951420971776140.7295425485218030.3405618928640520.3587226619382630.6237652637690590.698976898420380.8725485230273260.05429812995676640.7326445592401430.5530130135104760.5172820230977420.4009438421319690.4704228150495740.839663147725940.5553478789096080.2155056801183160.7510681560935520.0172811948290210.1847222176461330.2824041604505430.5214975505299720.5640946842507440.4729615448390020.5513252241314780.4937102886359950.7909559075665380.873783274810670.6326441691918240.8221359865307820.08166906533186240.3341050267426130.5016938426312440.6973429830647580.1720186650670110.5952817095781530.5606171449176180.3206039808428330.3597408867759770.07264822390011010.381978012770180.4066809251712440.06958957501123210.5330812302614380.9983021467823260.2511719801962040.2899222286544440.9242999336911240.5111616520512040.526086612137320.06256415377265160.02582227574804820.9053142748737780.630831787809740.4119211336300840.8642933710521060.1788908592428880.4389797050762780.01134786568777810.9803465371848220.4789518258319030.2231468529742530.1267113307063530.9559079077207930.6802877058928980.005772115521565980.2741105063817560.05620245042671710.4096278555108520.4328896471225510.8591467297894830.2465762988463850.6210782444552090.8771269215663860.3104278617897440.1881567080779050.5233914709502050.9867212533393970.8147045249542480.4664907270435850.5754627115467090.4665657718573040.3428733870147160.2724259024532710.8612519864208860.9280198587645430.8158610568039640.9340350564685950.965288717348830.1149259981449830.7910679616623180.1323814732884540.3592768908114050.408066401841950.2006748968153540.7530347519952230.7214710246698140.9488952195951730.3928910907933950.2007701965265410.8139423861200650.9911471888683250.9194719290588970.5987299810692050.8872343336832560.6868277845630790.2840022331348240.7080315130095510.7439730693187450.7077348567941040.7750975171852980.1325414783188780.8276383008585420.1772739580342350.8195162506892720.5500820584028290.09291514235389190.8877606217299960.2180211570686870.3601128155003220.1209768330987980.7691293254350030.5906222863844980.4239768181804710.4559453475503440.8850923151122170.2296493279971910.05277678185510840.5250265106019930.7070384460158290.9141306889028410.2661453939999130.6599256381836120.1646842719795530.6055225678014830.6895076424587570.6347518044608090.6216633515103780.05437791633150010.5054409302938080.0774714064862430.8654666983153450.3846431098119570.2445851046380550.9779575675168990.8416540482736680.5746146627742480.1520283124073030.01380890385388870.8748937069075570.2619997320351320.545609885035340.3315120894851770.6926347436023410.5089477645651890.2831773101088610.8694553005167090.6551707736800270.5684267814399210.8571748323978810.9831468198637370.1682460794401810.4961017552251940.05831540280274080.5522626444417290.5465339289480370.8052546487443910.8074096236704880.5124716746450590.3592602191720150.622711250801640.9982340852712570.7891247917317830.03955456055132340.7807792815936350.7677811134694610.4197276553440940.8090121957091160.4865506597320710.8971315152749570.5706541932866610.5562952683176550.1113986365193790.320945479516020.5919
+extent_server: get 3
+===== read_file(inum: 3) =====
+===== im: get_inode, inum: 3 =====
+	im: get_inode 3
+end of get_inode(), ino->size:0
+
+size: 1225031668
+===== im: put_inode, inum: 3 =====
+	size: 0
+end of put_inode()
+
+===== im: get_inode, inum: 3 =====
+	im: get_inode 3
+end of get_inode(), ino->size:0
+
+end of read_file()
+
+off: 0 ,buf.size():0 ,size: 4096
+===== write_file(inum: 3, size: 4096) =====
+===== im: get_inode, inum: 3 =====
+	im: get_inode 3
+end of get_inode(), ino->size:0
+
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== im: put_inode, inum: 3 =====
+	size: 4096
+end of put_inode()
+
+===== im: get_inode, inum: 3 =====
+	im: get_inode 3
+end of get_inode(), ino->size:4096
+
+end of write_file()
+
+   unique: 22, success, outsize: 24
+unique: 23, opcode: WRITE (16), nodeid: 3, insize: 95, pid: 129
+extent_server: getattr 3
+===== getattr(inum: 3) =====
+===== im: get_inode, inum: 3 =====
+	im: get_inode 3
+end of get_inode(), ino->size:4096
+
+end of getattr()
+
+write(),inum:3
+new_content: 313213588740.52
+extent_server: get 3
+===== read_file(inum: 3) =====
+===== im: get_inode, inum: 3 =====
+	im: get_inode 3
+end of get_inode(), ino->size:4096
+
+size: 1225031668
+===== im: put_inode, inum: 3 =====
+	size: 4096
+end of put_inode()
+
+===== im: get_inode, inum: 3 =====
+	im: get_inode 3
+end of get_inode(), ino->size:4096
+
+end of read_file()
+
+off: 4096 ,buf.size():4096 ,size: 15
+===== write_file(inum: 3, size: 4111) =====
+===== im: get_inode, inum: 3 =====
+	im: get_inode 3
+end of get_inode(), ino->size:4096
+
+===== alloc_block() =====
+===== im: put_inode, inum: 3 =====
+	size: 4111
+end of put_inode()
+
+===== im: get_inode, inum: 3 =====
+	im: get_inode 3
+end of get_inode(), ino->size:4111
+
+end of write_file()
+
+   unique: 23, success, outsize: 24
+unique: 24, opcode: RELEASE (18), nodeid: 3, insize: 64, pid: 0
+   unique: 24, success, outsize: 16
+unique: 25, opcode: LOOKUP (1), nodeid: 1, insize: 45, pid: 129
+========== yfs::lookup(parent: 1, name: b129) ==========
+========== yfs::readdir(dir: 1) ==========
+extent_server: get 1
+===== read_file(inum: 1) =====
+===== im: get_inode, inum: 1 =====
+	im: get_inode 1
+end of get_inode(), ino->size:14
+
+size: 1225031316
+===== im: put_inode, inum: 1 =====
+	size: 14
+end of put_inode()
+
+===== im: get_inode, inum: 1 =====
+	im: get_inode 1
+end of get_inode(), ino->size:14
+
+end of read_file()
+
+print_list()
+inum: 2, name: a129
+inum: 3, name: b129
+end of yfs::readdir()
+
+end of yfs::lookup()
+
+extent_server: getattr 3
+===== getattr(inum: 3) =====
+===== im: get_inode, inum: 3 =====
+	im: get_inode 3
+end of get_inode(), ino->size:4111
+
+end of getattr()
+
+isfile: 3 is a file
+getattr 0000000000000003 1
+extent_server: getattr 3
+===== getattr(inum: 3) =====
+===== im: get_inode, inum: 3 =====
+	im: get_inode 3
+end of get_inode(), ino->size:4111
+
+end of getattr()
+
+isfile: 3 is a file
+getfile 0000000000000003
+extent_server: getattr 3
+===== getattr(inum: 3) =====
+===== im: get_inode, inum: 3 =====
+	im: get_inode 3
+end of get_inode(), ino->size:4111
+
+end of getattr()
+
+getfile 0000000000000003 -> sz 4111
+   getattr -> 4111
+   unique: 25, success, outsize: 144
+unique: 26, opcode: OPEN (14), nodeid: 3, insize: 48, pid: 129
+   unique: 26, success, outsize: 32
+unique: 27, opcode: IOCTL (39), nodeid: 3, insize: 72, pid: 129
+   unique: 27, error: -38 (Function not implemented), outsize: 16
+unique: 28, opcode: GETATTR (3), nodeid: 3, insize: 56, pid: 129
+extent_server: getattr 3
+===== getattr(inum: 3) =====
+===== im: get_inode, inum: 3 =====
+	im: get_inode 3
+end of get_inode(), ino->size:4111
+
+end of getattr()
+
+isfile: 3 is a file
+getattr 0000000000000003 1
+extent_server: getattr 3
+===== getattr(inum: 3) =====
+===== im: get_inode, inum: 3 =====
+	im: get_inode 3
+end of get_inode(), ino->size:4111
+
+end of getattr()
+
+isfile: 3 is a file
+getfile 0000000000000003
+extent_server: getattr 3
+===== getattr(inum: 3) =====
+===== im: get_inode, inum: 3 =====
+	im: get_inode 3
+end of get_inode(), ino->size:4111
+
+end of getattr()
+
+getfile 0000000000000003 -> sz 4111
+   getattr -> 4111
+   unique: 28, success, outsize: 120
+unique: 29, opcode: GETATTR (3), nodeid: 3, insize: 56, pid: 129
+extent_server: getattr 3
+===== getattr(inum: 3) =====
+===== im: get_inode, inum: 3 =====
+	im: get_inode 3
+end of get_inode(), ino->size:4111
+
+end of getattr()
+
+isfile: 3 is a file
+getattr 0000000000000003 1
+extent_server: getattr 3
+===== getattr(inum: 3) =====
+===== im: get_inode, inum: 3 =====
+	im: get_inode 3
+end of get_inode(), ino->size:4111
+
+end of getattr()
+
+isfile: 3 is a file
+getfile 0000000000000003
+extent_server: getattr 3
+===== getattr(inum: 3) =====
+===== im: get_inode, inum: 3 =====
+	im: get_inode 3
+end of get_inode(), ino->size:4111
+
+end of getattr()
+
+getfile 0000000000000003 -> sz 4111
+   getattr -> 4111
+   unique: 29, success, outsize: 120
+unique: 30, opcode: READ (15), nodeid: 3, insize: 80, pid: 129
+extent_server: get 3
+===== read_file(inum: 3) =====
+===== im: get_inode, inum: 3 =====
+	im: get_inode 3
+end of get_inode(), ino->size:4111
+
+size: 1225031860
+===== im: put_inode, inum: 3 =====
+	size: 4111
+end of put_inode()
+
+===== im: get_inode, inum: 3 =====
+	im: get_inode 3
+end of get_inode(), ino->size:4111
+
+end of read_file()
+
+extent_server: getattr 3
+===== getattr(inum: 3) =====
+===== im: get_inode, inum: 3 =====
+	im: get_inode 3
+end of get_inode(), ino->size:4111
+
+end of getattr()
+
+   unique: 30, success, outsize: 4127
+unique: 31, opcode: GETATTR (3), nodeid: 3, insize: 56, pid: 129
+extent_server: getattr 3
+===== getattr(inum: 3) =====
+===== im: get_inode, inum: 3 =====
+	im: get_inode 3
+end of get_inode(), ino->size:4111
+
+end of getattr()
+
+isfile: 3 is a file
+getattr 0000000000000003 1
+extent_server: getattr 3
+===== getattr(inum: 3) =====
+===== im: get_inode, inum: 3 =====
+	im: get_inode 3
+end of get_inode(), ino->size:4111
+
+end of getattr()
+
+isfile: 3 is a file
+getfile 0000000000000003
+extent_server: getattr 3
+===== getattr(inum: 3) =====
+===== im: get_inode, inum: 3 =====
+	im: get_inode 3
+end of get_inode(), ino->size:4111
+
+end of getattr()
+
+getfile 0000000000000003 -> sz 4111
+   getattr -> 4111
+   unique: 31, success, outsize: 120
+unique: 32, opcode: RELEASE (18), nodeid: 3, insize: 64, pid: 0
+   unique: 32, success, outsize: 16
+unique: 33, opcode: LOOKUP (1), nodeid: 1, insize: 45, pid: 129
+========== yfs::lookup(parent: 1, name: a129) ==========
+========== yfs::readdir(dir: 1) ==========
+extent_server: get 1
+===== read_file(inum: 1) =====
+===== im: get_inode, inum: 1 =====
+	im: get_inode 1
+end of get_inode(), ino->size:14
+
+size: 1225031316
+===== im: put_inode, inum: 1 =====
+	size: 14
+end of put_inode()
+
+===== im: get_inode, inum: 1 =====
+	im: get_inode 1
+end of get_inode(), ino->size:14
+
+end of read_file()
+
+print_list()
+inum: 2, name: a129
+inum: 3, name: b129
+end of yfs::readdir()
+
+end of yfs::lookup()
+
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:600
+
+end of getattr()
+
+isfile: 2 is a file
+getattr 0000000000000002 1
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:600
+
+end of getattr()
+
+isfile: 2 is a file
+getfile 0000000000000002
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:600
+
+end of getattr()
+
+getfile 0000000000000002 -> sz 600
+   getattr -> 600
+   unique: 33, success, outsize: 144
+unique: 34, opcode: OPEN (14), nodeid: 2, insize: 48, pid: 129
+   unique: 34, success, outsize: 32
+unique: 35, opcode: IOCTL (39), nodeid: 2, insize: 72, pid: 129
+   unique: 35, error: -38 (Function not implemented), outsize: 16
+unique: 36, opcode: GETATTR (3), nodeid: 2, insize: 56, pid: 129
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:600
+
+end of getattr()
+
+isfile: 2 is a file
+getattr 0000000000000002 1
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:600
+
+end of getattr()
+
+isfile: 2 is a file
+getfile 0000000000000002
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:600
+
+end of getattr()
+
+getfile 0000000000000002 -> sz 600
+   getattr -> 600
+   unique: 36, success, outsize: 120
+unique: 37, opcode: GETATTR (3), nodeid: 2, insize: 56, pid: 129
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:600
+
+end of getattr()
+
+isfile: 2 is a file
+getattr 0000000000000002 1
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:600
+
+end of getattr()
+
+isfile: 2 is a file
+getfile 0000000000000002
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:600
+
+end of getattr()
+
+getfile 0000000000000002 -> sz 600
+   getattr -> 600
+   unique: 37, success, outsize: 120
+unique: 38, opcode: READ (15), nodeid: 2, insize: 80, pid: 129
+extent_server: get 2
+===== read_file(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:600
+
+size: 1225031860
+===== im: put_inode, inum: 2 =====
+	size: 600
+end of put_inode()
+
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:600
+
+end of read_file()
+
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:600
+
+end of getattr()
+
+   unique: 38, success, outsize: 616
+unique: 39, opcode: GETATTR (3), nodeid: 2, insize: 56, pid: 129
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:600
+
+end of getattr()
+
+isfile: 2 is a file
+getattr 0000000000000002 1
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:600
+
+end of getattr()
+
+isfile: 2 is a file
+getfile 0000000000000002
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:600
+
+end of getattr()
+
+getfile 0000000000000002 -> sz 600
+   getattr -> 600
+   unique: 39, success, outsize: 120
+unique: 40, opcode: RELEASE (18), nodeid: 2, insize: 64, pid: 0
+   unique: 40, success, outsize: 16
+unique: 41, opcode: LOOKUP (1), nodeid: 1, insize: 45, pid: 129
+========== yfs::lookup(parent: 1, name: a129) ==========
+========== yfs::readdir(dir: 1) ==========
+extent_server: get 1
+===== read_file(inum: 1) =====
+===== im: get_inode, inum: 1 =====
+	im: get_inode 1
+end of get_inode(), ino->size:14
+
+size: 1225031316
+===== im: put_inode, inum: 1 =====
+	size: 14
+end of put_inode()
+
+===== im: get_inode, inum: 1 =====
+	im: get_inode 1
+end of get_inode(), ino->size:14
+
+end of read_file()
+
+print_list()
+inum: 2, name: a129
+inum: 3, name: b129
+end of yfs::readdir()
+
+end of yfs::lookup()
+
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:600
+
+end of getattr()
+
+isfile: 2 is a file
+getattr 0000000000000002 1
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:600
+
+end of getattr()
+
+isfile: 2 is a file
+getfile 0000000000000002
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:600
+
+end of getattr()
+
+getfile 0000000000000002 -> sz 600
+   getattr -> 600
+   unique: 41, success, outsize: 144
+unique: 42, opcode: OPEN (14), nodeid: 2, insize: 48, pid: 129
+   unique: 42, success, outsize: 32
+unique: 43, opcode: SETATTR (4), nodeid: 2, insize: 128, pid: 129
+fuseserver_setattr 0x8
+   fuseserver_setattr set size to 0
+extent_server: get 2
+===== read_file(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:600
+
+size: 1225031620
+===== im: put_inode, inum: 2 =====
+	size: 600
+end of put_inode()
+
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:600
+
+end of read_file()
+
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:600
+
+end of getattr()
+
+===== write_file(inum: 2, size: 0) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:600
+
+===== free_block(id: 8193) =====
+end of free_inode()
+
+===== free_block(id: 8194) =====
+end of free_inode()
+
+===== im: put_inode, inum: 2 =====
+	size: 0
+end of put_inode()
+
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:0
+
+end of write_file()
+
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:0
+
+end of getattr()
+
+isfile: 2 is a file
+getattr 0000000000000002 1
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:0
+
+end of getattr()
+
+isfile: 2 is a file
+getfile 0000000000000002
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:0
+
+end of getattr()
+
+getfile 0000000000000002 -> sz 0
+   getattr -> 0
+   unique: 43, success, outsize: 120
+unique: 44, opcode: IOCTL (39), nodeid: 2, insize: 72, pid: 129
+   unique: 44, error: -38 (Function not implemented), outsize: 16
+unique: 45, opcode: GETATTR (3), nodeid: 2, insize: 56, pid: 129
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:0
+
+end of getattr()
+
+isfile: 2 is a file
+getattr 0000000000000002 1
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:0
+
+end of getattr()
+
+isfile: 2 is a file
+getfile 0000000000000002
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:0
+
+end of getattr()
+
+getfile 0000000000000002 -> sz 0
+   getattr -> 0
+   unique: 45, success, outsize: 120
+unique: 46, opcode: WRITE (16), nodeid: 2, insize: 355, pid: 129
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:0
+
+end of getattr()
+
+write(),inum:2
+new_content: 0.9090530238724130.4012134268388290.9513932349920860.60924377181010.2223342825719610.5071123691073250.1634484691792760.7361723841543860.8016651098303630.9838632955526730.8236326412021560.8173034358111120.01117668201528590.1262953142032260.8016671844595360.5591101519295170.92
+extent_server: get 2
+===== read_file(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:0
+
+size: 1225031668
+===== im: put_inode, inum: 2 =====
+	size: 0
+end of put_inode()
+
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:0
+
+end of read_file()
+
+off: 0 ,buf.size():0 ,size: 275
+===== write_file(inum: 2, size: 275) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:0
+
+===== alloc_block() =====
+===== im: put_inode, inum: 2 =====
+	size: 275
+end of put_inode()
+
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:275
+
+end of write_file()
+
+   unique: 46, success, outsize: 24
+unique: 47, opcode: RELEASE (18), nodeid: 2, insize: 64, pid: 0
+   unique: 47, success, outsize: 16
+unique: 48, opcode: LOOKUP (1), nodeid: 1, insize: 45, pid: 129
+========== yfs::lookup(parent: 1, name: a129) ==========
+========== yfs::readdir(dir: 1) ==========
+extent_server: get 1
+===== read_file(inum: 1) =====
+===== im: get_inode, inum: 1 =====
+	im: get_inode 1
+end of get_inode(), ino->size:14
+
+size: 1225031316
+===== im: put_inode, inum: 1 =====
+	size: 14
+end of put_inode()
+
+===== im: get_inode, inum: 1 =====
+	im: get_inode 1
+end of get_inode(), ino->size:14
+
+end of read_file()
+
+print_list()
+inum: 2, name: a129
+inum: 3, name: b129
+end of yfs::readdir()
+
+end of yfs::lookup()
+
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:275
+
+end of getattr()
+
+isfile: 2 is a file
+getattr 0000000000000002 1
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:275
+
+end of getattr()
+
+isfile: 2 is a file
+getfile 0000000000000002
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:275
+
+end of getattr()
+
+getfile 0000000000000002 -> sz 275
+   getattr -> 275
+   unique: 48, success, outsize: 144
+unique: 49, opcode: OPEN (14), nodeid: 2, insize: 48, pid: 129
+   unique: 49, success, outsize: 32
+unique: 50, opcode: IOCTL (39), nodeid: 2, insize: 72, pid: 129
+   unique: 50, error: -38 (Function not implemented), outsize: 16
+unique: 51, opcode: GETATTR (3), nodeid: 2, insize: 56, pid: 129
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:275
+
+end of getattr()
+
+isfile: 2 is a file
+getattr 0000000000000002 1
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:275
+
+end of getattr()
+
+isfile: 2 is a file
+getfile 0000000000000002
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:275
+
+end of getattr()
+
+getfile 0000000000000002 -> sz 275
+   getattr -> 275
+   unique: 51, success, outsize: 120
+unique: 52, opcode: GETATTR (3), nodeid: 2, insize: 56, pid: 129
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:275
+
+end of getattr()
+
+isfile: 2 is a file
+getattr 0000000000000002 1
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:275
+
+end of getattr()
+
+isfile: 2 is a file
+getfile 0000000000000002
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:275
+
+end of getattr()
+
+getfile 0000000000000002 -> sz 275
+   getattr -> 275
+   unique: 52, success, outsize: 120
+unique: 53, opcode: READ (15), nodeid: 2, insize: 80, pid: 129
+extent_server: get 2
+===== read_file(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:275
+
+size: 1225031860
+===== im: put_inode, inum: 2 =====
+	size: 275
+end of put_inode()
+
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:275
+
+end of read_file()
+
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:275
+
+end of getattr()
+
+   unique: 53, success, outsize: 291
+unique: 54, opcode: GETATTR (3), nodeid: 2, insize: 56, pid: 129
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:275
+
+end of getattr()
+
+isfile: 2 is a file
+getattr 0000000000000002 1
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:275
+
+end of getattr()
+
+isfile: 2 is a file
+getfile 0000000000000002
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:275
+
+end of getattr()
+
+getfile 0000000000000002 -> sz 275
+   getattr -> 275
+   unique: 54, success, outsize: 120
+unique: 55, opcode: RELEASE (18), nodeid: 2, insize: 64, pid: 0
+   unique: 55, success, outsize: 16
+unique: 56, opcode: LOOKUP (1), nodeid: 1, insize: 45, pid: 129
+========== yfs::lookup(parent: 1, name: b129) ==========
+========== yfs::readdir(dir: 1) ==========
+extent_server: get 1
+===== read_file(inum: 1) =====
+===== im: get_inode, inum: 1 =====
+	im: get_inode 1
+end of get_inode(), ino->size:14
+
+size: 1225031316
+===== im: put_inode, inum: 1 =====
+	size: 14
+end of put_inode()
+
+===== im: get_inode, inum: 1 =====
+	im: get_inode 1
+end of get_inode(), ino->size:14
+
+end of read_file()
+
+print_list()
+inum: 2, name: a129
+inum: 3, name: b129
+end of yfs::readdir()
+
+end of yfs::lookup()
+
+extent_server: getattr 3
+===== getattr(inum: 3) =====
+===== im: get_inode, inum: 3 =====
+	im: get_inode 3
+end of get_inode(), ino->size:4111
+
+end of getattr()
+
+isfile: 3 is a file
+getattr 0000000000000003 1
+extent_server: getattr 3
+===== getattr(inum: 3) =====
+===== im: get_inode, inum: 3 =====
+	im: get_inode 3
+end of get_inode(), ino->size:4111
+
+end of getattr()
+
+isfile: 3 is a file
+getfile 0000000000000003
+extent_server: getattr 3
+===== getattr(inum: 3) =====
+===== im: get_inode, inum: 3 =====
+	im: get_inode 3
+end of get_inode(), ino->size:4111
+
+end of getattr()
+
+getfile 0000000000000003 -> sz 4111
+   getattr -> 4111
+   unique: 56, success, outsize: 144
+unique: 57, opcode: OPEN (14), nodeid: 3, insize: 48, pid: 129
+   unique: 57, success, outsize: 32
+unique: 58, opcode: IOCTL (39), nodeid: 3, insize: 72, pid: 129
+   unique: 58, error: -38 (Function not implemented), outsize: 16
+unique: 59, opcode: GETATTR (3), nodeid: 3, insize: 56, pid: 129
+extent_server: getattr 3
+===== getattr(inum: 3) =====
+===== im: get_inode, inum: 3 =====
+	im: get_inode 3
+end of get_inode(), ino->size:4111
+
+end of getattr()
+
+isfile: 3 is a file
+getattr 0000000000000003 1
+extent_server: getattr 3
+===== getattr(inum: 3) =====
+===== im: get_inode, inum: 3 =====
+	im: get_inode 3
+end of get_inode(), ino->size:4111
+
+end of getattr()
+
+isfile: 3 is a file
+getfile 0000000000000003
+extent_server: getattr 3
+===== getattr(inum: 3) =====
+===== im: get_inode, inum: 3 =====
+	im: get_inode 3
+end of get_inode(), ino->size:4111
+
+end of getattr()
+
+getfile 0000000000000003 -> sz 4111
+   getattr -> 4111
+   unique: 59, success, outsize: 120
+unique: 60, opcode: GETATTR (3), nodeid: 3, insize: 56, pid: 129
+extent_server: getattr 3
+===== getattr(inum: 3) =====
+===== im: get_inode, inum: 3 =====
+	im: get_inode 3
+end of get_inode(), ino->size:4111
+
+end of getattr()
+
+isfile: 3 is a file
+getattr 0000000000000003 1
+extent_server: getattr 3
+===== getattr(inum: 3) =====
+===== im: get_inode, inum: 3 =====
+	im: get_inode 3
+end of get_inode(), ino->size:4111
+
+end of getattr()
+
+isfile: 3 is a file
+getfile 0000000000000003
+extent_server: getattr 3
+===== getattr(inum: 3) =====
+===== im: get_inode, inum: 3 =====
+	im: get_inode 3
+end of get_inode(), ino->size:4111
+
+end of getattr()
+
+getfile 0000000000000003 -> sz 4111
+   getattr -> 4111
+   unique: 60, success, outsize: 120
+unique: 61, opcode: READ (15), nodeid: 3, insize: 80, pid: 129
+extent_server: get 3
+===== read_file(inum: 3) =====
+===== im: get_inode, inum: 3 =====
+	im: get_inode 3
+end of get_inode(), ino->size:4111
+
+size: 1225031860
+===== im: put_inode, inum: 3 =====
+	size: 4111
+end of put_inode()
+
+===== im: get_inode, inum: 3 =====
+	im: get_inode 3
+end of get_inode(), ino->size:4111
+
+end of read_file()
+
+extent_server: getattr 3
+===== getattr(inum: 3) =====
+===== im: get_inode, inum: 3 =====
+	im: get_inode 3
+end of get_inode(), ino->size:4111
+
+end of getattr()
+
+   unique: 61, success, outsize: 4127
+unique: 62, opcode: GETATTR (3), nodeid: 3, insize: 56, pid: 129
+extent_server: getattr 3
+===== getattr(inum: 3) =====
+===== im: get_inode, inum: 3 =====
+	im: get_inode 3
+end of get_inode(), ino->size:4111
+
+end of getattr()
+
+isfile: 3 is a file
+getattr 0000000000000003 1
+extent_server: getattr 3
+===== getattr(inum: 3) =====
+===== im: get_inode, inum: 3 =====
+	im: get_inode 3
+end of get_inode(), ino->size:4111
+
+end of getattr()
+
+isfile: 3 is a file
+getfile 0000000000000003
+extent_server: getattr 3
+===== getattr(inum: 3) =====
+===== im: get_inode, inum: 3 =====
+	im: get_inode 3
+end of get_inode(), ino->size:4111
+
+end of getattr()
+
+getfile 0000000000000003 -> sz 4111
+   getattr -> 4111
+   unique: 62, success, outsize: 120
+unique: 63, opcode: RELEASE (18), nodeid: 3, insize: 64, pid: 0
+   unique: 63, success, outsize: 16
+unique: 64, opcode: LOOKUP (1), nodeid: 1, insize: 45, pid: 129
+========== yfs::lookup(parent: 1, name: a129) ==========
+========== yfs::readdir(dir: 1) ==========
+extent_server: get 1
+===== read_file(inum: 1) =====
+===== im: get_inode, inum: 1 =====
+	im: get_inode 1
+end of get_inode(), ino->size:14
+
+size: 1225031316
+===== im: put_inode, inum: 1 =====
+	size: 14
+end of put_inode()
+
+===== im: get_inode, inum: 1 =====
+	im: get_inode 1
+end of get_inode(), ino->size:14
+
+end of read_file()
+
+print_list()
+inum: 2, name: a129
+inum: 3, name: b129
+end of yfs::readdir()
+
+end of yfs::lookup()
+
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:275
+
+end of getattr()
+
+isfile: 2 is a file
+getattr 0000000000000002 1
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:275
+
+end of getattr()
+
+isfile: 2 is a file
+getfile 0000000000000002
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:275
+
+end of getattr()
+
+getfile 0000000000000002 -> sz 275
+   getattr -> 275
+   unique: 64, success, outsize: 144
+unique: 65, opcode: OPEN (14), nodeid: 2, insize: 48, pid: 129
+   unique: 65, success, outsize: 32
+unique: 66, opcode: SETATTR (4), nodeid: 2, insize: 128, pid: 129
+fuseserver_setattr 0x8
+   fuseserver_setattr set size to 0
+extent_server: get 2
+===== read_file(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:275
+
+size: 1225031620
+===== im: put_inode, inum: 2 =====
+	size: 275
+end of put_inode()
+
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:275
+
+end of read_file()
+
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:275
+
+end of getattr()
+
+===== write_file(inum: 2, size: 0) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:275
+
+===== free_block(id: 8216) =====
+end of free_inode()
+
+===== im: put_inode, inum: 2 =====
+	size: 0
+end of put_inode()
+
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:0
+
+end of write_file()
+
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:0
+
+end of getattr()
+
+isfile: 2 is a file
+getattr 0000000000000002 1
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:0
+
+end of getattr()
+
+isfile: 2 is a file
+getfile 0000000000000002
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:0
+
+end of getattr()
+
+getfile 0000000000000002 -> sz 0
+   getattr -> 0
+   unique: 66, success, outsize: 120
+unique: 67, opcode: IOCTL (39), nodeid: 2, insize: 72, pid: 129
+   unique: 67, error: -38 (Function not implemented), outsize: 16
+unique: 68, opcode: GETATTR (3), nodeid: 2, insize: 56, pid: 129
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:0
+
+end of getattr()
+
+isfile: 2 is a file
+getattr 0000000000000002 1
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:0
+
+end of getattr()
+
+isfile: 2 is a file
+getfile 0000000000000002
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:0
+
+end of getattr()
+
+getfile 0000000000000002 -> sz 0
+   getattr -> 0
+   unique: 68, success, outsize: 120
+unique: 69, opcode: WRITE (16), nodeid: 2, insize: 4176, pid: 129
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:0
+
+end of getattr()
+
+write(),inum:2
+new_content: 0.7749318047137520.08466726378086160.149720540496560.02206298597540620.4919867452068520.8283232454701770.7481127997051690.6436932031502880.4604847236398580.825327391468310.9416799857528130.3191164954333310.6812099960171810.8731636689449440.2619545237272830.4069405140719730.2593873719809140.7818815268372850.6794026815900340.2448472504527040.5065647554317040.9490170018383890.9543796997772490.2186373699836930.8043929063572290.3139143906057630.2879294391047720.9025335230329680.1477964824773110.9359717750097230.8940947399853340.4253020067777380.6079407281525490.5975417255710090.6713777389450120.5111743014786430.6235843657475260.4672473473485650.8671797265606220.9964062363821960.6766603737900070.5563312849308810.5533093167307750.7474231666753430.05865646932421240.1204741813582080.4264522931405710.7238098761680720.7536153113191160.2915572022579660.2439480673834280.8109842731631540.007004770361881190.6354834037120330.4470427869633370.06843963178658540.613610129641920.4189227528921760.8213393328167910.2282714603980020.9288868559127150.6033383167986880.5234163075659670.8667673650772620.8144236692064270.7706443290174190.35514319994320.3437018320916360.2874651090704460.7012233397716620.7003037802115980.7473379911874610.3156197054954570.3797972631879850.2246059984476290.03881545402084540.6303482770112010.08393867011888640.9684807847487920.9015425615439450.4166258591390250.5280819475702610.2863557502830080.4664831331965440.451964376009450.9851317692679690.6760594231061110.8030274018171290.5370604689783750.9086765086653980.6330188853398510.4907845537833390.594607951007170.9300295882427070.5069350711250850.5765754865186320.4648262269098140.6326001097785690.9502571002433340.08270935766021740.4391687698143660.2163182618864890.9602564229346770.9799915443727480.8312784358364450.8900187660004270.02767479973093150.1376540700129670.1609630945190550.4809498126682180.3282637985703760.3814677011024760.7378148145559390.5671833689664010.8081491225637480.0527580828489640.8817527351848540.2380382175863820.01456724804104680.6901017787707210.6545228359124660.01519743115943940.4704861164246670.9304422218249440.635951153414290.246640004186890.6609125475466580.9286856833172940.9390596470409140.4685698720218490.4319081887564380.4590837342783910.6871799458559520.4470973542103030.9577097460500140.02557662443234320.5827286830315120.3195159806418280.8297295229928350.3625818488531640.8807531002336260.9907545058840870.2020754829056130.4464092244068320.08075614784299740.568227502280340.9956777121360010.8076383696099860.3983304789755170.580241058375510.6368668597487640.4866018851006930.6450595987924360.289840608503940.6716714241331090.3108980800124180.4928960480216990.9361485944208030.3551612123480790.4020560946692870.3303399334498280.8855883231891860.2324654760054730.4976640446789520.5253804308879140.7108098496462280.08686269062447140.06814266818878070.02811714026562840.2186317891642520.9784262561832120.5297232092918410.8986614305638410.581022469596650.4975931175397790.5260142288210790.6983692367592980.4743225727533830.6408019969986190.1418880115532880.2903402243239630.5689422079872660.7247511600581480.6004785486589380.6547228815970170.7301560159897950.6022039617913320.005180028579626850.9226049990291540.8640032321940970.7516004078832880.7551126808918660.1966832093866840.7724334587626660.9766161735784640.5691519986241180.4756578569971240.5486060144988760.8774735181747390.4879931274334660.3911794995183230.6546589656638310.6161028747427790.6266648675189790.6505948850198210.6664461001039580.9806561469462590.8653625986508150.3457423528780270.8569540047998070.315484469692080.5915068227272790.3182933416059440.01473985543286820.4902409503494740.240749234336530.8869171127635620.6762813383347780.9716042649428970.8825615903953230.6527739800266730.8902361127321290.9842185015458970.8134994675641250.1600573288297580.6540271970301640.2204098835816240.8678035832961480.6406705872427450.7737854394899730.1132985313704610.4433810255673020.3004311253918030.4304986235463880.1229247935562230.5372178000547580.8828528812910080.5993715736875810.1134314634896750.05685787428378930.99061239
+extent_server: get 2
+===== read_file(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:0
+
+size: 1225031668
+===== im: put_inode, inum: 2 =====
+	size: 0
+end of put_inode()
+
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:0
+
+end of read_file()
+
+off: 0 ,buf.size():0 ,size: 4096
+===== write_file(inum: 2, size: 4096) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:0
+
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== im: put_inode, inum: 2 =====
+	size: 4096
+end of put_inode()
+
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:4096
+
+end of write_file()
+
+   unique: 69, success, outsize: 24
+unique: 70, opcode: WRITE (16), nodeid: 2, insize: 4176, pid: 129
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:4096
+
+end of getattr()
+
+write(),inum:2
+new_content: 79145820.4051506817724860.8002869517516160.4458126885457250.6599129722085660.8208923783984580.5147267772575360.05583422570435560.4154178240161670.9768660419491690.5283831283018970.4962144988537710.8201396540726550.9636104817515910.7804412939723160.3711100396676240.8531897378136010.9403672638509630.6942090380924810.8149019636879690.1667688582343560.7270765807739860.5169370447373610.1904857642413130.9010139789390830.8228499127930640.1889369689053240.3169604566401850.6707126603242910.9924612001282360.5839849406290090.9353993713305290.1215008900546980.5591824557285210.2667741581603310.5513050911783740.01563329610841180.2796135092607310.9045170283747690.7601740566537350.7200466991937940.9245266972013760.6340467327060820.0716425357653740.6941427037720090.2977986139761310.02390667724488080.7044002857270150.7140315857571620.5699903274213830.5495455886130.8880116329938050.1170721727100740.2389475509537430.5010826053603670.6416711799972710.9391997914921080.3399309672259430.01502215042208380.5195632231277150.9721707414021310.3733870262214120.02725921612072570.3368355497649670.1535062002825710.788788907194860.7138235118023320.791309884941580.3742550494496650.3253987511025580.7627922779543750.2491281930370480.4450028730784010.4608335506835640.2160080220699850.7958966192472980.1857474113542780.1295910416519810.7586455430949710.1999823919506660.1278780867919170.5479663830404070.1098839455227110.3760138129997980.2547029421146830.7989481600960640.4861804635867340.662024850908320.3195494884898760.9987311017736750.1427653830418480.073894134371880.2168406272206840.671555689292990.4374577252219040.2196986330650610.4317520387089860.01593935493392350.1578412079158510.7414053216889260.938757292122240.2453830437286120.4779658826134470.702154964308360.8798504802230620.1508283474772760.5994043303380470.9075711416140950.6414174887517630.5591370330635820.1346689411061420.5955000863712850.4171451310899880.8784243878753020.625290167531830.5599231044746310.2361763791777560.4320832067473820.2844912937291750.6041786532196020.634728863306570.6217942597371040.4132247589564320.2119058371199110.4300067589679270.03686452071487520.7718349838933560.6502204773534250.3324921908994370.6821241157092320.07688452854637260.0006293262018566280.7122654253399010.3467296796809940.3284508270360930.1742727451640430.6631624537800960.4270734034190620.7178212584377380.08758155726833290.422248157677650.9722163210492060.7949614869172450.3337851329865450.1788021461922750.3916091457272480.5310074011343890.819485387560160.7149466404917820.7822170189493710.0505611647689790.5814105679888790.1679805010796760.6535337100548910.5546084195672450.9473038029023650.3918347214017860.4904888994206150.2458931220027550.1506296905379510.9618715042022570.960177014051030.6086904069997560.6984680215802930.244175459218390.08105047025485490.9038328196765660.1758023871834060.2088205743291880.60323192736610.2029228012326880.6507232205912140.7682544797041330.5445420815165850.2038810204255550.5302950758997120.4694612083365750.9654694417969590.7099375700613560.1655569721620330.8551092190902880.9025092452545670.298097761059140.9790277377271610.868251952538110.9960779945691380.8988578074384180.6049957909237480.3317376979282540.907700855421030.8199846665277590.9107300014524320.9523431240767410.610629142021910.002610242295361330.6776255046332660.03643453035355290.1258571615140230.8424496384623840.7403909004693180.3549717687055180.1571795934618230.852987724475810.03801147383320470.447815936340540.3280951619585330.4169645139898960.05383223346026610.3381224037857110.6417774274503110.2590293147337660.6982649983403170.7552595870259680.2528818957419960.483252853027480.7040307730393320.7979801578303450.3646481252910160.7271371682499250.9013225609531440.6578991756795250.8327189233198350.3773215747591370.3627598789971920.8567419804212690.9825938689824380.8254509636191760.8525748712695350.1099776693994630.923044100306630.3853767264974550.4813163852888320.7356406588278830.7836473634015460.9803521917624210.1098029850046590.6922772591114570.4194895599685720.7921402306337630.2205439424045290.2065754401556530.136779254983967
+extent_server: get 2
+===== read_file(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:4096
+
+size: 1225031668
+===== im: put_inode, inum: 2 =====
+	size: 4096
+end of put_inode()
+
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:4096
+
+end of read_file()
+
+off: 4096 ,buf.size():4096 ,size: 4096
+===== write_file(inum: 2, size: 8192) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:4096
+
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== im: put_inode, inum: 2 =====
+	size: 8192
+end of put_inode()
+
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:8192
+
+end of write_file()
+
+   unique: 70, success, outsize: 24
+unique: 71, opcode: RELEASE (18), nodeid: 2, insize: 64, pid: 0
+   unique: 71, success, outsize: 16
+unique: 72, opcode: LOOKUP (1), nodeid: 1, insize: 45, pid: 129
+========== yfs::lookup(parent: 1, name: a129) ==========
+========== yfs::readdir(dir: 1) ==========
+extent_server: get 1
+===== read_file(inum: 1) =====
+===== im: get_inode, inum: 1 =====
+	im: get_inode 1
+end of get_inode(), ino->size:14
+
+size: 1225031316
+===== im: put_inode, inum: 1 =====
+	size: 14
+end of put_inode()
+
+===== im: get_inode, inum: 1 =====
+	im: get_inode 1
+end of get_inode(), ino->size:14
+
+end of read_file()
+
+print_list()
+inum: 2, name: a129
+inum: 3, name: b129
+end of yfs::readdir()
+
+end of yfs::lookup()
+
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:8192
+
+end of getattr()
+
+isfile: 2 is a file
+getattr 0000000000000002 1
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:8192
+
+end of getattr()
+
+isfile: 2 is a file
+getfile 0000000000000002
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:8192
+
+end of getattr()
+
+getfile 0000000000000002 -> sz 8192
+   getattr -> 8192
+   unique: 72, success, outsize: 144
+unique: 73, opcode: OPEN (14), nodeid: 2, insize: 48, pid: 129
+   unique: 73, success, outsize: 32
+unique: 74, opcode: IOCTL (39), nodeid: 2, insize: 72, pid: 129
+   unique: 74, error: -38 (Function not implemented), outsize: 16
+unique: 75, opcode: GETATTR (3), nodeid: 2, insize: 56, pid: 129
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:8192
+
+end of getattr()
+
+isfile: 2 is a file
+getattr 0000000000000002 1
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:8192
+
+end of getattr()
+
+isfile: 2 is a file
+getfile 0000000000000002
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:8192
+
+end of getattr()
+
+getfile 0000000000000002 -> sz 8192
+   getattr -> 8192
+   unique: 75, success, outsize: 120
+unique: 76, opcode: GETATTR (3), nodeid: 2, insize: 56, pid: 129
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:8192
+
+end of getattr()
+
+isfile: 2 is a file
+getattr 0000000000000002 1
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:8192
+
+end of getattr()
+
+isfile: 2 is a file
+getfile 0000000000000002
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:8192
+
+end of getattr()
+
+getfile 0000000000000002 -> sz 8192
+   getattr -> 8192
+   unique: 76, success, outsize: 120
+unique: 77, opcode: WRITE (16), nodeid: 2, insize: 4176, pid: 129
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:8192
+
+end of getattr()
+
+write(),inum:2
+new_content: 0.2595721817158390.4909490867001230.2825080879488060.40451763303280.6543110178797780.6730593092647690.5535321203525360.6624660316663870.7442293027507110.07506983621483340.221951900592110.6255892458292640.09339051750389160.6195334012797070.6400145239014350.6591831013567780.4212223447769360.2438904918882190.2313208186465450.1744021502807310.2468190377652060.1360742137138080.3749983605268240.7163955586980850.1377586414833730.7396983357664450.9157055096348540.7103691517565560.1423461322484480.6012040519962870.5974575077436480.2463769623910.05139706316811040.3998842387822310.8166510796841990.9513893133058570.6677846103028880.03861881311797430.158301830576640.8751942578414320.1818375687118130.5692615162789250.6188130824849690.44109792728570.4967744122883890.2758623747552310.7686047122781690.2474547923983190.1247905686472560.1883615367694170.2993100995997010.7941638578999350.3009091328317060.09924446126154510.004287532372750040.8199191829473910.7236109137781740.2092258593205650.7198034097002120.7198356706642990.829554537796170.441775668167420.7099673908563420.6458416081265210.5109828863005530.2997849874537160.4044983268110870.1288207773134110.4709149831678730.6535886393291970.9284634398785490.9849069099282740.03079413287949250.7637341399519750.02167585013763330.5397146371652930.7213802065614770.07325970336742320.3974962467358620.8128917019552980.7294380416347510.2248867514648330.3920273305564380.8185798684590290.5849115245487870.4436405885353980.6014036745040630.9506844940941650.9661356274881140.9033067283007870.6839789213466430.008907935681197190.3002030315131920.197255147658520.3432358291379030.5840576558732980.8334695528257040.245090797298570.8243566432400730.6390788913966960.9505799582331210.2740113372850570.8113806843662060.4035918532706010.9021744729283510.2584925981676170.05215695636832860.4305674635995910.4500729108976170.9279240076889690.1549110582104940.4584114062364260.708329458123160.1561504821884050.9738517941849880.7725265920995990.1188332737571760.9297393728654090.6531326774552820.08789682669749150.7864498071093920.8065012926632670.4405710769410190.6770123299598540.5620316211129510.6787973421595230.6673521288981520.9722986093073910.3185771284117890.05703271500832940.06066978479154980.183996838501560.8486075468474750.0001632076691713280.6966725587077390.4261841597092970.01731812941446260.2078470968771850.1856007331121030.346449016891160.04971588220000460.8220054940622070.02466404371775610.5479075575765120.6898841149284750.7860799512069260.7626782551024360.9931451198256590.04144083498961490.5033920899489280.6400446209851720.7337996641964570.04053475974623670.3000366675771710.5352320592560960.4405045293317080.1023261459891810.3141220924503290.3420470244406810.3675338968637650.6604312821358460.8364812697727010.6888145917738270.2046286591940890.2434959206533590.4559061091027810.1999352399595790.2031308048480620.8267557077284950.2053313699403350.1915392964989520.5508537830292150.3976173569036940.05815307373975640.8261740526811750.07432239420208830.6870544757520630.833083782230670.7572912274528460.4105113895192750.5626831521739890.781816945491240.2440438229048640.08350496117578030.6401162020640360.7596155713153050.5724655315486370.7932224808226530.7475679354190420.02120197254143010.4830317893909850.3502670065019270.2412949759368530.9025756236701850.6700533815612530.3279350426762340.09853963228989930.2063205147853720.4191202613945890.7324866153190360.7580421300488350.2194021420156780.109309001931940.9770467272052380.8993832341787280.3773427320251380.7921311232602410.6722504999970380.5805109856337940.5190717758040190.9248954924853830.285337601956190.2325210043364480.02787275684618960.7785751379059820.4643547156314330.05245063724245820.4540064131447360.1463212176375420.7490706311686670.9644897167662380.1952312838145320.975993598024580.796904870471540.929206404068850.6571339720586980.05664259117234140.02050036780143570.3763620860960510.9136198191353020.1635689363301860.3715414660484310.5924961372947170.0799198414513960.258823149165330.6991631473286080.1981761091332570.4399871474134010.743819968678530.7750738142682150.355733
+extent_server: get 2
+===== read_file(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:8192
+
+size: 1225031668
+===== im: put_inode, inum: 2 =====
+	size: 8192
+end of put_inode()
+
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:8192
+
+end of read_file()
+
+off: 8192 ,buf.size():8192 ,size: 4096
+===== write_file(inum: 2, size: 12288) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:8192
+
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== im: put_inode, inum: 2 =====
+	size: 12288
+end of put_inode()
+
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:12288
+
+end of write_file()
+
+   unique: 77, success, outsize: 24
+unique: 78, opcode: WRITE (16), nodeid: 2, insize: 2991, pid: 129
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:12288
+
+end of getattr()
+
+write(),inum:2
+new_content: 135405160.3342559346960850.04880286613244070.4037048868214480.02616260130453440.1126138846568060.3414865063887690.5448137912362690.6790179819285810.244414631217420.05624573198196710.6666354053314370.1025377736841480.3088762991631850.6382471365951330.5466585000780560.8795231825540670.8748451939662050.1070976698478960.9492809940902480.2198542588137260.7313458944304290.155703031956470.3679787275221460.9708460410793410.01541056317587320.7865009373827050.7353397775422260.07538055601666830.1703265607317480.364099713551830.4166278915110730.5940067761424070.4777327392913370.2362752165877640.2288272187250190.7457054294103070.9661264144959280.1905477532902110.8128939896056440.6131204431900130.5846352804608270.3080896597594530.6558319350139820.07774035431894790.62580675713340.7280424646625860.9629748704483380.8403727886360460.9192417524813370.3116142216291350.5493848027459660.6995196702909110.436845897448730.7053716931643450.9105649630514030.5277817256630040.7411092815883190.2463526702750940.6828771417381350.04267466142270850.4641008942801610.06803988021626850.1773994111752910.7173276836196580.4738466729802260.5865237318845760.5098465832174280.2381843471934670.01664558850682950.8416256369121630.8241093725630470.276387645468020.321986870468560.400270886944050.06658203717627840.9979823295127370.5275086060642840.3015291264212790.8895000552962850.4620092502327680.3844538451440190.8276453979358180.2988819876702460.6272256041848010.802030326108930.3568546163736460.1993708760383620.1554128999062240.5977843134493920.7162212111190980.6854331570731520.125507807492610.7595031209720240.9712126250564310.7752549374303930.4872113727620330.4643349975498090.5188644374737020.8476593928053720.9300259311044810.1179544870438430.3895151477494710.7189628344057190.4341880075306510.799026453390990.395094180384440.5595234425508870.2296861010066640.9533779982286570.9173765120280780.5005736116884560.1100760853897780.6627448043360960.8256355401443680.2006470964787360.9363605786649170.7024123261111260.008521473361263080.03552350724175210.8956335992228620.2413430307718270.9491796878550150.2322479874844880.3379847051182170.9714138834747490.4556412248334920.8007009289313810.2574091620987820.6762537785743740.2610299638016970.7177741529673550.1779090712077080.4650639603129850.5514270573181010.5099639241702820.089946369425860.7560459618258730.2752270178820670.2587502741585760.4058987596440460.4540965339736790.1890504689304960.5462542148096960.682775491733310.9378277476719570.2449100721660.9712323215166980.1283980671162370.4644282475774130.00514758508926860.4304896820424950.9613929375332480.3832188237110580.0600854481649620.2894001472053740.3491556771451060.2889173633504040.8334048130133380.09667499858435140.4805304882164020.5656851608060660.9976375638889650.4502003781693030.9360318168845230.9981738100125850.9331317169832620.6381779178983640.7583678694346360.5343497967089770.08533166826925510.4865847758239
+extent_server: get 2
+===== read_file(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:12288
+
+size: 1225031668
+===== im: put_inode, inum: 2 =====
+	size: 12288
+end of put_inode()
+
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:12288
+
+end of read_file()
+
+off: 12288 ,buf.size():12288 ,size: 2911
+===== write_file(inum: 2, size: 15199) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:12288
+
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== im: put_inode, inum: 2 =====
+	size: 15199
+end of put_inode()
+
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:15199
+
+end of write_file()
+
+   unique: 78, success, outsize: 24
+unique: 79, opcode: RELEASE (18), nodeid: 2, insize: 64, pid: 0
+   unique: 79, success, outsize: 16
+unique: 80, opcode: LOOKUP (1), nodeid: 1, insize: 45, pid: 129
+========== yfs::lookup(parent: 1, name: a129) ==========
+========== yfs::readdir(dir: 1) ==========
+extent_server: get 1
+===== read_file(inum: 1) =====
+===== im: get_inode, inum: 1 =====
+	im: get_inode 1
+end of get_inode(), ino->size:14
+
+size: 1225031316
+===== im: put_inode, inum: 1 =====
+	size: 14
+end of put_inode()
+
+===== im: get_inode, inum: 1 =====
+	im: get_inode 1
+end of get_inode(), ino->size:14
+
+end of read_file()
+
+print_list()
+inum: 2, name: a129
+inum: 3, name: b129
+end of yfs::readdir()
+
+end of yfs::lookup()
+
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:15199
+
+end of getattr()
+
+isfile: 2 is a file
+getattr 0000000000000002 1
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:15199
+
+end of getattr()
+
+isfile: 2 is a file
+getfile 0000000000000002
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:15199
+
+end of getattr()
+
+getfile 0000000000000002 -> sz 15199
+   getattr -> 15199
+   unique: 80, success, outsize: 144
+unique: 81, opcode: OPEN (14), nodeid: 2, insize: 48, pid: 129
+   unique: 81, success, outsize: 32
+unique: 82, opcode: IOCTL (39), nodeid: 2, insize: 72, pid: 129
+   unique: 82, error: -38 (Function not implemented), outsize: 16
+unique: 83, opcode: GETATTR (3), nodeid: 2, insize: 56, pid: 129
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:15199
+
+end of getattr()
+
+isfile: 2 is a file
+getattr 0000000000000002 1
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:15199
+
+end of getattr()
+
+isfile: 2 is a file
+getfile 0000000000000002
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:15199
+
+end of getattr()
+
+getfile 0000000000000002 -> sz 15199
+   getattr -> 15199
+   unique: 83, success, outsize: 120
+unique: 84, opcode: READ (15), nodeid: 2, insize: 80, pid: 129
+extent_server: get 2
+===== read_file(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:15199
+
+size: 1225031860
+===== im: put_inode, inum: 2 =====
+	size: 15199
+end of put_inode()
+
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:15199
+
+end of read_file()
+
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:15199
+
+end of getattr()
+
+   unique: 84, success, outsize: 15215
+unique: 85, opcode: GETATTR (3), nodeid: 2, insize: 56, pid: 129
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:15199
+
+end of getattr()
+
+isfile: 2 is a file
+getattr 0000000000000002 1
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:15199
+
+end of getattr()
+
+isfile: 2 is a file
+getfile 0000000000000002
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:15199
+
+end of getattr()
+
+getfile 0000000000000002 -> sz 15199
+   getattr -> 15199
+   unique: 85, success, outsize: 120
+unique: 86, opcode: GETATTR (3), nodeid: 2, insize: 56, pid: 129
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:15199
+
+end of getattr()
+
+isfile: 2 is a file
+getattr 0000000000000002 1
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:15199
+
+end of getattr()
+
+isfile: 2 is a file
+getfile 0000000000000002
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:15199
+
+end of getattr()
+
+getfile 0000000000000002 -> sz 15199
+   getattr -> 15199
+   unique: 86, success, outsize: 120
+unique: 87, opcode: RELEASE (18), nodeid: 2, insize: 64, pid: 0
+   unique: 87, success, outsize: 16
+unique: 88, opcode: LOOKUP (1), nodeid: 1, insize: 45, pid: 129
+========== yfs::lookup(parent: 1, name: a129) ==========
+========== yfs::readdir(dir: 1) ==========
+extent_server: get 1
+===== read_file(inum: 1) =====
+===== im: get_inode, inum: 1 =====
+	im: get_inode 1
+end of get_inode(), ino->size:14
+
+size: 1225031316
+===== im: put_inode, inum: 1 =====
+	size: 14
+end of put_inode()
+
+===== im: get_inode, inum: 1 =====
+	im: get_inode 1
+end of get_inode(), ino->size:14
+
+end of read_file()
+
+print_list()
+inum: 2, name: a129
+inum: 3, name: b129
+end of yfs::readdir()
+
+end of yfs::lookup()
+
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:15199
+
+end of getattr()
+
+isfile: 2 is a file
+getattr 0000000000000002 1
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:15199
+
+end of getattr()
+
+isfile: 2 is a file
+getfile 0000000000000002
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:15199
+
+end of getattr()
+
+getfile 0000000000000002 -> sz 15199
+   getattr -> 15199
+   unique: 88, success, outsize: 144
+unique: 89, opcode: OPEN (14), nodeid: 2, insize: 48, pid: 129
+   unique: 89, success, outsize: 32
+unique: 90, opcode: IOCTL (39), nodeid: 2, insize: 72, pid: 129
+   unique: 90, error: -38 (Function not implemented), outsize: 16
+unique: 91, opcode: GETATTR (3), nodeid: 2, insize: 56, pid: 129
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:15199
+
+end of getattr()
+
+isfile: 2 is a file
+getattr 0000000000000002 1
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:15199
+
+end of getattr()
+
+isfile: 2 is a file
+getfile 0000000000000002
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:15199
+
+end of getattr()
+
+getfile 0000000000000002 -> sz 15199
+   getattr -> 15199
+   unique: 91, success, outsize: 120
+unique: 92, opcode: WRITE (16), nodeid: 2, insize: 97, pid: 129
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:15199
+
+end of getattr()
+
+write(),inum:2
+new_content: 0.875785493573503
+extent_server: get 2
+===== read_file(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:15199
+
+size: 1225031668
+===== im: put_inode, inum: 2 =====
+	size: 15199
+end of put_inode()
+
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:15199
+
+end of read_file()
+
+off: 190 ,buf.size():15199 ,size: 17
+===== write_file(inum: 2, size: 15199) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:15199
+
+===== im: put_inode, inum: 2 =====
+	size: 15199
+end of put_inode()
+
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:15199
+
+end of write_file()
+
+   unique: 92, success, outsize: 24
+unique: 93, opcode: RELEASE (18), nodeid: 2, insize: 64, pid: 0
+   unique: 93, success, outsize: 16
+unique: 94, opcode: LOOKUP (1), nodeid: 1, insize: 45, pid: 129
+========== yfs::lookup(parent: 1, name: a129) ==========
+========== yfs::readdir(dir: 1) ==========
+extent_server: get 1
+===== read_file(inum: 1) =====
+===== im: get_inode, inum: 1 =====
+	im: get_inode 1
+end of get_inode(), ino->size:14
+
+size: 1225031316
+===== im: put_inode, inum: 1 =====
+	size: 14
+end of put_inode()
+
+===== im: get_inode, inum: 1 =====
+	im: get_inode 1
+end of get_inode(), ino->size:14
+
+end of read_file()
+
+print_list()
+inum: 2, name: a129
+inum: 3, name: b129
+end of yfs::readdir()
+
+end of yfs::lookup()
+
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:15199
+
+end of getattr()
+
+isfile: 2 is a file
+getattr 0000000000000002 1
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:15199
+
+end of getattr()
+
+isfile: 2 is a file
+getfile 0000000000000002
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:15199
+
+end of getattr()
+
+getfile 0000000000000002 -> sz 15199
+   getattr -> 15199
+   unique: 94, success, outsize: 144
+unique: 95, opcode: OPEN (14), nodeid: 2, insize: 48, pid: 129
+   unique: 95, success, outsize: 32
+unique: 96, opcode: IOCTL (39), nodeid: 2, insize: 72, pid: 129
+   unique: 96, error: -38 (Function not implemented), outsize: 16
+unique: 97, opcode: GETATTR (3), nodeid: 2, insize: 56, pid: 129
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:15199
+
+end of getattr()
+
+isfile: 2 is a file
+getattr 0000000000000002 1
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:15199
+
+end of getattr()
+
+isfile: 2 is a file
+getfile 0000000000000002
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:15199
+
+end of getattr()
+
+getfile 0000000000000002 -> sz 15199
+   getattr -> 15199
+   unique: 97, success, outsize: 120
+unique: 98, opcode: READ (15), nodeid: 2, insize: 80, pid: 129
+extent_server: get 2
+===== read_file(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:15199
+
+size: 1225031860
+===== im: put_inode, inum: 2 =====
+	size: 15199
+end of put_inode()
+
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:15199
+
+end of read_file()
+
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:15199
+
+end of getattr()
+
+   unique: 98, success, outsize: 15215
+unique: 99, opcode: GETATTR (3), nodeid: 2, insize: 56, pid: 129
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:15199
+
+end of getattr()
+
+isfile: 2 is a file
+getattr 0000000000000002 1
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:15199
+
+end of getattr()
+
+isfile: 2 is a file
+getfile 0000000000000002
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:15199
+
+end of getattr()
+
+getfile 0000000000000002 -> sz 15199
+   getattr -> 15199
+   unique: 99, success, outsize: 120
+unique: 100, opcode: GETATTR (3), nodeid: 2, insize: 56, pid: 129
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:15199
+
+end of getattr()
+
+isfile: 2 is a file
+getattr 0000000000000002 1
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:15199
+
+end of getattr()
+
+isfile: 2 is a file
+getfile 0000000000000002
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:15199
+
+end of getattr()
+
+getfile 0000000000000002 -> sz 15199
+   getattr -> 15199
+   unique: 100, success, outsize: 120
+unique: 101, opcode: RELEASE (18), nodeid: 2, insize: 64, pid: 0
+   unique: 101, success, outsize: 16
+unique: 102, opcode: LOOKUP (1), nodeid: 1, insize: 45, pid: 129
+========== yfs::lookup(parent: 1, name: a129) ==========
+========== yfs::readdir(dir: 1) ==========
+extent_server: get 1
+===== read_file(inum: 1) =====
+===== im: get_inode, inum: 1 =====
+	im: get_inode 1
+end of get_inode(), ino->size:14
+
+size: 1225031316
+===== im: put_inode, inum: 1 =====
+	size: 14
+end of put_inode()
+
+===== im: get_inode, inum: 1 =====
+	im: get_inode 1
+end of get_inode(), ino->size:14
+
+end of read_file()
+
+print_list()
+inum: 2, name: a129
+inum: 3, name: b129
+end of yfs::readdir()
+
+end of yfs::lookup()
+
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:15199
+
+end of getattr()
+
+isfile: 2 is a file
+getattr 0000000000000002 1
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:15199
+
+end of getattr()
+
+isfile: 2 is a file
+getfile 0000000000000002
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:15199
+
+end of getattr()
+
+getfile 0000000000000002 -> sz 15199
+   getattr -> 15199
+   unique: 102, success, outsize: 144
+unique: 103, opcode: OPEN (14), nodeid: 2, insize: 48, pid: 129
+   unique: 103, success, outsize: 32
+unique: 104, opcode: IOCTL (39), nodeid: 2, insize: 72, pid: 129
+   unique: 104, error: -38 (Function not implemented), outsize: 16
+unique: 105, opcode: GETATTR (3), nodeid: 2, insize: 56, pid: 129
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:15199
+
+end of getattr()
+
+isfile: 2 is a file
+getattr 0000000000000002 1
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:15199
+
+end of getattr()
+
+isfile: 2 is a file
+getfile 0000000000000002
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:15199
+
+end of getattr()
+
+getfile 0000000000000002 -> sz 15199
+   getattr -> 15199
+   unique: 105, success, outsize: 120
+unique: 106, opcode: WRITE (16), nodeid: 2, insize: 97, pid: 129
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:15199
+
+end of getattr()
+
+write(),inum:2
+new_content: 0.358287755861479
+extent_server: get 2
+===== read_file(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:15199
+
+size: 1225031668
+===== im: put_inode, inum: 2 =====
+	size: 15199
+end of put_inode()
+
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:15199
+
+end of read_file()
+
+off: 65536 ,buf.size():15199 ,size: 17
+===== write_file(inum: 2, size: 65553) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:15199
+
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== alloc_block() =====
+===== im: put_inode, inum: 2 =====
+	size: 65553
+end of put_inode()
+
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:65553
+
+end of write_file()
+
+find this case, buf.size():65553
+   unique: 106, success, outsize: 24
+unique: 107, opcode: RELEASE (18), nodeid: 2, insize: 64, pid: 0
+   unique: 107, success, outsize: 16
+unique: 108, opcode: LOOKUP (1), nodeid: 1, insize: 45, pid: 129
+========== yfs::lookup(parent: 1, name: a129) ==========
+========== yfs::readdir(dir: 1) ==========
+extent_server: get 1
+===== read_file(inum: 1) =====
+===== im: get_inode, inum: 1 =====
+	im: get_inode 1
+end of get_inode(), ino->size:14
+
+size: 1225031316
+===== im: put_inode, inum: 1 =====
+	size: 14
+end of put_inode()
+
+===== im: get_inode, inum: 1 =====
+	im: get_inode 1
+end of get_inode(), ino->size:14
+
+end of read_file()
+
+print_list()
+inum: 2, name: a129
+inum: 3, name: b129
+end of yfs::readdir()
+
+end of yfs::lookup()
+
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:65553
+
+end of getattr()
+
+isfile: 2 is a file
+getattr 0000000000000002 1
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:65553
+
+end of getattr()
+
+isfile: 2 is a file
+getfile 0000000000000002
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:65553
+
+end of getattr()
+
+getfile 0000000000000002 -> sz 65553
+   getattr -> 65553
+   unique: 108, success, outsize: 144
+unique: 109, opcode: OPEN (14), nodeid: 2, insize: 48, pid: 129
+   unique: 109, success, outsize: 32
+unique: 110, opcode: IOCTL (39), nodeid: 2, insize: 72, pid: 129
+   unique: 110, error: -38 (Function not implemented), outsize: 16
+unique: 111, opcode: GETATTR (3), nodeid: 2, insize: 56, pid: 129
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:65553
+
+end of getattr()
+
+isfile: 2 is a file
+getattr 0000000000000002 1
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:65553
+
+end of getattr()
+
+isfile: 2 is a file
+getfile 0000000000000002
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:65553
+
+end of getattr()
+
+getfile 0000000000000002 -> sz 65553
+   getattr -> 65553
+   unique: 111, success, outsize: 120
+unique: 112, opcode: READ (15), nodeid: 2, insize: 80, pid: 129
+extent_server: get 2
+===== read_file(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:65553
+
+size: 1225031860
+===== im: put_inode, inum: 2 =====
+	size: 65553
+end of put_inode()
+
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:65553
+
+end of read_file()
+
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:65553
+
+end of getattr()
+
+   unique: 112, success, outsize: 16400
+unique: 113, opcode: READ (15), nodeid: 2, insize: 80, pid: 129
+extent_server: get 2
+===== read_file(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:65553
+
+size: 1225031860
+===== im: put_inode, inum: 2 =====
+	size: 65553
+end of put_inode()
+
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:65553
+
+end of read_file()
+
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:65553
+
+end of getattr()
+
+   unique: 113, success, outsize: 32784
+unique: 114, opcode: READ (15), nodeid: 2, insize: 80, pid: 129
+extent_server: get 2
+===== read_file(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:65553
+
+size: 1225031860
+===== im: put_inode, inum: 2 =====
+	size: 65553
+end of put_inode()
+
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:65553
+
+end of read_file()
+
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:65553
+
+end of getattr()
+
+   unique: 114, success, outsize: 16417
+unique: 115, opcode: GETATTR (3), nodeid: 2, insize: 56, pid: 129
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:65553
+
+end of getattr()
+
+isfile: 2 is a file
+getattr 0000000000000002 1
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:65553
+
+end of getattr()
+
+isfile: 2 is a file
+getfile 0000000000000002
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:65553
+
+end of getattr()
+
+getfile 0000000000000002 -> sz 65553
+   getattr -> 65553
+   unique: 115, success, outsize: 120
+unique: 116, opcode: GETATTR (3), nodeid: 2, insize: 56, pid: 129
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:65553
+
+end of getattr()
+
+isfile: 2 is a file
+getattr 0000000000000002 1
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:65553
+
+end of getattr()
+
+isfile: 2 is a file
+getfile 0000000000000002
+extent_server: getattr 2
+===== getattr(inum: 2) =====
+===== im: get_inode, inum: 2 =====
+	im: get_inode 2
+end of get_inode(), ino->size:65553
+
+end of getattr()
+
+getfile 0000000000000002 -> sz 65553
+   getattr -> 65553
+   unique: 116, success, outsize: 120
+unique: 117, opcode: RELEASE (18), nodeid: 2, insize: 64, pid: 0
+   unique: 117, success, outsize: 16
