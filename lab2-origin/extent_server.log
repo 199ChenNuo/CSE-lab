@@ -1,0 +1,293 @@
+===== alloc_inode(type: 1) =====
+===== im: put_inode, inum: 1 =====
+end of put_inode()
+
+end of alloc_inode(), inum: 1
+extent_server: getattr 140607539306046
+===== getattr(inum: 1047453246) =====
+===== im: get_inode, inum: 1047453246 =====
+	im: get_inode 1047453246
+	im: inum out of range
+	im: getattr: 	 error when get inode
+extent_server: getattr 140607539306046
+===== getattr(inum: 1047453246) =====
+===== im: get_inode, inum: 1047453246 =====
+	im: get_inode 1047453246
+	im: inum out of range
+	im: getattr: 	 error when get inode
+extent_server: getattr 140607539306046
+===== getattr(inum: 1047453246) =====
+===== im: get_inode, inum: 1047453246 =====
+	im: get_inode 1047453246
+	im: inum out of range
+	im: getattr: 	 error when get inode
+extent_server: getattr 140607539306046
+===== getattr(inum: 1047453246) =====
+===== im: get_inode, inum: 1047453246 =====
+	im: get_inode 1047453246
+	im: inum out of range
+	im: getattr: 	 error when get inode
+extent_server: getattr 140607539306046
+===== getattr(inum: 1047453246) =====
+===== im: get_inode, inum: 1047453246 =====
+	im: get_inode 1047453246
+	im: inum out of range
+	im: getattr: 	 error when get inode
+extent_server: getattr 140607539306046
+===== getattr(inum: 1047453246) =====
+===== im: get_inode, inum: 1047453246 =====
+	im: get_inode 1047453246
+	im: inum out of range
+	im: getattr: 	 error when get inode
+extent_server: getattr 140607539306046
+===== getattr(inum: 1047453246) =====
+===== im: get_inode, inum: 1047453246 =====
+	im: get_inode 1047453246
+	im: inum out of range
+	im: getattr: 	 error when get inode
+extent_server: getattr 140607539306046
+===== getattr(inum: 1047453246) =====
+===== im: get_inode, inum: 1047453246 =====
+	im: get_inode 1047453246
+	im: inum out of range
+	im: getattr: 	 error when get inode
+extent_server: getattr 206158430256
+===== getattr(inum: 48) =====
+===== im: get_inode, inum: 48 =====
+	im: get_inode 48
+	im: inode not exist
+	im: getattr: 	 error when get inode
+extent_server: getattr 206158430256
+===== getattr(inum: 48) =====
+===== im: get_inode, inum: 48 =====
+	im: get_inode 48
+	im: inode not exist
+	im: getattr: 	 error when get inode
+extent_server: getattr 206158430256
+===== getattr(inum: 48) =====
+===== im: get_inode, inum: 48 =====
+	im: get_inode 48
+	im: inode not exist
+	im: getattr: 	 error when get inode
+extent_server: getattr 206158430256
+===== getattr(inum: 48) =====
+===== im: get_inode, inum: 48 =====
+	im: get_inode 48
+	im: inode not exist
+	im: getattr: 	 error when get inode
+extent_server: getattr 0
+===== getattr(inum: 0) =====
+===== im: get_inode, inum: 0 =====
+	im: get_inode 0
+	im: inode not exist
+	im: getattr: 	 error when get inode
+extent_server: getattr 0
+===== getattr(inum: 0) =====
+===== im: get_inode, inum: 0 =====
+	im: get_inode 0
+	im: inode not exist
+	im: getattr: 	 error when get inode
+extent_server: getattr 0
+===== getattr(inum: 0) =====
+===== im: get_inode, inum: 0 =====
+	im: get_inode 0
+	im: inode not exist
+	im: getattr: 	 error when get inode
+extent_server: getattr 0
+===== getattr(inum: 0) =====
+===== im: get_inode, inum: 0 =====
+	im: get_inode 0
+	im: inode not exist
+	im: getattr: 	 error when get inode
+extent_server: getattr 0
+===== getattr(inum: 0) =====
+===== im: get_inode, inum: 0 =====
+	im: get_inode 0
+	im: inode not exist
+	im: getattr: 	 error when get inode
+extent_server: getattr 0
+===== getattr(inum: 0) =====
+===== im: get_inode, inum: 0 =====
+	im: get_inode 0
+	im: inode not exist
+	im: getattr: 	 error when get inode
+extent_server: getattr 0
+===== getattr(inum: 0) =====
+===== im: get_inode, inum: 0 =====
+	im: get_inode 0
+	im: inode not exist
+	im: getattr: 	 error when get inode
+extent_server: getattr 0
+===== getattr(inum: 0) =====
+===== im: get_inode, inum: 0 =====
+	im: get_inode 0
+	im: inode not exist
+	im: getattr: 	 error when get inode
+extent_server: getattr 140607539306046
+===== getattr(inum: 1047453246) =====
+===== im: get_inode, inum: 1047453246 =====
+	im: get_inode 1047453246
+	im: inum out of range
+	im: getattr: 	 error when get inode
+extent_server: getattr 140607539306046
+===== getattr(inum: 1047453246) =====
+===== im: get_inode, inum: 1047453246 =====
+	im: get_inode 1047453246
+	im: inum out of range
+	im: getattr: 	 error when get inode
+extent_server: getattr 140607539306046
+===== getattr(inum: 1047453246) =====
+===== im: get_inode, inum: 1047453246 =====
+	im: get_inode 1047453246
+	im: inum out of range
+	im: getattr: 	 error when get inode
+extent_server: getattr 140607539306046
+===== getattr(inum: 1047453246) =====
+===== im: get_inode, inum: 1047453246 =====
+	im: get_inode 1047453246
+	im: inum out of range
+	im: getattr: 	 error when get inode
+extent_server: getattr 140607539306046
+===== getattr(inum: 1047453246) =====
+===== im: get_inode, inum: 1047453246 =====
+	im: get_inode 1047453246
+	im: inum out of range
+	im: getattr: 	 error when get inode
+extent_server: getattr 140607539306046
+===== getattr(inum: 1047453246) =====
+===== im: get_inode, inum: 1047453246 =====
+	im: get_inode 1047453246
+	im: inum out of range
+	im: getattr: 	 error when get inode
+extent_server: getattr 140607539306046
+===== getattr(inum: 1047453246) =====
+===== im: get_inode, inum: 1047453246 =====
+	im: get_inode 1047453246
+	im: inum out of range
+	im: getattr: 	 error when get inode
+extent_server: getattr 140607539306046
+===== getattr(inum: 1047453246) =====
+===== im: get_inode, inum: 1047453246 =====
+	im: get_inode 1047453246
+	im: inum out of range
+	im: getattr: 	 error when get inode
+extent_server: getattr 140223981751870
+===== getattr(inum: 1889472062) =====
+===== im: get_inode, inum: 1889472062 =====
+	im: get_inode 1889472062
+	im: inum out of range
+	im: getattr: 	 error when get inode
+extent_server: getattr 140223981751870
+===== getattr(inum: 1889472062) =====
+===== im: get_inode, inum: 1889472062 =====
+	im: get_inode 1889472062
+	im: inum out of range
+	im: getattr: 	 error when get inode
+extent_server: getattr 140223981751870
+===== getattr(inum: 1889472062) =====
+===== im: get_inode, inum: 1889472062 =====
+	im: get_inode 1889472062
+	im: inum out of range
+	im: getattr: 	 error when get inode
+extent_server: getattr 140223981751870
+===== getattr(inum: 1889472062) =====
+===== im: get_inode, inum: 1889472062 =====
+	im: get_inode 1889472062
+	im: inum out of range
+	im: getattr: 	 error when get inode
+extent_server: getattr 140223981751870
+===== getattr(inum: 1889472062) =====
+===== im: get_inode, inum: 1889472062 =====
+	im: get_inode 1889472062
+	im: inum out of range
+	im: getattr: 	 error when get inode
+extent_server: getattr 140223981751870
+===== getattr(inum: 1889472062) =====
+===== im: get_inode, inum: 1889472062 =====
+	im: get_inode 1889472062
+	im: inum out of range
+	im: getattr: 	 error when get inode
+extent_server: getattr 140223981751870
+===== getattr(inum: 1889472062) =====
+===== im: get_inode, inum: 1889472062 =====
+	im: get_inode 1889472062
+	im: inum out of range
+	im: getattr: 	 error when get inode
+extent_server: getattr 140223981751870
+===== getattr(inum: 1889472062) =====
+===== im: get_inode, inum: 1889472062 =====
+	im: get_inode 1889472062
+	im: inum out of range
+	im: getattr: 	 error when get inode
+extent_server: getattr 206158430256
+===== getattr(inum: 48) =====
+===== im: get_inode, inum: 48 =====
+	im: get_inode 48
+	im: inode not exist
+	im: getattr: 	 error when get inode
+extent_server: getattr 206158430256
+===== getattr(inum: 48) =====
+===== im: get_inode, inum: 48 =====
+	im: get_inode 48
+	im: inode not exist
+	im: getattr: 	 error when get inode
+extent_server: getattr 206158430256
+===== getattr(inum: 48) =====
+===== im: get_inode, inum: 48 =====
+	im: get_inode 48
+	im: inode not exist
+	im: getattr: 	 error when get inode
+extent_server: getattr 206158430256
+===== getattr(inum: 48) =====
+===== im: get_inode, inum: 48 =====
+	im: get_inode 48
+	im: inode not exist
+	im: getattr: 	 error when get inode
+extent_server: getattr 206158430256
+===== getattr(inum: 48) =====
+===== im: get_inode, inum: 48 =====
+	im: get_inode 48
+	im: inode not exist
+	im: getattr: 	 error when get inode
+extent_server: getattr 206158430256
+===== getattr(inum: 48) =====
+===== im: get_inode, inum: 48 =====
+	im: get_inode 48
+	im: inode not exist
+	im: getattr: 	 error when get inode
+extent_server: getattr 206158430256
+===== getattr(inum: 48) =====
+===== im: get_inode, inum: 48 =====
+	im: get_inode 48
+	im: inode not exist
+	im: getattr: 	 error when get inode
+extent_server: getattr 206158430256
+===== getattr(inum: 48) =====
+===== im: get_inode, inum: 48 =====
+	im: get_inode 48
+	im: inode not exist
+	im: getattr: 	 error when get inode
+extent_server: getattr 206158430256
+===== getattr(inum: 48) =====
+===== im: get_inode, inum: 48 =====
+	im: get_inode 48
+	im: inode not exist
+	im: getattr: 	 error when get inode
+extent_server: getattr 206158430256
+===== getattr(inum: 48) =====
+===== im: get_inode, inum: 48 =====
+	im: get_inode 48
+	im: inode not exist
+	im: getattr: 	 error when get inode
+extent_server: getattr 206158430256
+===== getattr(inum: 48) =====
+===== im: get_inode, inum: 48 =====
+	im: get_inode 48
+	im: inode not exist
+	im: getattr: 	 error when get inode
+extent_server: getattr 206158430256
+===== getattr(inum: 48) =====
+===== im: get_inode, inum: 48 =====
+	im: get_inode 48
+	im: inode not exist
+	im: getattr: 	 error when get inode
