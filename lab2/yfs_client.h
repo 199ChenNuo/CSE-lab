@@ -10,16 +10,6 @@
 #include "extent_client.h"
 #include <vector>
 
-#define LOCK_SETATTR  0
-#define LOCK_CREATE   1
-#define LOCK_MKDIR    2
-#define LOCK_READDIR  3
-#define LOCK_READ     4
-#define LOCK_WRITE    5
-#define LOCK_UNLINK   6
-#define LOCK_SYMLINK  7
-#define LOCK_GETFILE  8
-#define LOCK_GETDIR   9
 
 class yfs_client {
   extent_client *ec;

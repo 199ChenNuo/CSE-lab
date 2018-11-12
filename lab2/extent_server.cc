@@ -24,7 +24,7 @@ int extent_server::create(uint32_t type, extent_protocol::extentid_t &id)
   return extent_protocol::OK;
 }
 
-int extent_server::put(extent_protocol::extentid_t id, std::string buf, int & r)
+int extent_server::put(extent_protocol::extentid_t id, std::string buf, int &)
 {
   id &= 0x7fffffff;
   
@@ -75,7 +75,7 @@ int extent_server::remove(extent_protocol::extentid_t id, int &)
 
   id &= 0x7fffffff;
   im->remove_file(id);
-
+ 
   return extent_protocol::OK;
 }
 

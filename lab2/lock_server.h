@@ -13,9 +13,7 @@ class lock_server {
 
  protected:
   int nacquire;
-  std::map<lock_protocol::lockid_t, bool> lock;
-  pthread_mutex_t mutex;
-  pthread_cond_t cond;
+
  public:
   lock_server();
   ~lock_server() {};
@@ -25,3 +23,10 @@ class lock_server {
 };
 
 #endif 
+
+
+
+
+
+
+
