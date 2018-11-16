@@ -459,7 +459,8 @@ inode_manager::remove_file(uint32_t inum)
   ino = get_inode(inum);
   bsize = (ino->size + BLOCK_SIZE - 1)/BLOCK_SIZE;
 
-  if(bsize > NDIRECT){
+  // change from > to >= in 11/13
+  if(bsize >= NDIRECT){
     bm->read_block(ino->blocks[NDIRECT], (char *)ndir_buf);
     for(bidx=0; bidx<NDIRECT; bidx++){
       bm->free_block(ino->blocks[bidx]);
@@ -467,7 +468,8 @@ inode_manager::remove_file(uint32_t inum)
     for(; bidx<bsize; bidx++){
       bm->free_block(ndir_buf[bidx-NDIRECT]);
     }
-    bm->free_block[ino->blocks[NDIRECT]];
+    // added on 11/13
+	bm->free_block(ino->blocks[NDIRECT]);
   }else{
     for(bidx=0; bidx<bsize; bidx++){
       bm->free_block(ino->blocks[bidx]);
@@ -477,3 +479,4 @@ inode_manager::remove_file(uint32_t inum)
   printf("end of remove_file()\n\n");
   return;
 }
+
