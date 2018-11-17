@@ -11,7 +11,7 @@
 
 #define LOCK_CREATE     1
 #define LOCK_MKDIR      2
-#define LOCK_WRITE      3
+// #define LOCK_WRITE      3
 #define LOCK_UNLINK     4
 #define LOCK_SYMLINK    5
 
@@ -174,7 +174,7 @@ yfs_client::setattr(inum ino, size_t size)
 int
 yfs_client::create(inum parent, const char *name, mode_t mode, inum &ino_out)
 {
-    lc->acquire(LOCK_CREATE+parent);
+    lc->acquire(parent);
     int r = OK;
 
     /*
@@ -194,14 +194,14 @@ yfs_client::create(inum parent, const char *name, mode_t mode, inum &ino_out)
 
     if(r != extent_protocol::OK){
         printf("ERROR: yfs::create \n");
-        lc->release(LOCK_CREATE+parent);
+        lc->release(parent);
         return r;
     }
 
     for(it = dirents.begin(); it!=dirents.end(); it++){
         if(it->name == name){
             printf("ERROR yfs::create dir already has name\n");
-            lc->release(LOCK_CREATE+parent);            
+            lc->release(parent);            
             return EXIST;
         }
     }
@@ -209,7 +209,7 @@ yfs_client::create(inum parent, const char *name, mode_t mode, inum &ino_out)
     r = ec->create(extent_protocol::T_FILE, ino_out);
     if(r != extent_protocol::OK){
         printf("ERROR: yfs::create  \n");
-        lc->release(LOCK_CREATE+parent);
+        lc->release(parent);
         return r;
     }
 
@@ -221,7 +221,7 @@ yfs_client::create(inum parent, const char *name, mode_t mode, inum &ino_out)
     for(it=dirents.begin(); it!=dirents.end(); it++){
         ss << it->inum;
         ss << "/";
-        for(int i=0; i<it->name.size(); i++){
+        for(unsigned int i=0; i<it->name.size(); i++){
             ss << it->name.substr(i, 1);
         }
         ss << "/";
@@ -229,10 +229,10 @@ yfs_client::create(inum parent, const char *name, mode_t mode, inum &ino_out)
     r = ec->put(parent, ss.str());
     if(r != extent_protocol::OK){
         printf("ERROR: yfs::create  \n");
-        lc->release(LOCK_CREATE+parent);
+        lc->release(parent);
         return r;
     }
-    lc->release(LOCK_CREATE+parent);
+    lc->release(parent);
 
     // delete 
     const char* x4="x4";
@@ -252,8 +252,10 @@ yfs_client::create(inum parent, const char *name, mode_t mode, inum &ino_out)
 int
 yfs_client::mkdir(inum parent, const char *name, mode_t mode, inum &ino_out)
 {
-    lc->acquire(LOCK_MKDIR+parent);
+    lc->acquire(parent);
     int r = OK;
+
+	printf("mkdir, parent:%lld, name:%s\n", parent, name);
 
     /*
      * your code goes here.
@@ -270,14 +272,14 @@ yfs_client::mkdir(inum parent, const char *name, mode_t mode, inum &ino_out)
 
     if(r != extent_protocol::OK){
         printf("ERROR: yfs::create  \n");
-        lc->release(LOCK_MKDIR+parent);
+        lc->release(parent);
         return r;
     }
 
     for(it = dirents.begin(); it!=dirents.end(); it++){
         if(it->name == name){
             printf("ERROR yfs::create dir already has name\n");
-            lc->release(LOCK_MKDIR+parent);
+            lc->release(parent);
             return EXIST;
         }
     }
@@ -285,7 +287,7 @@ yfs_client::mkdir(inum parent, const char *name, mode_t mode, inum &ino_out)
     r = ec->create(extent_protocol::T_DIR, ino_out);
     if(r != extent_protocol::OK){
         printf("ERROR: yfs::create  \n");
-        lc->release(LOCK_MKDIR+parent);
+        lc->release(parent);
         return r;
     }
 
@@ -297,7 +299,7 @@ yfs_client::mkdir(inum parent, const char *name, mode_t mode, inum &ino_out)
     for(it=dirents.begin(); it!=dirents.end(); it++){
         ss << it->inum;
         ss << "/";
-        for(int i=0; i<it->name.size(); i++){
+        for(unsigned int i=0; i<it->name.size(); i++){
             ss << it->name.substr(i, 1);
         }
         ss << "/";
@@ -305,11 +307,11 @@ yfs_client::mkdir(inum parent, const char *name, mode_t mode, inum &ino_out)
     r = ec->put(parent, ss.str());
     if(r != extent_protocol::OK){
         printf("ERROR: yfs::create  \n");
-        lc->release(LOCK_MKDIR+parent);
+        lc->release(parent);
         return r;
     }
     printf("end of create()\n\n");
-    lc->release(LOCK_MKDIR+parent);
+    lc->release(parent);
     return r;
 }
 
@@ -357,14 +359,10 @@ yfs_client::readdir(inum dir, std::list<dirent> &list)
      * and push the dirents to the list.
      */
     int r = OK;
-    unsigned int i;
     std::string buf;
     std::istringstream ss;
     std::string de_name; // dirent name
-    char *str_inum;
-    yfs_client::inum de_inum;
     char delima;
-    int inum_end, name_end, de_end;
     dirent de;
 
     
@@ -395,7 +393,7 @@ yfs_client::readdir(inum dir, std::list<dirent> &list)
         list.push_back(de);
         de_name = "";
     }
-
+    print_list(list);
     printf("end of yfs::readdir()\n\n");
     return r;
 }
@@ -403,7 +401,6 @@ yfs_client::readdir(inum dir, std::list<dirent> &list)
 void yfs_client::print_list(std::list<dirent> list){
     std::list<dirent>::iterator it;
     it = list.begin();
-    std::cout << "print_list()\n";
     for(; it!=list.end(); it++){
         std::cout << "inum: " << it->inum << ", name: " << it->name << std::endl;
         isfile(it->inum);
@@ -458,7 +455,6 @@ yfs_client::write(inum ino, size_t size, off_t off, const char *data,
     std::string buf;
     std::string new_content(data, size);
     extent_protocol::attr a;
-    int i;
 
     ec->getattr(ino, a);
     r = ec->get(ino, buf);
@@ -497,7 +493,7 @@ yfs_client::write(inum ino, size_t size, off_t off, const char *data,
 
 int yfs_client::unlink(inum parent,const char *name)
 {
-    lc->acquire(parent+LOCK_UNLINK);
+    lc->acquire(parent);
     int r = OK;
 
     /*
@@ -505,7 +501,7 @@ int yfs_client::unlink(inum parent,const char *name)
      * note: you should remove the file using ec->remove,
      * and update the parent directory content.
      */
-    printf("========= yfs::unlink(parent: %d, name: %s ==========\n", parent, name);
+    printf("========= yfs::unlink(parent: %lld, name: %s ==========\n", parent, name);
 
     std::list<dirent> dirents;
     std::stringstream ss;
@@ -513,7 +509,7 @@ int yfs_client::unlink(inum parent,const char *name)
     r = readdir(parent, dirents);
     if(r != extent_protocol::OK){
         printf("ERROR in unlink() readdir()\n");
-        lc->release(parent+LOCK_UNLINK);
+        lc->release(parent);
         return r;
     }
     std::list<dirent>::iterator it;
@@ -535,22 +531,25 @@ int yfs_client::unlink(inum parent,const char *name)
     for(it=dirents.begin(); it!=dirents.end(); it++){
         if(it->name == name){
             if(isdir(it->inum)){
-                lc->release(LOCK_UNLINK);
+                lc->release(parent);
                 return IOERR;
             }
+			// lc->acquire(it->inum);
             r = ec->remove(it->inum);
+			// lc->release(it->inum);
             dirents.erase(it);
             find=true;
             break;
         }
     }
     if(r != extent_protocol::OK){
-        printf("ERROR in unlink()\n");
-        lc->release(LOCK_UNLINK);
+        printf("ERROR in unlink() ec->remove(it->inum)\n");
+        lc->release(parent);
         return r;
     }
     if(!find){
         r = NOENT;
+	lc->release(parent);
         return r;
     }
 
@@ -558,40 +557,40 @@ int yfs_client::unlink(inum parent,const char *name)
     for(it=dirents.begin(); it!=dirents.end(); it++){
         ss << it->inum;
         ss << "/";
-        for(int i=0; i<it->name.size(); i++){
+        for(unsigned int i=0; i<it->name.size(); i++){
             ss << it->name.substr(i, 1);
         }
         ss << "/";
     }
     r = ec->put(parent, ss.str());
     if(r != extent_protocol::OK){
-        printf("ERROR in unlink()\n");
-        lc->release(parent+LOCK_UNLINK);
+        printf("ERROR in unlink() ex->put()\n");
+        lc->release(parent);
         return r;
     }
-    lc->release(parent+LOCK_UNLINK);
+    lc->release(parent);
     return r;
 }
 
 int yfs_client::symlink(inum parent, const char *link, const char *name, inum &ino_out){
-    lc->acquire(parent+LOCK_SYMLINK);
+    lc->acquire(parent);
     int r;
     std::list<dirent> dirents;
     std::list<dirent>::iterator it;
     std::stringstream ss;
     dirent de;
-    printf("========== yfs::symlink(parent: %d, link: %s, name: %s) ==========\n", parent, link, name);
+    printf("========== yfs::symlink(parent: %lld, link: %s, name: %s) ==========\n", parent, link, name);
     r = OK;
     r = readdir(parent, dirents);
     if(r != extent_protocol::OK){
         printf("ERROR: yfs::symlink \n");
-        lc->release(parent+LOCK_SYMLINK);
+        lc->release(parent);
         return r;
     }
     for(it = dirents.begin(); it!=dirents.end(); it++){
         if(it->name == name){
             printf("ERROR yfs::symlink file already has name\n");
-            lc->release(parent+LOCK_SYMLINK);            
+            lc->release(parent);            
             return EXIST;
         }
     }
@@ -599,13 +598,13 @@ int yfs_client::symlink(inum parent, const char *link, const char *name, inum &i
     r = ec->create(extent_protocol::T_LINK, ino_out);
     if(r != extent_protocol::OK){
         printf("ERROR: yfs::create \n");
-        lc->release(parent+LOCK_SYMLINK);
+        lc->release(parent);
         return r;
     }
     r = ec->put(ino_out, link);
     if(r != extent_protocol::OK){
         printf("ERROR: yfs::create \n");
-        lc->release(parent+LOCK_SYMLINK);
+        lc->release(parent);
         return r;
     }
     de.name = name;
@@ -617,7 +616,7 @@ int yfs_client::symlink(inum parent, const char *link, const char *name, inum &i
     for(it=dirents.begin(); it!=dirents.end(); it++){
         ss << it->inum;
         ss << "/";
-        for(int i=0; i<it->name.size(); i++){
+        for(unsigned int i=0; i<it->name.size(); i++){
             ss << it->name.substr(i, 1);
         }
         ss << "/";
@@ -626,13 +625,13 @@ int yfs_client::symlink(inum parent, const char *link, const char *name, inum &i
     r = ec->put(parent, ss.str());
     if(r != extent_protocol::OK){
         printf("ERROR: yfs::create \n");
-        lc->release(parent+LOCK_SYMLINK);
+        lc->release(parent);
         return r;
     }
     
     if(r != extent_protocol::OK){
         printf("ERROR: yfs::create \n");
-        lc->release(parent+LOCK_SYMLINK);
+        lc->release(parent);
         return r;
     }
 
@@ -643,7 +642,7 @@ int yfs_client::symlink(inum parent, const char *link, const char *name, inum &i
     std::string sympath;
     readlink(ino_out, sympath);
     printf("end of symlink()\n");
-    lc->release(parent+LOCK_SYMLINK);
+    lc->release(parent);
     return r;
 }
 
@@ -658,5 +657,6 @@ int yfs_client::readlink(inum ino, std::string& path) {
     printf("path: %s\n", path.c_str());
     return r;
 }
+
 
 
