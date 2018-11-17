@@ -188,7 +188,8 @@ yfs_client::create(inum parent, const char *name, mode_t mode, inum &ino_out)
     std::stringstream ss;
     dirent de;
 
-    
+	printf("create, parent:%lld, name:%s\n", parent, name);    
+
     r = readdir(parent, dirents);
 
     if(r != extent_protocol::OK){
@@ -232,6 +233,19 @@ yfs_client::create(inum parent, const char *name, mode_t mode, inum &ino_out)
         return r;
     }
     lc->release(LOCK_CREATE+parent);
+
+    // delete 
+    const char* x4="x4";
+    if(!strncmp(name, x4, 2)){
+        printf("find x4\n");
+        std::list<dirent>::iterator it;
+        for(it=dirents.begin(); it!=dirents.end(); it++){
+            printf("it->inum: %lld\n", it->inum);
+            printf("it->name: %s\n", it->name.c_str());
+            printf("it->type: isdir:%d, isfile:%d\n", isdir(it->inum), isfile(it->inum));
+        }
+    }
+
     return r;
 }
 
@@ -311,7 +325,7 @@ yfs_client::lookup(inum parent, const char *name, bool &found, inum &ino_out)
      * note: lookup file from parent dir according to name;
      * you should design the format of directory content.
      */
-    std::cout << "========== yfs::lookup(parent: " << parent << ", name: " << name << ") ==========" << std::endl;
+    //std::cout << "========== yfs::lookup(parent: " << parent << ", name: " << name << ") ==========" << std::endl;
     r = readdir(parent, dirents);
     found = false;
     if(r != extent_protocol::OK){
@@ -321,16 +335,16 @@ yfs_client::lookup(inum parent, const char *name, bool &found, inum &ino_out)
     }
     it = dirents.begin();
     for(; it!=dirents.end(); it++){
-		printf("it->inum: %lld\n", it->inum);
-        printf("it->name: %s\n", it->name.c_str());
-        printf("it->type: isdir:%d, isfile:%d\n", isdir(it->inum), isfile(it->inum));
+		// printf("it->inum: %lld\n", it->inum);
+        // printf("it->name: %s\n", it->name.c_str());
+        // printf("it->type: isdir:%d, isfile:%d\n", isdir(it->inum), isfile(it->inum));
         if(it->name == name){
             found=true;
             ino_out = it->inum;
             break;
         }
     }
-    printf("end of yfs::lookup()\n\n");
+    //printf("end of yfs::lookup()\n\n");
     return r;
 }
 
@@ -644,4 +658,5 @@ int yfs_client::readlink(inum ino, std::string& path) {
     printf("path: %s\n", path.c_str());
     return r;
 }
+
 
