@@ -152,7 +152,7 @@ inode_manager::alloc_inode(uint32_t type)
     if(inode->type == 0){
       inode->type = type;
       inode->size = 0;
-      inode->atime = inode->mtime = inode->ctime = (unsigned int)time(NULL);
+      inode->atime = inode->mtime = inode->ctime = (unsigned int)time(0);
 
       put_inode(inum, inode);
 
@@ -226,6 +226,8 @@ inode_manager::put_inode(uint32_t inum, struct inode *ino)
   if (ino == NULL)
     return;
 
+  ino->mtime = time(0);
+  ino->ctime = time(0);
   bm->read_block(IBLOCK(inum, bm->sb.nblocks), buf);
   ino_disk = (struct inode*)buf + (inum-1)%IPB;
   *ino_disk = *ino;
