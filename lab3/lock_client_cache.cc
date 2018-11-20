@@ -204,7 +204,7 @@ lock_client_cache::release(lock_protocol::lockid_t lid)
         return lock_protocol::OK;
     }
 
-    tprintf("release\t lock:%lld\t id:%s\t release a wrong lock\n", lid, id.c_str());
+    tprintf("release\t id:%s\t lock:%lld\t release a wrong lock\n", id.c_str(), lid);
     return lock_protocol::RPCERR;
 }
 
@@ -250,7 +250,7 @@ lock_client_cache::retry_handler(lock_protocol::lockid_t lid,
   tprintf("retry\t id:%s\t lock:%lld\n", id.c_str(), lid);
   
   locks[lid].state = client_lock::LOCKED;
-  
+
   pthread_mutex_unlock(&lock_mutex); 
   return rlock_protocol::OK;
 }
