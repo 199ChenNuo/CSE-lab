@@ -35,47 +35,47 @@ lock_client_cache::lock_client_cache(std::string xdst,
   rlsrpc->reg(rlock_protocol::retry, this, &lock_client_cache::retry_handler);
 }
 
-lock_protocol::status 
-lock_client_cache::wait_for_lock(lock_protocol::lockid_t lid){
-  while(locks[lid].state != lock_client_info::NONE && 
-         locks[lid].state != lock_client_info::FREE)
-    pthread_cond_wait(&(locks[lid].cond), &lock_mutex);
+// lock_protocol::status 
+// lock_client_cache::wait_for_lock(lock_protocol::lockid_t lid){
+//   while(locks[lid].state != lock_client_info::NONE && 
+//          locks[lid].state != lock_client_info::FREE)
+//     pthread_cond_wait(&(locks[lid].cond), &lock_mutex);
         
-   if(locks[lid].state == lock_client_info::FREE){
-     locks[lid].state = lock_client_info::LOCKED;
-     pthread_mutex_unlock(&lock_mutex);
-     return lock_protocol::OK;
-   }else if(locks[lid].state == lock_client_info::NONE){
-     locks[lid].state = lock_client_info::ACQUIRING;
-     pthread_mutex_unlock(&lock_mutex);
-     return acquire_from_server(lid); 
-   }
-   return lock_protocol::OK;
-}
+//    if(locks[lid].state == lock_client_info::FREE){
+//      locks[lid].state = lock_client_info::LOCKED;
+//      pthread_mutex_unlock(&lock_mutex);
+//      return lock_protocol::OK;
+//    }else if(locks[lid].state == lock_client_info::NONE){
+//      locks[lid].state = lock_client_info::ACQUIRING;
+//      pthread_mutex_unlock(&lock_mutex);
+//      return acquire_from_server(lid); 
+//    }
+//    return lock_protocol::OK;
+// }
 
-lock_protocol::status 
-lock_client_cache::acquire_from_server(lock_protocol::lockid_t lid){
-  int r;
-  tprintf("acquire from server: lid=>%llu tid=>%lu id=>%s\n", lid, pthread_self(), id.c_str());
-  lock_protocol::status ret = cl->call(lock_protocol::acquire, lid, id, r);
+// lock_protocol::status 
+// lock_client_cache::acquire_from_server(lock_protocol::lockid_t lid){
+//   int r;
+//   tprintf("acquire from server: lid=>%llu tid=>%lu id=>%s\n", lid, pthread_self(), id.c_str());
+//   lock_protocol::status ret = cl->call(lock_protocol::acquire, lid, id, r);
  
-  // using a particular pthread_cond to replace ?
-  while(ret == lock_protocol::RETRY){
-    pthread_mutex_lock(&lock_mutex);
-    if(locks[lid].state == lock_client_info::LOCKED){
-      pthread_mutex_unlock(&lock_mutex);
-      return lock_protocol::OK;
-    }else{
-      pthread_mutex_unlock(&lock_mutex);
-    }
-  }
+//   // using a particular pthread_cond to replace ?
+//   while(ret == lock_protocol::RETRY){
+//     pthread_mutex_lock(&lock_mutex);
+//     if(locks[lid].state == lock_client_info::LOCKED){
+//       pthread_mutex_unlock(&lock_mutex);
+//       return lock_protocol::OK;
+//     }else{
+//       pthread_mutex_unlock(&lock_mutex);
+//     }
+//   }
 
-  //cache this lock
-  pthread_mutex_lock(&lock_mutex);
-  locks[lid].state = lock_client_info::LOCKED;
-  pthread_mutex_unlock(&lock_mutex);
-  return ret;     
-}
+//   //cache this lock
+//   pthread_mutex_lock(&lock_mutex);
+//   locks[lid].state = lock_client_info::LOCKED;
+//   pthread_mutex_unlock(&lock_mutex);
+//   return ret;     
+// }
 
 lock_protocol::status
 lock_client_cache::acquire(lock_protocol::lockid_t lid)
@@ -91,11 +91,42 @@ lock_client_cache::acquire(lock_protocol::lockid_t lid)
         pthread_mutex_unlock(&lock_mutex);
         return lock_protocol::OK;
       case lock_client_info::LOCKED:
-        return wait_for_lock(lid);
       case lock_client_info::ACQUIRING:
-        return wait_for_lock(lid);
-      case lock_client_info::RELEASING:
-        return wait_for_lock(lid);
+      case lock_client_info::RELEASING:{
+        while(locks[lid].state != lock_client_info::NONE && 
+         locks[lid].state != lock_client_info::FREE)
+          pthread_cond_wait(&(locks[lid].cond), &lock_mutex);
+              
+        if(locks[lid].state == lock_client_info::FREE){
+          locks[lid].state = lock_client_info::LOCKED;
+          pthread_mutex_unlock(&lock_mutex);
+          return lock_protocol::OK;
+        }else if(locks[lid].state == lock_client_info::NONE){
+          locks[lid].state = lock_client_info::ACQUIRING;
+          pthread_mutex_unlock(&lock_mutex);
+          int r;
+          tprintf("acquire from server: lid=>%llu tid=>%lu id=>%s\n", lid, pthread_self(), id.c_str());
+          lock_protocol::status ret = cl->call(lock_protocol::acquire, lid, id, r);
+        
+          // using a particular pthread_cond to replace ?
+          while(ret == lock_protocol::RETRY){
+            pthread_mutex_lock(&lock_mutex);
+            if(locks[lid].state == lock_client_info::LOCKED){
+              pthread_mutex_unlock(&lock_mutex);
+              return lock_protocol::OK;
+            }else{
+              pthread_mutex_unlock(&lock_mutex);
+            }
+          }
+
+          //cache this lock
+          pthread_mutex_lock(&lock_mutex);
+          locks[lid].state = lock_client_info::LOCKED;
+          pthread_mutex_unlock(&lock_mutex);
+          return ret;
+        }
+        return lock_protocol::OK;
+      }
     } 
   }else{
     tprintf("lock not cached\n");
@@ -103,7 +134,26 @@ lock_client_cache::acquire(lock_protocol::lockid_t lid)
     locks[lid].state = lock_client_info::ACQUIRING;
     pthread_mutex_unlock(&lock_mutex);
 
-    return acquire_from_server(lid); 
+    int r;
+    tprintf("acquire from server: lid=>%llu tid=>%lu id=>%s\n", lid, pthread_self(), id.c_str());
+    lock_protocol::status ret = cl->call(lock_protocol::acquire, lid, id, r);
+  
+    // using a particular pthread_cond to replace ?
+    while(ret == lock_protocol::RETRY){
+      pthread_mutex_lock(&lock_mutex);
+      if(locks[lid].state == lock_client_info::LOCKED){
+        pthread_mutex_unlock(&lock_mutex);
+        return lock_protocol::OK;
+      }else{
+        pthread_mutex_unlock(&lock_mutex);
+      }
+    }
+
+    //cache this lock
+    pthread_mutex_lock(&lock_mutex);
+    locks[lid].state = lock_client_info::LOCKED;
+    pthread_mutex_unlock(&lock_mutex);
+    return ret;
   } 
   return lock_protocol::OK;
 }

@@ -68,8 +68,8 @@ class lock_client_cache : public lock_client {
   std::map<lock_protocol::lockid_t, pthread_cond_t> conds; 
   std::set<lock_protocol::lockid_t> revokes;
 
-  lock_protocol::status wait_for_lock(lock_protocol::lockid_t);
-  lock_protocol::status acquire_from_server(lock_protocol::lockid_t);
+  // lock_protocol::status wait_for_lock(lock_protocol::lockid_t);
+  // lock_protocol::status acquire_from_server(lock_protocol::lockid_t);
 
  public:
   static int last_port;

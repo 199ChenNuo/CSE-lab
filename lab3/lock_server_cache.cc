@@ -50,7 +50,15 @@ int lock_server_cache::acquire(lock_protocol::lockid_t lid, std::string id,
       handle h(locks[lid].owner);
       pthread_mutex_unlock(&mutex);
 
-      revoke_owner(lid, h);
+      // revoke_owner(lid, h);
+      rpcc* cl = h.safebind();
+      if(cl){
+        int r;
+        rlock_protocol::status ret = cl->call(rlock_protocol::revoke,lid,r);
+        if (ret != rlock_protocol::OK){
+          std::cerr<<"error in revoke owner"<<std::endl;
+        }
+      }
       return lock_protocol::RETRY;
     }
   }
@@ -86,7 +94,15 @@ lock_server_cache::release(lock_protocol::lockid_t lid, std::string id,
         if(locks[lid].waiting.size() > 0){
           handle hh(locks[lid].owner); 
           pthread_mutex_unlock(&mutex);
-          revoke_owner(lid, hh);  
+          // revoke_owner(lid, hh);  
+          rpcc* cl = h.safebind();
+          if(cl){
+            int r;
+            rlock_protocol::status ret = cl->call(rlock_protocol::revoke,lid,r);
+            if (ret != rlock_protocol::OK){
+              std::cerr<<"error in revoke owner"<<std::endl;
+            }
+          }
         }else{  
           pthread_mutex_unlock(&mutex);
         }
