@@ -2,24 +2,27 @@
 #define lock_server_cache_h
 
 #include <string>
-
+#include <queue>
 
 #include <map>
-#include <queue>
 #include "lock_protocol.h"
 #include "rpc.h"
 #include "lock_server.h"
+#include "handle.h"
 
-enum server_state {NONE, FREE, LOCKED, REVOKING, RELEASING};
+class lock_info{
+ public:
+  std::string owner;
+  std::queue<std::string> waiting;
+};
+
 
 class lock_server_cache {
  private:
   int nacquire;
+  std::map<lock_protocol::lockid_t,lock_info> locks;
   pthread_mutex_t mutex;
-  pthread_cond_t cond;
-  std::map<lock_protocol::lockid_t, std::string> locks_owner;
-  std::map<lock_protocol::lockid_t, int> locks_state;
-  std::map<lock_protocol::lockid_t, std::queue<std::string> > wait_thread;
+  void revoke_owner(lock_protocol::lockid_t, handle &);
  public:
   lock_server_cache();
   lock_protocol::status stat(lock_protocol::lockid_t, int &);
