@@ -212,32 +212,32 @@ rlock_protocol::status
 lock_client_cache::revoke_handler(lock_protocol::lockid_t lid, 
                                   int &)
 {
-  tprintf("[REVOKE]: lid=>%llu\n", lid);
-
   pthread_mutex_lock(&lock_mutex);
+  tprintf("revoke\t id:%s\t lock:%lld\n", id.c_str(), lid);
+  int r;
+
   if(locks[lid].state == client_lock::FREE){
     locks[lid].state = client_lock::RELEASING;
-    // if(lu != 0)
-    //   lu->dorelease(lid);
+    tprintf("revoke\t id:%s\t lock:%lld\t free lock\n", id.c_str(), lid);
 
     pthread_mutex_unlock(&lock_mutex);
-    tprintf("[RLEASE TO SERVER]: lid=>%llu id=>%s\n", lid, id.c_str());
-    
-    int r;
     cl->call(lock_protocol::release, lid, id, r);
     pthread_mutex_lock(&lock_mutex);
+
     locks[lid].state = client_lock::NONE;
     pthread_mutex_unlock(&lock_mutex);
 
-    pthread_cond_signal(&(locks[lid].cond));
+    // if thread waiting send acquire to server
+    pthread_cond_signal(&locks[lid].cond);
     return rlock_protocol::OK; 
   }else{
-    pthread_mutex_unlock(&lock_mutex);
-    tprintf("[REVOKE]: lid=>%llu id=>%s insert into revokes\n", lid, id.c_str());
+    tprintf("revoke\t id:%s\t lock:%lld locked, waiting\n", id.c_str(), lid);
+
     pthread_mutex_lock(&revoke_mutex);  
     revokes.insert(lid);
     pthread_mutex_unlock(&revoke_mutex);
 
+    pthread_mutex_unlock(&lock_mutex);
     return rlock_protocol::OK;
   }
 }
@@ -246,14 +246,13 @@ rlock_protocol::status
 lock_client_cache::retry_handler(lock_protocol::lockid_t lid, 
                                  int &)
 {
-  tprintf("[RETRY]: lid=>%llu\n", lid);
-  
   pthread_mutex_lock(&lock_mutex);
+  tprintf("retry\t id:%s\t lock:%lld\n", id.c_str(), lid);
+  
   locks[lid].state = client_lock::LOCKED;
+  
   pthread_mutex_unlock(&lock_mutex); 
-   
-  int ret = rlock_protocol::OK;
-  return ret;
+  return rlock_protocol::OK;
 }
 
 
