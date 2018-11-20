@@ -44,6 +44,7 @@ int lock_server_cache::acquire(lock_protocol::lockid_t lid, std::string id,
     if(locks[lid].waiting_clients.size() > 1){
       tprintf("waiting_clients size is: %u\n", locks[lid].waiting_clients.size());
       pthread_mutex_unlock(&mutex);
+
       return lock_protocol::RETRY;     
     }else{
       // send a revoke to the owner of this lock
@@ -92,6 +93,8 @@ lock_server_cache::release(lock_protocol::lockid_t lid, std::string id,
         
         // if there are other clients waiting_clients, send a reovke to the owner
         if(locks[lid].waiting_clients.size() > 0){
+          printf("waiting_clients size is: %u\t owner is:%s\n", locks[lid].waiting_clients.size(), locks[lid].owner.c_str());
+
           handle hh(locks[lid].owner); 
           pthread_mutex_unlock(&mutex);
           // revoke_owner(lid, hh);  
