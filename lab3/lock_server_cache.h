@@ -13,7 +13,7 @@
 class lock_info{
  public:
   std::string owner;
-  std::queue<std::string> waiting;
+  std::queue<std::string> waiting_clients;
 };
 
 
@@ -22,7 +22,7 @@ class lock_server_cache {
   int nacquire;
   std::map<lock_protocol::lockid_t,lock_info> locks;
   pthread_mutex_t mutex;
-  void revoke_owner(lock_protocol::lockid_t, handle &);
+  // void revoke_owner(lock_protocol::lockid_t, handle &);
  public:
   lock_server_cache();
   lock_protocol::status stat(lock_protocol::lockid_t, int &);

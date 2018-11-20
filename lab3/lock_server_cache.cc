@@ -14,16 +14,16 @@ lock_server_cache::lock_server_cache()
   pthread_mutex_init(&mutex,NULL);
 }
 
-void lock_server_cache::revoke_owner(lock_protocol::lockid_t lid, handle &h){
-  rpcc* cl = h.safebind();
-  if(cl){
-    int r;
-    rlock_protocol::status ret = cl->call(rlock_protocol::revoke,lid,r);
-    if (ret != rlock_protocol::OK){
-      std::cerr<<"error in revoke owner"<<std::endl;
-    }
-  }
-}
+// void lock_server_cache::revoke_owner(lock_protocol::lockid_t lid, handle &h){
+//   rpcc* cl = h.safebind();
+//   if(cl){
+//     int r;
+//     rlock_protocol::status ret = cl->call(rlock_protocol::revoke,lid,r);
+//     if (ret != rlock_protocol::OK){
+//       std::cerr<<"error in revoke owner"<<std::endl;
+//     }
+//   }
+// }
 
 int lock_server_cache::acquire(lock_protocol::lockid_t lid, std::string id, 
                                int &)
@@ -40,9 +40,9 @@ int lock_server_cache::acquire(lock_protocol::lockid_t lid, std::string id,
 
   // a cached lock
   }else{
-    locks[lid].waiting.push(id);
-    if(locks[lid].waiting.size() > 1){
-      tprintf("waiting size is: %u\n", locks[lid].waiting.size());
+    locks[lid].waiting_clients.push(id);
+    if(locks[lid].waiting_clients.size() > 1){
+      tprintf("waiting_clients size is: %u\n", locks[lid].waiting_clients.size());
       pthread_mutex_unlock(&mutex);
       return lock_protocol::RETRY;     
     }else{
@@ -73,12 +73,12 @@ lock_server_cache::release(lock_protocol::lockid_t lid, std::string id,
   pthread_mutex_lock(&mutex);
   if(locks.find(lid) != locks.end()){
     locks[lid].owner = "";
-    if(locks[lid].waiting.size() == 0){  // remove this lock's info
+    if(locks[lid].waiting_clients.size() == 0){  // remove this lock's info
       locks.erase(lid); 
       pthread_mutex_unlock(&mutex);
     }else{        
-      // send a retry to the first waiting client
-      handle h(locks[lid].waiting.front());
+      // send a retry to the first waiting_clients client
+      handle h(locks[lid].waiting_clients.front());
       pthread_mutex_unlock(&mutex);
       
       rpcc* cl = h.safebind();
@@ -86,12 +86,12 @@ lock_server_cache::release(lock_protocol::lockid_t lid, std::string id,
         int r;
         cl->call(rlock_protocol::retry, lid, r);       
         pthread_mutex_lock(&mutex);
-        locks[lid].owner = locks[lid].waiting.front();
-        locks[lid].waiting.pop();  
-        tprintf("CHANGE WAITING TO OWNER NEW OWNER: %s\n", locks[lid].owner.c_str());
+        locks[lid].owner = locks[lid].waiting_clients.front();
+        locks[lid].waiting_clients.pop();  
+        tprintf("CHANGE waiting_clients TO OWNER NEW OWNER: %s\n", locks[lid].owner.c_str());
         
-        // if there are other clients waiting, send a reovke to the owner
-        if(locks[lid].waiting.size() > 0){
+        // if there are other clients waiting_clients, send a reovke to the owner
+        if(locks[lid].waiting_clients.size() > 0){
           handle hh(locks[lid].owner); 
           pthread_mutex_unlock(&mutex);
           // revoke_owner(lid, hh);  

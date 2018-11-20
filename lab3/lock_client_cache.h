@@ -29,7 +29,7 @@ class lock_release_user {
   virtual ~lock_release_user() {};
 };
 
-class lock_client_info{
+class client_lock{
  public:
   enum xxstatus{NONE, FREE, LOCKED, ACQUIRING, RELEASING};
   typedef int status;
@@ -37,22 +37,22 @@ class lock_client_info{
   status state;
   pthread_cond_t cond;
 
-  lock_client_info(){
+  client_lock(){
     pthread_cond_init(&cond, NULL);
   }
-  ~lock_client_info(){
+  ~client_lock(){
     pthread_cond_destroy(&cond);  
   }
 };
 
-class client_lock {
-  public:
-    locks_state state;
-    long long owner;
-    std::queue<long long> waiting_threads;
-    bool revoke;
-    bool retry;
-};
+// class client_lock {
+//   public:
+//     locks_state state;
+//     long long owner;
+//     std::queue<long long> waiting_threads;
+//     bool revoke;
+//     bool retry;
+// };
 
 class lock_client_cache : public lock_client {
  private:
@@ -64,8 +64,8 @@ class lock_client_cache : public lock_client {
 
   pthread_mutex_t lock_mutex;
   pthread_mutex_t revoke_mutex;
-  std::map<lock_protocol::lockid_t, lock_client_info> locks;
-  std::map<lock_protocol::lockid_t, pthread_cond_t> conds; 
+  std::map<lock_protocol::lockid_t, client_lock> locks;
+  // std::map<lock_protocol::lockid_t, pthread_cond_t> conds; 
   std::set<lock_protocol::lockid_t> revokes;
 
   // lock_protocol::status wait_for_lock(lock_protocol::lockid_t);
