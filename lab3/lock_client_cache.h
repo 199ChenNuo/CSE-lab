@@ -70,6 +70,8 @@ class lock_client_cache : public lock_client {
 
   // lock_protocol::status wait_for_lock(lock_protocol::lockid_t);
   // lock_protocol::status acquire_from_server(lock_protocol::lockid_t);
+  lock_protocol::status get_free_lock(lock_protocol::lockid_t lid);
+  lock_protocol::status call_server_acquire(lock_protocol::lockid_t lid);
 
  public:
   static int last_port;
