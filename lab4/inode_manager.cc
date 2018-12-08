@@ -1,9 +1,10 @@
 #include "inode_manager.h"
 
- void prt(char *s){
-   std::cout << s << std::endl;
-   fflush(stdout);
- }
+void inode_manager::prt(char *s){
+  std::cout << "inode_manager" << std::endl;
+  std::cout << s << std::endl;
+  fflush(stdout);
+}
 
 // disk layer -----------------------------------------
 

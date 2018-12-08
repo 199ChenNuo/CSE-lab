@@ -7,6 +7,12 @@
 
 using namespace std;
 
+void DataNode::prt(char *s){
+  cout << "==== dataNode ====" << endl;
+  cout << s << endl;
+  fflush(stdout);
+}
+
 int DataNode::init(const string &extent_dst, const string &namenode, const struct sockaddr_in *bindaddr) {
   ec = new extent_client(extent_dst);
 
@@ -44,13 +50,45 @@ int DataNode::init(const string &extent_dst, const string &namenode, const struc
 // Be careful that client may want to read/write only parts of the block.
 bool DataNode::ReadBlock(blockid_t bid, uint64_t offset, uint64_t len, string &buf) {
   /* Your lab4 part 2 code */
-  return false;
+  // return false;
+  char *outchar;
+  sprintf(outchar, "datanode\t bid:%d", bid);
+  prt((char *)outchar);
+
+  string bbuf;
+  int r;
+  r = !(ec->read_block(bid, bbuf));
+  if(r != true){
+    prt((char *)"ERROR read block");
+    return false;
+  }
+  buf = bbuf.substr(offset, len);
+  return true;
 }
 
 // Call read_block/write_lock to read/write block on extent server.
 // Be careful that client may want to read/write only parts of the block.
 bool DataNode::WriteBlock(blockid_t bid, uint64_t offset, uint64_t len, const string &buf) {
   /* Your lab4 part 2 code */
-  return false;
+  // return false;
+  char *output;
+  sprintf(output, "datanode\t writeblock bid:%d", bid);
+  prt(output);
+
+  string bbuf;
+  int r;
+
+  r = !(ec->read_block(bid, bbuf));
+  if(r != true){
+    prt((char *)"ERROR read block");
+    return false;
+  }
+  bbuf = bbuf.substr(0, offset) + buf + bbuf.substr(offset + len);
+  r = !(ec->write_block(bid, bbuf));
+  if(r != true){
+    prt((char *)"ERROR write block");
+    return false;
+  }
+  return true;
 }
 

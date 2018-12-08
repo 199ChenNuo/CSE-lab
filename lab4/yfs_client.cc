@@ -15,6 +15,12 @@
 // #define LOCK_UNLINK     4
 // #define LOCK_SYMLINK    5
 
+void yfs_client::prt(char *s){
+    std::cout << "yfs_client" << std::endl;
+    std::cout << s << std::endl;
+    fflush(stdout);
+}
+
 yfs_client::yfs_client(std::string extent_dst, std::string lock_dst)
 {
   ec = new extent_client(extent_dst);
@@ -175,7 +181,11 @@ yfs_client::setattr(inum ino, size_t size)
 int
 yfs_client::create(inum parent, const char *name, mode_t mode, inum &ino_out)
 {
+    char *c;
+    sprintf(c, "create, parent:%lld, name:%s", parent, name);
+    prt(c);
     lc->acquire(parent);
+    prt((char *)"asking for lock");
     int r = OK;
 
     /*
@@ -189,19 +199,17 @@ yfs_client::create(inum parent, const char *name, mode_t mode, inum &ino_out)
     std::stringstream ss;
     dirent de;
 
-	printf("create, parent:%lld, name:%s\n", parent, name);    
-
     r = readdir(parent, dirents);
 
     if(r != extent_protocol::OK){
-        printf("ERROR: yfs::create \n");
+        prt((char *)"ERROR: yfs::create");
         lc->release(parent);
         return r;
     }
 
     for(it = dirents.begin(); it!=dirents.end(); it++){
         if(it->name == name){
-            printf("ERROR yfs::create dir already has name\n");
+            prt((char *)"ERROR yfs::create dir already has name");
             lc->release(parent);            
             return EXIST;
         }
@@ -209,7 +217,7 @@ yfs_client::create(inum parent, const char *name, mode_t mode, inum &ino_out)
 
     r = ec->create(extent_protocol::T_FILE, ino_out);
     if(r != extent_protocol::OK){
-        printf("ERROR: yfs::create  \n");
+        prt((char *)"ERROR yfs::create");
         lc->release(parent);
         return r;
     }
@@ -229,7 +237,7 @@ yfs_client::create(inum parent, const char *name, mode_t mode, inum &ino_out)
     }
     r = ec->put(parent, ss.str());
     if(r != extent_protocol::OK){
-        printf("ERROR: yfs::create  \n");
+        prt((char *)"ERROR create put");
         lc->release(parent);
         return r;
     }
@@ -253,14 +261,14 @@ yfs_client::mkdir(inum parent, const char *name, mode_t mode, inum &ino_out)
     r = readdir(parent, dirents);
 
     if(r != extent_protocol::OK){
-        printf("ERROR: yfs::create  \n");
+        prt((char *)"ERROR yfs::create");        
         lc->release(parent);
         return r;
     }
 
     for(it = dirents.begin(); it!=dirents.end(); it++){
         if(it->name == name){
-            printf("ERROR yfs::create dir already has name\n");
+            prt((char *)"ERROR yfs::create dir already has this name");
             lc->release(parent);
             return EXIST;
         }
@@ -268,7 +276,7 @@ yfs_client::mkdir(inum parent, const char *name, mode_t mode, inum &ino_out)
 
     r = ec->create(extent_protocol::T_DIR, ino_out);
     if(r != extent_protocol::OK){
-        printf("ERROR: yfs::create  \n");
+        prt((char *)"ERROR yfs::create");
         lc->release(parent);
         return r;
     }
