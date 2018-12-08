@@ -42,6 +42,8 @@ int DataNode::init(const string &extent_dst, const string &namenode, const struc
   }
 
   /* Add your initialization here */
+  if (ec->put(1, "") != extent_protocol::OK)
+      printf("error init root dir\n"); // XYB: init root dir
 
   return 0;
 }

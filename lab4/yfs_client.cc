@@ -16,7 +16,7 @@
 // #define LOCK_SYMLINK    5
 
 void yfs_client::prt(char *s){
-    std::cout << "yfs_client" << std::endl;
+    std::cout << "==== yfs_client ====" << std::endl;
     std::cout << s << std::endl;
     fflush(stdout);
 }
@@ -28,6 +28,12 @@ yfs_client::yfs_client(std::string extent_dst, std::string lock_dst)
   lc = new lock_client_cache(lock_dst);
   if (ec->put(1, "") != extent_protocol::OK)
       printf("error init root dir\n"); // XYB: init root dir
+}
+
+yfs_client::yfs_client(extent_client * nec, lock_client* nlc){
+    ec = nec;
+    //lc = new lock_client(lock_dst);
+    lc = nlc;
 }
 
 
@@ -184,15 +190,9 @@ yfs_client::create(inum parent, const char *name, mode_t mode, inum &ino_out)
     char *c;
     sprintf(c, "create, parent:%lld, name:%s", parent, name);
     prt(c);
-    lc->acquire(parent);
-    prt((char *)"asking for lock");
-    int r = OK;
 
-    /*
-     * your code goes here.
-     * note: lookup is what you need to check if file exist;
-     * after create file or dir, you must remember to modify the parent infomation.
-     */
+    lc->acquire(parent);
+    int r = OK;
 
     std::list<dirent> dirents;
     std::list<dirent>::iterator it;
@@ -203,23 +203,21 @@ yfs_client::create(inum parent, const char *name, mode_t mode, inum &ino_out)
 
     if(r != extent_protocol::OK){
         prt((char *)"ERROR: yfs::create");
-        lc->release(parent);
-        return r;
+        goto release;
     }
 
     for(it = dirents.begin(); it!=dirents.end(); it++){
         if(it->name == name){
             prt((char *)"ERROR yfs::create dir already has name");
-            lc->release(parent);            
-            return EXIST;
+            r = EXIST;
+            goto release;
         }
     }
 
     r = ec->create(extent_protocol::T_FILE, ino_out);
     if(r != extent_protocol::OK){
         prt((char *)"ERROR yfs::create");
-        lc->release(parent);
-        return r;
+        goto release;
     }
 
     de.name = name;
@@ -238,11 +236,9 @@ yfs_client::create(inum parent, const char *name, mode_t mode, inum &ino_out)
     r = ec->put(parent, ss.str());
     if(r != extent_protocol::OK){
         prt((char *)"ERROR create put");
-        lc->release(parent);
-        return r;
     }
+release:
     lc->release(parent);
-
     return r;
 }
 
