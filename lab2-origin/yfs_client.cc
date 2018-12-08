@@ -176,6 +176,7 @@ yfs_client::create(inum parent, const char *name, mode_t mode, inum &ino_out)
      * after create file or dir, you must remember to modify the parent infomation.
      */
 
+    std::cout << "========== yfs::create(parent: " << parent << ", name: " << name << ") ==========" << std::endl;
     std::list<dirent> dirents;
     std::list<dirent>::iterator it;
     std::stringstream ss;
@@ -220,6 +221,7 @@ yfs_client::create(inum parent, const char *name, mode_t mode, inum &ino_out)
         printf("ERROR: yfs::create  \n");
         return r;
     }
+    printf("end of create()\n\n");
     return r;
 }
 
@@ -233,6 +235,7 @@ yfs_client::mkdir(inum parent, const char *name, mode_t mode, inum &ino_out)
      * note: lookup is what you need to check if directory exist;
      * after create file or dir, you must remember to modify the parent infomation.
      */
+    std::cout << "========== yfs::mkdir(parent: " << parent << ", name: " << name << ") ==========" << std::endl;
     std::list<dirent> dirents;
     std::list<dirent>::iterator it;
     std::stringstream ss;

@@ -1,0 +1,108 @@
+FUSE library version: 2.9.4
+unique: 1, opcode: INIT (26), nodeid: 0, insize: 56, pid: 0
+INIT: 7.26
+flags=0x001ffffb
+max_readahead=0x00020000
+   INIT: 7.19
+   flags=0x00000000
+   max_readahead=0x00020000
+   max_write=0x00020000
+   max_background=0
+   congestion_threshold=0
+   unique: 1, success, outsize: 40
+unique: 2, opcode: LOOKUP (1), nodeid: 1, insize: 97, pid: 149
+   unique: 2, error: -2 (No such file or directory), outsize: 16
+unique: 3, opcode: CREATE (35), nodeid: 1, insize: 113, pid: 149
+extent_server: getattr 140723176956496
+isfile: 140723176956496 is a dir
+getattr 00007ffcaaf96250 0
+extent_server: getattr 140723176956496
+isfile: 140723176956496 is a dir
+getdir 00007ffcaaf96250
+extent_server: getattr 140723176956496
+   getattr -> 0 0 0
+   unique: 3, success, outsize: 160
+OK: create returns.
+unique: 4, opcode: LOOKUP (1), nodeid: 1, insize: 45, pid: 153
+   unique: 4, error: -2 (No such file or directory), outsize: 16
+unique: 5, opcode: CREATE (35), nodeid: 1, insize: 61, pid: 153
+extent_server: getattr 140723176956496
+isfile: 140723176956496 is a dir
+getattr 00007ffcaaf96250 0
+extent_server: getattr 140723176956496
+isfile: 140723176956496 is a dir
+getdir 00007ffcaaf96250
+extent_server: getattr 140723176956496
+   getattr -> 0 0 0
+   unique: 5, success, outsize: 160
+OK: create returns.
+unique: 6, opcode: LOOKUP (1), nodeid: 1, insize: 45, pid: 157
+   unique: 6, error: -2 (No such file or directory), outsize: 16
+unique: 7, opcode: MKDIR (9), nodeid: 1, insize: 53, pid: 157
+extent_server: getattr 206158430256
+isfile: 206158430256 is a dir
+getattr 0000003000000030 0
+extent_server: getattr 206158430256
+isfile: 206158430256 is a dir
+getdir 0000003000000030
+extent_server: getattr 206158430256
+   getattr -> 0 0 0
+   unique: 7, success, outsize: 144
+unique: 8, opcode: LOOKUP (1), nodeid: 1, insize: 45, pid: 157
+   unique: 8, error: -2 (No such file or directory), outsize: 16
+unique: 9, opcode: LOOKUP (1), nodeid: 1, insize: 45, pid: 157
+   unique: 9, error: -2 (No such file or directory), outsize: 16
+unique: 10, opcode: FORGET (2), nodeid: 206158430256, insize: 48, pid: 0
+unique: 11, opcode: LOOKUP (1), nodeid: 1, insize: 46, pid: 163
+   unique: 11, error: -2 (No such file or directory), outsize: 16
+unique: 12, opcode: LOOKUP (1), nodeid: 1, insize: 46, pid: 163
+   unique: 12, error: -2 (No such file or directory), outsize: 16
+unique: 13, opcode: LOOKUP (1), nodeid: 1, insize: 54, pid: 163
+   unique: 13, error: -2 (No such file or directory), outsize: 16
+unique: 14, opcode: LOOKUP (1), nodeid: 1, insize: 54, pid: 163
+   unique: 14, error: -2 (No such file or directory), outsize: 16
+unique: 15, opcode: LOOKUP (1), nodeid: 1, insize: 51, pid: 163
+   unique: 15, error: -2 (No such file or directory), outsize: 16
+unique: 16, opcode: LOOKUP (1), nodeid: 1, insize: 51, pid: 163
+   unique: 16, error: -2 (No such file or directory), outsize: 16
+unique: 17, opcode: LOOKUP (1), nodeid: 1, insize: 52, pid: 163
+   unique: 17, error: -2 (No such file or directory), outsize: 16
+unique: 18, opcode: LOOKUP (1), nodeid: 1, insize: 52, pid: 163
+   unique: 18, error: -2 (No such file or directory), outsize: 16
+unique: 19, opcode: LOOKUP (1), nodeid: 1, insize: 46, pid: 164
+   unique: 19, error: -2 (No such file or directory), outsize: 16
+unique: 20, opcode: LOOKUP (1), nodeid: 1, insize: 46, pid: 164
+   unique: 20, error: -2 (No such file or directory), outsize: 16
+unique: 21, opcode: SYMLINK (6), nodeid: 1, insize: 57, pid: 164
+   unique: 21, error: -38 (Function not implemented), outsize: 16
+unique: 22, opcode: LOOKUP (1), nodeid: 1, insize: 46, pid: 165
+   unique: 22, error: -2 (No such file or directory), outsize: 16
+unique: 23, opcode: LOOKUP (1), nodeid: 1, insize: 48, pid: 172
+   unique: 23, error: -2 (No such file or directory), outsize: 16
+unique: 24, opcode: CREATE (35), nodeid: 1, insize: 64, pid: 172
+extent_server: getattr 140723176956496
+isfile: 140723176956496 is a dir
+getattr 00007ffcaaf96250 0
+extent_server: getattr 140723176956496
+isfile: 140723176956496 is a dir
+getdir 00007ffcaaf96250
+extent_server: getattr 140723176956496
+   getattr -> 0 0 0
+   unique: 24, success, outsize: 160
+OK: create returns.
+unique: 25, opcode: LOOKUP (1), nodeid: 1, insize: 48, pid: 172
+   unique: 25, error: -2 (No such file or directory), outsize: 16
+unique: 26, opcode: CREATE (35), nodeid: 1, insize: 64, pid: 172
+extent_server: getattr 140723176956496
+isfile: 140723176956496 is a dir
+getattr 00007ffcaaf96250 0
+extent_server: getattr 140723176956496
+isfile: 140723176956496 is a dir
+getdir 00007ffcaaf96250
+extent_server: getattr 140723176956496
+   getattr -> 0 0 0
+   unique: 26, success, outsize: 160
+OK: create returns.
+unique: 27, opcode: LOOKUP (1), nodeid: 1, insize: 48, pid: 173
+   unique: 27, error: -2 (No such file or directory), outsize: 16
+fuse: failed to unmount /home/stu/devlop/lab1/yfs1: Invalid argument

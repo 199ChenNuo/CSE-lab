@@ -19,9 +19,10 @@ disk::read_block(blockid_t id, char *buf)
 void
 disk::write_block(blockid_t id, const char *buf)
 {
-  if (id < 0 || id >= BLOCK_NUM || buf == NULL)
+  if(!(id < BLOCK_NUM && id > 0) || !buf){
+    printf("disk::write_block() ERROR invalid id or buf\n");
     return;
-
+  }
   memcpy(blocks[id], buf, BLOCK_SIZE);
 }
 
@@ -476,4 +477,3 @@ inode_manager::remove_file(uint32_t inum)
   printf("end of remove_file()\n\n");
   return;
 }
-

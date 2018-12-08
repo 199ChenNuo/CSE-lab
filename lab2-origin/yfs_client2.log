@@ -10,7 +10,7 @@ max_readahead=0x00020000
    max_background=0
    congestion_threshold=0
    unique: 1, success, outsize: 40
-unique: 2, opcode: LOOKUP (1), nodeid: 1, insize: 46, pid: 282
+unique: 2, opcode: LOOKUP (1), nodeid: 1, insize: 46, pid: 264
 ========== yfs::lookup(parent: 1, name: hosts) ==========
 ========== yfs::readdir(dir: 1) ==========
 end of yfs::readdir()
@@ -18,7 +18,7 @@ end of yfs::readdir()
 end of yfs::lookup()
 
    unique: 2, error: -2 (No such file or directory), outsize: 16
-unique: 3, opcode: LOOKUP (1), nodeid: 1, insize: 46, pid: 282
+unique: 3, opcode: LOOKUP (1), nodeid: 1, insize: 46, pid: 264
 ========== yfs::lookup(parent: 1, name: hosts) ==========
 ========== yfs::readdir(dir: 1) ==========
 end of yfs::readdir()
@@ -26,7 +26,7 @@ end of yfs::readdir()
 end of yfs::lookup()
 
    unique: 3, error: -2 (No such file or directory), outsize: 16
-unique: 4, opcode: LOOKUP (1), nodeid: 1, insize: 54, pid: 282
+unique: 4, opcode: LOOKUP (1), nodeid: 1, insize: 54, pid: 264
 ========== yfs::lookup(parent: 1, name: testhostslink) ==========
 ========== yfs::readdir(dir: 1) ==========
 end of yfs::readdir()
@@ -34,7 +34,7 @@ end of yfs::readdir()
 end of yfs::lookup()
 
    unique: 4, error: -2 (No such file or directory), outsize: 16
-unique: 5, opcode: LOOKUP (1), nodeid: 1, insize: 54, pid: 282
+unique: 5, opcode: LOOKUP (1), nodeid: 1, insize: 54, pid: 264
 ========== yfs::lookup(parent: 1, name: testhostslink) ==========
 ========== yfs::readdir(dir: 1) ==========
 end of yfs::readdir()
@@ -42,7 +42,7 @@ end of yfs::readdir()
 end of yfs::lookup()
 
    unique: 5, error: -2 (No such file or directory), outsize: 16
-unique: 6, opcode: LOOKUP (1), nodeid: 1, insize: 51, pid: 282
+unique: 6, opcode: LOOKUP (1), nodeid: 1, insize: 51, pid: 264
 ========== yfs::lookup(parent: 1, name: hosts_copy) ==========
 ========== yfs::readdir(dir: 1) ==========
 end of yfs::readdir()
@@ -50,7 +50,7 @@ end of yfs::readdir()
 end of yfs::lookup()
 
    unique: 6, error: -2 (No such file or directory), outsize: 16
-unique: 7, opcode: LOOKUP (1), nodeid: 1, insize: 51, pid: 282
+unique: 7, opcode: LOOKUP (1), nodeid: 1, insize: 51, pid: 264
 ========== yfs::lookup(parent: 1, name: hosts_copy) ==========
 ========== yfs::readdir(dir: 1) ==========
 end of yfs::readdir()
@@ -58,7 +58,7 @@ end of yfs::readdir()
 end of yfs::lookup()
 
    unique: 7, error: -2 (No such file or directory), outsize: 16
-unique: 8, opcode: LOOKUP (1), nodeid: 1, insize: 52, pid: 282
+unique: 8, opcode: LOOKUP (1), nodeid: 1, insize: 52, pid: 264
 ========== yfs::lookup(parent: 1, name: hosts_copy2) ==========
 ========== yfs::readdir(dir: 1) ==========
 end of yfs::readdir()
@@ -66,7 +66,7 @@ end of yfs::readdir()
 end of yfs::lookup()
 
    unique: 8, error: -2 (No such file or directory), outsize: 16
-unique: 9, opcode: LOOKUP (1), nodeid: 1, insize: 52, pid: 282
+unique: 9, opcode: LOOKUP (1), nodeid: 1, insize: 52, pid: 264
 ========== yfs::lookup(parent: 1, name: hosts_copy2) ==========
 ========== yfs::readdir(dir: 1) ==========
 end of yfs::readdir()
@@ -74,7 +74,7 @@ end of yfs::readdir()
 end of yfs::lookup()
 
    unique: 9, error: -2 (No such file or directory), outsize: 16
-unique: 10, opcode: LOOKUP (1), nodeid: 1, insize: 46, pid: 283
+unique: 10, opcode: LOOKUP (1), nodeid: 1, insize: 46, pid: 265
 ========== yfs::lookup(parent: 1, name: hosts) ==========
 ========== yfs::readdir(dir: 1) ==========
 end of yfs::readdir()
@@ -82,7 +82,7 @@ end of yfs::readdir()
 end of yfs::lookup()
 
    unique: 10, error: -2 (No such file or directory), outsize: 16
-unique: 11, opcode: LOOKUP (1), nodeid: 1, insize: 46, pid: 283
+unique: 11, opcode: LOOKUP (1), nodeid: 1, insize: 46, pid: 265
 ========== yfs::lookup(parent: 1, name: hosts) ==========
 ========== yfs::readdir(dir: 1) ==========
 end of yfs::readdir()
@@ -90,7 +90,7 @@ end of yfs::readdir()
 end of yfs::lookup()
 
    unique: 11, error: -2 (No such file or directory), outsize: 16
-unique: 12, opcode: SYMLINK (6), nodeid: 1, insize: 57, pid: 283
+unique: 12, opcode: SYMLINK (6), nodeid: 1, insize: 57, pid: 265
 ========== yfs::symlink(parent: 1, link: /etc/hosts, name: hosts) ==========
 ========== yfs::readdir(dir: 1) ==========
 end of yfs::readdir()
@@ -111,7 +111,7 @@ getfile 0000000000000000
 getfile 0000000000000000 -> sz 0
    getattr -> 0
    unique: 12, success, outsize: 144
-unique: 13, opcode: LOOKUP (1), nodeid: 1, insize: 46, pid: 284
+unique: 13, opcode: LOOKUP (1), nodeid: 1, insize: 46, pid: 266
 ========== yfs::lookup(parent: 1, name: hosts) ==========
 ========== yfs::readdir(dir: 1) ==========
 end of yfs::readdir()
@@ -119,7 +119,7 @@ end of yfs::readdir()
 end of yfs::lookup()
 
    unique: 13, error: -2 (No such file or directory), outsize: 16
-unique: 14, opcode: LOOKUP (1), nodeid: 1, insize: 53, pid: 316
+unique: 14, opcode: LOOKUP (1), nodeid: 1, insize: 53, pid: 298
 ========== yfs::lookup(parent: 1, name: foo.txt.yfs2) ==========
 ========== yfs::readdir(dir: 1) ==========
 end of yfs::readdir()
@@ -127,24 +127,27 @@ end of yfs::readdir()
 end of yfs::lookup()
 
    unique: 14, error: -2 (No such file or directory), outsize: 16
-unique: 15, opcode: CREATE (35), nodeid: 1, insize: 69, pid: 316
+unique: 15, opcode: CREATE (35), nodeid: 1, insize: 69, pid: 298
 =============== fuseserver_create(parent: 1, name: foo.txt.yfs2) ===============
 =============== fuseserver_createhelper(parent:	1, name:	foo.txt.yfs2 ===============
+========== yfs::create(parent: 1, name: foo.txt.yfs2) ==========
 ========== yfs::readdir(dir: 1) ==========
 end of yfs::readdir()
 
-isfile: 140223981751870 is a symlink
-getattr 00007f88709f0e3e 0
-isfile: 140223981751870 is a symlink
-isfile: 140223981751870 is a symlink
-getfile 00007f88709f0e3e
-getfile 00007f88709f0e3e -> sz 0
+end of create()
+
+isfile: 140363137994302 is a symlink
+getattr 00007fa8d6face3e 0
+isfile: 140363137994302 is a symlink
+isfile: 140363137994302 is a symlink
+getfile 00007fa8d6face3e
+getfile 00007fa8d6face3e -> sz 0
    getattr -> 0
 end of fuseserver_createhelper()
 
    unique: 15, success, outsize: 160
 OK: create returns.
-unique: 16, opcode: LOOKUP (1), nodeid: 1, insize: 53, pid: 316
+unique: 16, opcode: LOOKUP (1), nodeid: 1, insize: 53, pid: 298
 ========== yfs::lookup(parent: 1, name: foo.txt.yfs2) ==========
 ========== yfs::readdir(dir: 1) ==========
 end of yfs::readdir()
@@ -152,24 +155,27 @@ end of yfs::readdir()
 end of yfs::lookup()
 
    unique: 16, error: -2 (No such file or directory), outsize: 16
-unique: 17, opcode: CREATE (35), nodeid: 1, insize: 69, pid: 316
+unique: 17, opcode: CREATE (35), nodeid: 1, insize: 69, pid: 298
 =============== fuseserver_create(parent: 1, name: foo.txt.yfs2) ===============
 =============== fuseserver_createhelper(parent:	1, name:	foo.txt.yfs2 ===============
+========== yfs::create(parent: 1, name: foo.txt.yfs2) ==========
 ========== yfs::readdir(dir: 1) ==========
 end of yfs::readdir()
 
-isfile: 140223981751870 is a symlink
-getattr 00007f88709f0e3e 0
-isfile: 140223981751870 is a symlink
-isfile: 140223981751870 is a symlink
-getfile 00007f88709f0e3e
-getfile 00007f88709f0e3e -> sz 0
+end of create()
+
+isfile: 140363137994302 is a symlink
+getattr 00007fa8d6face3e 0
+isfile: 140363137994302 is a symlink
+isfile: 140363137994302 is a symlink
+getfile 00007fa8d6face3e
+getfile 00007fa8d6face3e -> sz 0
    getattr -> 0
 end of fuseserver_createhelper()
 
    unique: 17, success, outsize: 160
 OK: create returns.
-unique: 18, opcode: LOOKUP (1), nodeid: 1, insize: 53, pid: 317
+unique: 18, opcode: LOOKUP (1), nodeid: 1, insize: 53, pid: 299
 ========== yfs::lookup(parent: 1, name: foo.txt.yfs2) ==========
 ========== yfs::readdir(dir: 1) ==========
 end of yfs::readdir()
