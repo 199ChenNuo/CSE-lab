@@ -1,7 +1,7 @@
 #include "inode_manager.h"
 
 void inode_manager::prt(char *s){
-  std::cout << "inode_manager" << std::endl;
+  std::cout << "==== inode_manager ====" << std::endl;
   std::cout << s << std::endl;
   fflush(stdout);
 }
@@ -431,13 +431,16 @@ inode_manager::getattr(uint32_t inum, extent_protocol::attr &a)
    * note: get the attributes of inode inum.
    * you can refer to "struct attr" in extent_protocol.h
    */
-  // printf("===== getattr(inum: %d) =====\n", inum);
+  char c[100];
+  sprintf(c, "getattr, inum:%lld", inum);
+  prt(c);
+
   inode_t *inode;
  
 
   inode = get_inode(inum);
   if(inode == NULL){
-    printf("\tim: getattr: \t error when get inode\n");
+    prt((char *)"inode is null");
     return;
   }
 
@@ -448,7 +451,7 @@ inode_manager::getattr(uint32_t inum, extent_protocol::attr &a)
   a.size = inode->size;
 
   free(inode);
-  // printf("end of getattr()\n\n");
+  prt((char *)"end of getattr");
   return;
 }
 
@@ -511,6 +514,8 @@ inode_manager::append_block(uint32_t inum, blockid_t &bid)
   }
 
   bid = bm->alloc_block();
+  sprintf(output, "bid:%d");
+  prt(output);
 
   bsize = (inode->size + BLOCK_SIZE - 1) / BLOCK_SIZE;
   if(bsize < NDIRECT){
@@ -519,6 +524,7 @@ inode_manager::append_block(uint32_t inum, blockid_t &bid)
     blockid_t ndir_buf[BLOCK_SIZE / sizeof(blockid_t)];
     bm->read_block(inode->blocks[NDIRECT], (char *)ndir_buf);
     ndir_buf[bsize-NDIRECT] = bid;
+    bm->write_block(inode->blocks[NDIRECT], (char *)ndir_buf);
   } else { // bsize == NDIRECT
     blockid_t ndir = bm->alloc_block();
     inode->blocks[NDIRECT] = ndir;
@@ -526,7 +532,9 @@ inode_manager::append_block(uint32_t inum, blockid_t &bid)
     blockid_t ndir_buf[BLOCK_SIZE / sizeof(blockid_t)];
     bm->read_block(inode->blocks[NDIRECT], (char *)ndir_buf);
     ndir_buf[bsize-NDIRECT] = bid;
+    bm->write_block(inode->blocks[NDIRECT], (char *)ndir_buf);
   }
+  inode->size += BLOCK_SIZE;
   put_inode(inum, inode);
 }
 

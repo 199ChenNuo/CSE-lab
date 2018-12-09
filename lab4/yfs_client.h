@@ -13,6 +13,7 @@
 
 
 class yfs_client {
+  public:
   extent_client *ec;
   lock_client *lc;
  public:
@@ -43,7 +44,7 @@ class yfs_client {
 
  public:
   yfs_client(std::string, std::string);
-  yfs_client(extent_client * nec, lock_client* lock_dst);
+  yfs_client(extent_client * nec, lock_client_cache* nlc);
 
   bool isfile(inum);
   bool isdir(inum);

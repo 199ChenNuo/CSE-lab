@@ -9,7 +9,7 @@
 using namespace std;
 
 void NameNode::prt(char *s){
-  cout << "==== NameNode ====" << endl;
+  cout << "======== NameNode ========" << endl;
   cout << s << endl;
   fflush(stdout);
 }
@@ -19,13 +19,15 @@ void NameNode::init(const string &extent_dst, const string &lock_dst) {
   lc = new lock_client_cache(lock_dst);
   yfs = new yfs_client(extent_dst, lock_dst);
 
+  prt((char *)"NameNode init");
+
   /* Add your init logic here */
 }
 
 // Call get_block_ids and convert block ids to LocatedBlocks.
 list<NameNode::LocatedBlock> NameNode::GetBlockLocations(yfs_client::inum ino) {
   // return list<LocatedBlock>();
-  char *outchar;
+  char outchar[100];
   sprintf(outchar, "namenode\t GetBlockLocations(inum:%lld)", ino);
   prt(outchar);
 
@@ -45,12 +47,13 @@ list<NameNode::LocatedBlock> NameNode::GetBlockLocations(yfs_client::inum ino) {
 
 // Call complete and unlock the file.
 bool NameNode::Complete(yfs_client::inum ino, uint32_t new_size) {
-  char *outchar;
-  sprintf(outchar, "namenode\t Complete(inum:%lld, new_size: %d", ino, new_size);
+  char outchar[100];
+  sprintf(outchar, "Complete(inum:%lld, new_size: %d", ino, new_size);
   prt(outchar);
 
   bool r = !(ec->complete(ino, new_size));
-  prt((char *)("release ino"));
+  sprintf(outchar, "release ino:%lld", ino);
+  prt(outchar);
   lc->release(ino);
 
   return r;
@@ -59,30 +62,40 @@ bool NameNode::Complete(yfs_client::inum ino, uint32_t new_size) {
 // Call append_block and convert block id to LocatedBlock.
 NameNode::LocatedBlock NameNode::AppendBlock(yfs_client::inum ino) {
   // throw HdfsException("Not implemented");
-  char *outchar;
-  sprintf(outchar, "namenode\t appendBlock(ino:%lld)", ino);
-  prt(outchar);
-
-  blockid_t bid;
-  ec->append_block(ino, bid);
-  sprintf(outchar, "bid:%d" , bid);
+  char outchar[100];
+  sprintf(outchar, "appendBlock(ino:%lld)", ino);
   prt(outchar);
 
   extent_protocol::attr attr;
+  blockid_t bid;
   ec->getattr(ino, attr);
+  prt((char *)"after getattr before append_block");
+  ec->append_block(ino, bid);
 
-  return LocatedBlock(bid, attr.size / BLOCK_SIZE + attr.size % BLOCK_SIZE, BLOCK_SIZE, master_datanode);
+  sprintf(outchar, "bid:%d" , bid);
+  prt(outchar);
+
+  uint64_t size;
+  if (attr.size%BLOCK_SIZE == 0){
+    size = BLOCK_SIZE;
+  }else{
+    size = attr.size%BLOCK_SIZE;
+  }
+
+  LocatedBlock lb = LocatedBlock(bid, attr.size, size, master_datanode);
+  prt((char *)"end of appendBlock");
+  return lb;
 }
 
 // Move a directory entry. Note that src_name/dst_name is entry name, not full path.
 // move a file (file name is sec_name) from src_dir to dst_dir, and rename as dst_name
 bool NameNode::Rename(yfs_client::inum src_dir_ino, string src_name, yfs_client::inum dst_dir_ino, string dst_name) {
   // return false;
-  char *outchar;
+  char outchar[100];
   bool found = false;
   // inode_t inode;
 
-  sprintf(outchar, "namenode\t Rename(src_name:%s)", src_name.c_str());
+  sprintf(outchar, "Rename(src_name:%s)", src_name.c_str());
   prt(outchar);
 
   list<yfs_client::dirent> entries;
@@ -198,7 +211,7 @@ bool NameNode::Rename(yfs_client::inum src_dir_ino, string src_name, yfs_client:
 // Just call mkdir.
 bool NameNode::Mkdir(yfs_client::inum parent, string name, mode_t mode, yfs_client::inum &ino_out) {
   // return false;
-  char *outchar;
+  char outchar[100];
   sprintf(outchar, "namenode\t Mkdir(parent:%lld, name:%s)", parent, name.c_str());
   prt(outchar);
 
@@ -208,22 +221,17 @@ bool NameNode::Mkdir(yfs_client::inum parent, string name, mode_t mode, yfs_clie
 
 // Create a file, remember to lock it before return.
 bool NameNode::Create(yfs_client::inum parent, string name, mode_t mode, yfs_client::inum &ino_out) {
-  char* outchar;
-  sprintf(outchar, "namenode\t Create(parent:%lld, name:%s)", parent, name.c_str());
+  char outchar[100];
+  sprintf(outchar, "namenode\t Create(parent:%lld, name:%s, mode:%d)", parent, name.c_str(), mode);
   prt(outchar);
 
-  prt((char *)"before call yfs");
   bool res =  !(yfs->create(parent, name.c_str(), mode, ino_out));
-  prt((char *)"after call yfs");
 
-  sprintf(outchar, "res:%d", res);
-  prt(outchar);
 
   if (res)
     lc->acquire(ino_out);
   else 
     return false;
-  prt((char *)"after ask fot ino_out's lock");
   return true;
 }
 
@@ -231,6 +239,7 @@ bool NameNode::Create(yfs_client::inum parent, string name, mode_t mode, yfs_cli
 // but the framework will call these functions with the locks held, 
 // so you shouldn't try to lock them again. Otherwise there will be a deadlock.
 bool NameNode::Isfile(yfs_client::inum ino) {
+  prt((char *)"isFile");
   extent_protocol::attr a;
 
   if (ec->getattr(ino, a) != extent_protocol::OK) {
@@ -252,6 +261,7 @@ bool NameNode::Isfile(yfs_client::inum ino) {
 // but the framework will call these functions with the locks held, 
 // so you shouldn't try to lock them again. Otherwise there will be a deadlock.
 bool NameNode::Isdir(yfs_client::inum ino) {
+  prt((char *)"Isdir");
   extent_protocol::attr a;
 
   if (ec->getattr(ino, a) != extent_protocol::OK) {
@@ -274,6 +284,7 @@ bool NameNode::Isdir(yfs_client::inum ino) {
 // but the framework will call these functions with the locks held, 
 // so you shouldn't try to lock them again. Otherwise there will be a deadlock.
 bool NameNode::Getfile(yfs_client::inum ino, yfs_client::fileinfo &info) {
+  prt((char *)"GetFile");
   int r = true;
 
   // printf("getfile %016llx\n", ino);
@@ -297,6 +308,7 @@ release:
 // but the framework will call these functions with the locks held, 
 // so you shouldn't try to lock them again. Otherwise there will be a deadlock.
 bool NameNode::Getdir(yfs_client::inum ino, yfs_client::dirinfo &info) {
+  prt((char *)"GetDir");
   // return false;
   int r = true;
 
@@ -356,7 +368,7 @@ bool NameNode::Readdir(yfs_client::inum ino, std::list<yfs_client::dirent> &dir)
 // so you shouldn't try to lock them again. Otherwise there will be a deadlock.
 bool NameNode::Unlink(yfs_client::inum parent, string name, yfs_client::inum ino) {
   // return false;
-  char *outchar;
+  char outchar[100];
   int r;
   prt((char *)"namenode\t unlink");
 

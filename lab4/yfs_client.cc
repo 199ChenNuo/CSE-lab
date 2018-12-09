@@ -28,12 +28,14 @@ yfs_client::yfs_client(std::string extent_dst, std::string lock_dst)
   lc = new lock_client_cache(lock_dst);
   if (ec->put(1, "") != extent_protocol::OK)
       printf("error init root dir\n"); // XYB: init root dir
+    prt("init in yfs");
 }
 
-yfs_client::yfs_client(extent_client * nec, lock_client* nlc){
+yfs_client::yfs_client(extent_client * nec, lock_client_cache* nlc){
     ec = nec;
     //lc = new lock_client(lock_dst);
     lc = nlc;
+    prt("yfs::init in namenode");
 }
 
 
@@ -187,7 +189,7 @@ yfs_client::setattr(inum ino, size_t size)
 int
 yfs_client::create(inum parent, const char *name, mode_t mode, inum &ino_out)
 {
-    char *c;
+    char c[100];
     sprintf(c, "create, parent:%lld, name:%s", parent, name);
     prt(c);
 
@@ -304,6 +306,10 @@ yfs_client::mkdir(inum parent, const char *name, mode_t mode, inum &ino_out)
 int
 yfs_client::lookup(inum parent, const char *name, bool &found, inum &ino_out)
 {
+    char c[100];
+    sprintf(c, "lookup parent:%lld, name:%s", parent, name);
+    prt(c);
+
     int r = OK;
     std::list<dirent> dirents;
     std::list<dirent>::iterator it;
@@ -311,13 +317,13 @@ yfs_client::lookup(inum parent, const char *name, bool &found, inum &ino_out)
     r = readdir(parent, dirents);
     found = false;
     if(r != extent_protocol::OK){
-        printf("ERROR: in readdir()\n");
-        printf("end of yfs::lookup()\n\n");
+        prt((char *)"readdir failed");
         return r;
     }
     it = dirents.begin();
     for(; it!=dirents.end(); it++){
         if(it->name == name){
+            prt((char *)"lookup find");
             found=true;
             ino_out = it->inum;
             break;
@@ -334,26 +340,26 @@ yfs_client::readdir(inum dir, std::list<dirent> &list)
      * note: you should parse the dirctory content using your defined format,
      * and push the dirents to the list.
      */
+    char c[100];
+    sprintf(c, "readdir, dir(inum):%lld", dir);
+    prt(c);
+
     int r = OK;
     std::string buf;
     std::istringstream ss;
     std::string de_name; // dirent name
     char delima;
     dirent de;
-
-    
     list.clear();
-
+    prt((char *)"354");
     r = ec->get(dir, buf);
-    
+    prt((char *)"356");
     ss.unsetf(std::ios::skipws);
     ss.str(buf);
-    
     if(r != extent_protocol::OK){
-        printf("ERROR: ec->get() error");
+        prt((char *)"ERROR: ec->get() error");
         return r;
     }
-    
     while(ss >> de.inum){
         ss >> delima;
         while(ss >> delima){
@@ -363,12 +369,13 @@ yfs_client::readdir(inum dir, std::list<dirent> &list)
                 de_name += delima;
             }
         }
+        prt((char *)"372");
+        prt((char *)de_name.c_str());
         de.name = de_name;
         list.push_back(de);
         de_name = "";
     }
-
-    // printf("end of yfs::readdir()\n\n");
+    prt((char *)"end of readdir");
     return r;
 }
 
