@@ -247,6 +247,7 @@ release:
 int
 yfs_client::mkdir(inum parent, const char *name, mode_t mode, inum &ino_out)
 {
+    prt((char *)"mkdir");
     lc->acquire(parent);
     int r = OK;
 
@@ -298,7 +299,7 @@ yfs_client::mkdir(inum parent, const char *name, mode_t mode, inum &ino_out)
         lc->release(parent);
         return r;
     }
-    // printf("end of create()\n\n");
+    prt((char *)"end of mkdir");
     lc->release(parent);
     return r;
 }
@@ -329,6 +330,7 @@ yfs_client::lookup(inum parent, const char *name, bool &found, inum &ino_out)
             break;
         }
     }
+    prt((char *)"end of lookup");
     return r;
 }
 
@@ -351,9 +353,7 @@ yfs_client::readdir(inum dir, std::list<dirent> &list)
     char delima;
     dirent de;
     list.clear();
-    prt((char *)"354");
     r = ec->get(dir, buf);
-    prt((char *)"356");
     ss.unsetf(std::ios::skipws);
     ss.str(buf);
     if(r != extent_protocol::OK){
@@ -369,7 +369,6 @@ yfs_client::readdir(inum dir, std::list<dirent> &list)
                 de_name += delima;
             }
         }
-        prt((char *)"372");
         prt((char *)de_name.c_str());
         de.name = de_name;
         list.push_back(de);
@@ -393,6 +392,7 @@ int
 yfs_client::read(inum ino, size_t size, off_t off, std::string &data)
 {
     int r = OK;
+    prt((char *)"read");
 
     /*
      * your code goes here.
@@ -425,6 +425,7 @@ int
 yfs_client::write(inum ino, size_t size, off_t off, const char *data,
         size_t &bytes_written)
 {
+    prt((char *)"write");
     lc->acquire(ino);
     int r = OK;
 
@@ -475,6 +476,7 @@ yfs_client::write(inum ino, size_t size, off_t off, const char *data,
 
 int yfs_client::unlink(inum parent,const char *name)
 {
+    prt((char *)"unlink");
     lc->acquire(parent);
     int r = OK;
 
@@ -535,13 +537,13 @@ int yfs_client::unlink(inum parent,const char *name)
 }
 
 int yfs_client::symlink(inum parent, const char *link, const char *name, inum &ino_out){
+    prt((char *)"symlink");
     lc->acquire(parent);
     int r;
     std::list<dirent> dirents;
     std::list<dirent>::iterator it;
     std::stringstream ss;
     dirent de;
-    // printf("========== yfs::symlink(parent: %lld, link: %s, name: %s) ==========\n", parent, link, name);
     r = OK;
     r = readdir(parent, dirents);
     if(r != extent_protocol::OK){
@@ -609,7 +611,7 @@ int yfs_client::symlink(inum parent, const char *link, const char *name, inum &i
 }
 
 int yfs_client::readlink(inum ino, std::string& path) {
-    // printf("readlink()\n");
+    prt((char *)"readlink");
     int r = extent_protocol::OK;
     r = ec->get(ino, path);
     if(r != extent_protocol::OK){

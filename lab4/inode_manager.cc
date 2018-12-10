@@ -33,6 +33,12 @@ disk::write_block(blockid_t id, const char *buf)
 
 // block layer -----------------------------------------
 
+void block_manager::prt(char *s){
+  std::cout << "==== block_manager ====" << std::endl;
+  std::cout << s << std::endl;
+  fflush(stdout);
+}
+
 // Allocate a free disk block.
 blockid_t
 block_manager::alloc_block()
@@ -42,29 +48,41 @@ block_manager::alloc_block()
    * note: you should mark the corresponding bit in block bitmap when alloc.
    * you need to think about which block you can start to be allocated.
    */
-  // printf("===== alloc_block() =====\n");
-  uint32_t blockno, bitmapno;
-  char bitmap[BLOCK_SIZE];
-  int mask;
-  int char_idx, bit, bit_idx;
+  prt((char *)"alloc block");
+  // uint32_t blockno, bitmapno;
+  // char bitmap[BLOCK_SIZE];
+  // int mask;
+  // int char_idx, bit, bit_idx;
 
-  mask = 0x1;
-  for(bitmapno=2; bitmapno<BBLOCK(BLOCK_NUM); bitmapno++){
-    read_block(bitmapno, bitmap);
-    for(char_idx=0; char_idx<BLOCK_SIZE; char_idx++){
-      bit = bitmap[char_idx];
-      if(bit != 0xf){
-        for(bit_idx=0; bit_idx<BYTE_SIZE; bit_idx++){
-          if(! (bit & (mask << bit_idx))){
-            bitmap[char_idx] = bit | (mask << bit_idx);
-            write_block(bitmapno, bitmap);
-            return bitmapno*BPB + char_idx*BYTE_SIZE + bit_idx;
-          }
-        }
-      }
+  // mask = 0x1;
+  // for(bitmapno=2; bitmapno<BBLOCK(BLOCK_NUM); bitmapno++){
+  //   read_block(bitmapno, bitmap);
+  //   for(char_idx=0; char_idx<BLOCK_SIZE; char_idx++){
+  //     bit = bitmap[char_idx];
+  //     if(bit != 0xf){
+  //       for(bit_idx=0; bit_idx<BYTE_SIZE; bit_idx++){
+  //         if(! (bit & (mask << bit_idx))){
+  //           bitmap[char_idx] = bit | (mask << bit_idx);
+  //           write_block(bitmapno, bitmap);
+  //           prt("find bid");
+  //           return bitmapno*BPB + char_idx*BYTE_SIZE + bit_idx;
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
+  // prt((char *)"no free block found");
+  // return 0;
+  for (int i=IBLOCK(INODE_NUM,BLOCK_NUM)+1;i<BLOCK_NUM;i++){
+    if (using_blocks[i]==0){
+      using_blocks[i]=1;
+      prt("find bid");
+      printf("the bid is :%d\n", i);
+      fflush(stdout);
+      return i;
     }
   }
-  // printf("end of alloc_block()\n\n");
+  prt("no bid found");
   return 0;
 }
 
@@ -75,25 +93,25 @@ block_manager::free_block(uint32_t id)
    * your code goes here.
    * note: you should unmark the corresponding bit in the block bitmap when free.
    */
-  // printf("===== free_block(id: %d) =====\n", id);
   
-  uint32_t bitmapno;
-  char bitmap[BLOCK_SIZE];
-  int mask, char_pos, bit_pos, char_value;
+  // uint32_t bitmapno;
+  // char bitmap[BLOCK_SIZE];
+  // int mask, char_pos, bit_pos, char_value;
 
-  mask = 0x1;
-  char_pos = (id%BPB)/BYTE_SIZE;
-  bit_pos = (id%BPB)%BYTE_SIZE;
+  // mask = 0x1;
+  // char_pos = (id%BPB)/BYTE_SIZE;
+  // bit_pos = (id%BPB)%BYTE_SIZE;
  
-  bitmapno = BBLOCK(id);
-  read_block(bitmapno, bitmap);
+  // bitmapno = BBLOCK(id);
+  // read_block(bitmapno, bitmap);
   
-  char_value = bitmap[char_pos];
-  char_value = char_value & ~(mask << bit_pos);
-  bitmap[char_pos] = char_value;
-  write_block(bitmapno, bitmap);
+  // char_value = bitmap[char_pos];
+  // char_value = char_value & ~(mask << bit_pos);
+  // bitmap[char_pos] = char_value;
+  // write_block(bitmapno, bitmap);
 
-  // printf("end of free_inode()\n\n");
+  // return;
+  using_blocks[id]=0;
   return;
 }
 
@@ -107,7 +125,9 @@ block_manager::block_manager()
   sb.size = BLOCK_SIZE * BLOCK_NUM;
   sb.nblocks = BLOCK_NUM;
   sb.ninodes = INODE_NUM;
-
+  for(int i=0; i<BLOCK_NUM; i++){
+    using_blocks[i]=0;
+  }
 }
 
 void
@@ -144,7 +164,7 @@ inode_manager::alloc_inode(uint32_t type)
    * note: the normal inode block should begin from the 2nd inode block.
    * the 1st is used for root_dir, see inode_manager::inode_manager().
    */
-  // printf("===== alloc_inode(type: %d) =====\n", type);
+  prt((char *)"alloc inode");
   uint32_t inum;
   char buf[BLOCK_SIZE];
   struct inode *inode;
@@ -173,19 +193,19 @@ inode_manager::alloc_inode(uint32_t type)
 void
 inode_manager::free_inode(uint32_t inum)
 {
-  // printf("===== free_inode(inum: %d) =====\n", inum);
   /* 
    * your code goes here.
    * note: you need to check if the inode is already a freed one;
    * if not, clear it, and remember to write back to disk.
    */
+  prt("free_inode");
   struct inode *ino;
   
   ino = get_inode(inum);
   ino->type=0;
   put_inode(inum, ino);
   free(ino);
-  // printf("end of free_inode()\n\n");
+  prt((char *)"end of free_inode");
   return;
 }
 
@@ -253,7 +273,10 @@ inode_manager::read_file(uint32_t inum, char **buf_out, int *size)
    * note: read blocks related to inode number inum,
    * and copy them to buf_Out
    */
-  // printf("===== read_file(inum: %d) =====\n", inum);
+  char c[100];
+  sprintf(c, "read_file inum:%lld", inum);
+  prt(c);
+
   struct inode *ino;
   blockid_t bidx;
   blockid_t ndir_buf[BLOCK_SIZE / sizeof(blockid_t)];
@@ -292,7 +315,7 @@ inode_manager::read_file(uint32_t inum, char **buf_out, int *size)
   
   put_inode(inum, ino);
   free(ino);
-  // printf("end of read_file()\n\n");
+  prt((char *)"end of read_file");
   return;
 }
 
@@ -500,8 +523,8 @@ inode_manager::append_block(uint32_t inum, blockid_t &bid)
   /*
    * your code goes here.
    */
-  char *output;
-  sprintf(output, "im\t append_bllock:%lld", inum);
+  char output[100];
+  sprintf(output, "append_block inum:%lld", inum);
   prt(output);
 
   inode_t *inode;
@@ -509,11 +532,15 @@ inode_manager::append_block(uint32_t inum, blockid_t &bid)
 
   inode = get_inode(inum);
   if(inode == NULL){
-    prt("inode is null");
+    prt((char *)"inode is null");
     return;
   }
 
   bid = bm->alloc_block();
+
+  // delete
+  // bid=1027;
+
   sprintf(output, "bid:%d");
   prt(output);
 
@@ -536,6 +563,7 @@ inode_manager::append_block(uint32_t inum, blockid_t &bid)
   }
   inode->size += BLOCK_SIZE;
   put_inode(inum, inode);
+  prt((char *)"end of append_block");
 }
 
 // give an inode number
@@ -546,7 +574,7 @@ inode_manager::get_block_ids(uint32_t inum, std::list<blockid_t> &block_ids)
   /*
    * your code goes here.
    */
-  char *output;
+  char output[100];
   sprintf(output, "im\t get_block_ids inum:%lld", inum);
   prt(output);
 
@@ -582,7 +610,7 @@ inode_manager::read_block(blockid_t id, char buf[BLOCK_SIZE])
   /*
    * your code goes here.
    */
-  char *output;
+  char output[100];
   sprintf(output, "im\t read_block, block_id:%d", id);
   prt(output);
 

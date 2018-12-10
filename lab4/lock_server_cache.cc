@@ -11,94 +11,93 @@
 
 lock_server_cache::lock_server_cache()
 {
-  pthread_mutex_init(&mutex,NULL);
+  VERIFY(pthread_mutex_init(&mutex,NULL)==0);
+}
+
+void lock_server_cache::revoke_owner(lock_protocol::lockid_t lid, handle &h){
+  rpcc* cl = h.safebind();
+  if(cl){
+    int r;
+    rlock_protocol::status ret = cl->call(rlock_protocol::revoke,lid,r);
+    if (ret != rlock_protocol::OK){
+      std::cerr<<"error in revoke owner"<<std::endl;
+    }
+  }
 }
 
 int lock_server_cache::acquire(lock_protocol::lockid_t lid, std::string id, 
                                int &)
 {
-  pthread_mutex_lock(&mutex);
-  tprintf("acquire\t id:%s\t lock:%lld\n", id.c_str(), lid);
-  int r;
-  // a new lock, directly give to client
+  tprintf("acquire request: lid=>%llu id=>%s\n", lid, id.c_str());
+
+  VERIFY(pthread_mutex_lock(&mutex) == 0);
   if(locks.find(lid) == locks.end())
   {
-    tprintf("acquire\t id:%s\t lock:%lld a new lock\n", id.c_str(), lid);
     locks[lid].owner = id;
-    pthread_mutex_unlock(&mutex);
+    VERIFY(pthread_mutex_unlock(&mutex) == 0); 
     return lock_protocol::OK;
-  // a cached lock
   }else{
-    locks[lid].waiting_clients.push(id);
-    if(locks[lid].waiting_clients.size() == 1){
-      // send a revoke to the owner of this lock
-      std::string owner = locks[lid].owner;
-      handle h(owner);
-      tprintf("acquire\t id:%s\t lock:%lld revoke to:%s\n", id.c_str(), lid, owner.c_str());
-      pthread_mutex_unlock(&mutex);
-      rpcc* cl = h.safebind();
-      cl->call(rlock_protocol::revoke,lid,r);
+    locks[lid].waiting.push(id);
+    if(locks[lid].waiting.size() > 1){
+      tprintf("waiting size is: %u\n", locks[lid].waiting.size());
+      VERIFY(pthread_mutex_unlock(&mutex) == 0);
       return lock_protocol::RETRY;     
     }else{
-      tprintf("acquire\t id:%s\t lock:%lld\t has revoked\n", id.c_str(), lid);
-      pthread_mutex_unlock(&mutex);
+      // send a revoke to the owner of this lock
+      handle h(locks[lid].owner);
+      VERIFY(pthread_mutex_unlock(&mutex) == 0); 
+
+      revoke_owner(lid, h);
       return lock_protocol::RETRY;
     }
   }
-  return lock_protocol::RPCERR;
+  return lock_protocol::NOENT;
 }
 
 int 
 lock_server_cache::release(lock_protocol::lockid_t lid, std::string id, 
          int &r)
 {
-  pthread_mutex_lock(&mutex);
-  tprintf("release\t id:%s\t lock:%lld\n", id.c_str(), lid);
-  int tmp;
-
-  if(locks.find(lid) == locks.end()){
-    tprintf("release\t id:%s\t lock:%lld\t releasing a unexist lock\n", id.c_str(), lid);
-    pthread_mutex_unlock(&mutex);
-    return lock_protocol::RPCERR;
-  }
-  if(locks[lid].owner != id){
-    tprintf("release\t id:%s\t lock:%lld wrong client release lock\n", id.c_str(), lid);
-    pthread_mutex_unlock(&mutex);  
-    return lock_protocol::RPCERR;
-  }
-
-  locks[lid].owner = "";
-  if(!locks[lid].waiting_clients.empty()){
-      std::string top = locks[lid].waiting_clients.front();
-      locks[lid].waiting_clients.pop();
-      locks[lid].owner = top;
-
-      handle h(top);
-      rpcc *cl = h.safebind();
-      pthread_mutex_unlock(&mutex);
-      tprintf("retry top:%s\n", top.c_str());
-      fflush(stdout);
-      cl->call(rlock_protocol::retry, lid, tmp);
-      pthread_mutex_lock(&mutex);
-
-      if(!locks[lid].waiting_clients.empty()){
-          pthread_mutex_unlock(&mutex);
-          cl->call(rlock_protocol::revoke,lid,tmp);
-          pthread_mutex_lock(&mutex);
+  tprintf("release request: lid=>%llu id=>%s\n", lid, id.c_str());
+  VERIFY(pthread_mutex_lock(&mutex) == 0);
+  if(locks.find(lid) != locks.end()){
+    locks[lid].owner = "";
+    if(locks[lid].waiting.size() == 0){  // remove this lock's info
+      locks.erase(lid); 
+      VERIFY(pthread_mutex_unlock(&mutex) == 0);
+    }else{        
+      // send a retry to the first waiting client
+      handle h(locks[lid].waiting.front());
+      VERIFY(pthread_mutex_unlock(&mutex) == 0);
+      
+      rpcc* cl = h.safebind();
+      if(cl){
+        int r;
+        cl->call(rlock_protocol::retry, lid, r);       
+        VERIFY(pthread_mutex_lock(&mutex) == 0);
+        locks[lid].owner = locks[lid].waiting.front();
+        locks[lid].waiting.pop();  
+        tprintf("CHANGE WAITING TO OWNER NEW OWNER: %s\n", locks[lid].owner.c_str());
+        
+        // if there are other clients waiting, send a reovke to the owner
+        if(locks[lid].waiting.size() > 0){
+          handle hh(locks[lid].owner); 
+          VERIFY(pthread_mutex_unlock(&mutex) == 0);
+          revoke_owner(lid, hh);  
+        }else{  
+          VERIFY(pthread_mutex_unlock(&mutex) == 0);
+        }
       }
-  } else {
-      locks.erase(lid);
-  }
-    tprintf("end of acquiring\n");
-    fflush(stdout);
-    pthread_mutex_unlock(&mutex);
-    return lock_protocol::OK;
+    } 
+    return lock_protocol::OK; 
+  } 
+  return lock_protocol::NOENT;
 }
 
 lock_protocol::status
 lock_server_cache::stat(lock_protocol::lockid_t lid, int &r)
 {
-  tprintf("state\t lock:%lld\n", lid);
+  tprintf("stat request\n");
   r = nacquire;
   return lock_protocol::OK;
 }

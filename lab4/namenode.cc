@@ -48,6 +48,7 @@ list<NameNode::LocatedBlock> NameNode::GetBlockLocations(yfs_client::inum ino) {
 // Call complete and unlock the file.
 bool NameNode::Complete(yfs_client::inum ino, uint32_t new_size) {
   char outchar[100];
+  prt((char *)"complelte");
   sprintf(outchar, "Complete(inum:%lld, new_size: %d", ino, new_size);
   prt(outchar);
 
@@ -68,12 +69,12 @@ NameNode::LocatedBlock NameNode::AppendBlock(yfs_client::inum ino) {
 
   extent_protocol::attr attr;
   blockid_t bid;
-  ec->getattr(ino, attr);
-  prt((char *)"after getattr before append_block");
-  ec->append_block(ino, bid);
 
-  sprintf(outchar, "bid:%d" , bid);
+  ec->append_block(ino, bid);
+  sprintf(outchar, "append bid:%d", bid);
   prt(outchar);
+
+  ec->getattr(ino, attr);
 
   uint64_t size;
   if (attr.size%BLOCK_SIZE == 0){
@@ -91,6 +92,7 @@ NameNode::LocatedBlock NameNode::AppendBlock(yfs_client::inum ino) {
 // move a file (file name is sec_name) from src_dir to dst_dir, and rename as dst_name
 bool NameNode::Rename(yfs_client::inum src_dir_ino, string src_name, yfs_client::inum dst_dir_ino, string dst_name) {
   // return false;
+  prt((char *)"rename");
   char outchar[100];
   bool found = false;
   // inode_t inode;
@@ -239,7 +241,7 @@ bool NameNode::Create(yfs_client::inum parent, string name, mode_t mode, yfs_cli
 // but the framework will call these functions with the locks held, 
 // so you shouldn't try to lock them again. Otherwise there will be a deadlock.
 bool NameNode::Isfile(yfs_client::inum ino) {
-  prt((char *)"isFile");
+  prt((char *)"IsFile");
   extent_protocol::attr a;
 
   if (ec->getattr(ino, a) != extent_protocol::OK) {
@@ -287,13 +289,12 @@ bool NameNode::Getfile(yfs_client::inum ino, yfs_client::fileinfo &info) {
   prt((char *)"GetFile");
   int r = true;
 
-  // printf("getfile %016llx\n", ino);
   extent_protocol::attr a;
   if (ec->getattr(ino, a) != extent_protocol::OK) {
     r = yfs_client::IOERR;
+    prt("error");
     goto release;
   }
-
   info.atime = a.atime;
   info.mtime = a.mtime;
   info.ctime = a.ctime;
@@ -301,6 +302,7 @@ bool NameNode::Getfile(yfs_client::inum ino, yfs_client::fileinfo &info) {
   // printf("getfile %016llx -> sz %llu\n", ino, info.size);
 
 release:
+  prt((char *)"end of Getfile");
   return r;
 }
 
