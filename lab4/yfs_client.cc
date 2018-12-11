@@ -16,8 +16,7 @@
 // #define LOCK_SYMLINK    5
 
 void yfs_client::prt(char *s){
-    std::cout << "==== yfs_client ====" << std::endl;
-    std::cout << s << std::endl;
+    std::cout << "\tyfs_client: " << s << std::endl;
     fflush(stdout);
 }
 
@@ -601,11 +600,7 @@ int yfs_client::symlink(inum parent, const char *link, const char *name, inum &i
 
     std::list<dirent> new_list;
     readdir(parent, new_list);
-    // print_list(new_list);
 
-    // std::string sympath;
-    // readlink(ino_out, sympath);
-    // printf("end of symlink()\n");
     lc->release(parent);
     return r;
 }
@@ -618,7 +613,8 @@ int yfs_client::readlink(inum ino, std::string& path) {
         printf("ERROR in yfs::readlink\n");
         return r;
     }
-    // printf("path: %s\n", path.c_str());
+    printf("path: %s\n", path.c_str());
+    fflush(stdout);
     return r;
 }
 

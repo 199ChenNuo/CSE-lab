@@ -13,7 +13,6 @@
 
 
 class yfs_client {
-  public:
   extent_client *ec;
   lock_client *lc;
  public:
@@ -62,12 +61,12 @@ class yfs_client {
   int mkdir(inum , const char *, mode_t , inum &);
 
   void print_list(std::list<dirent> list);
-  void prt(char *s);
 
   int symlink(inum parent, const char *link, const char *name, inum &ino_out);
   int readlink(inum ino, std::string &path);
   
   /** you may need to add symbolic link related methods here.*/
+  void prt(char *s);
 };
 
 #endif 

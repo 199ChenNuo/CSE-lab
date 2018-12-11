@@ -13,6 +13,9 @@
 #define DISK_SIZE  1024*1024*32
 #define BLOCK_SIZE (1024*16)
 #define BLOCK_NUM  (DISK_SIZE/BLOCK_SIZE)
+// #define DISK_SIZE  1024*1024*16
+// #define BLOCK_SIZE 512
+// #define BLOCK_NUM  (DISK_SIZE/BLOCK_SIZE) //32768
 
 // disk layer -----------------------------------------
 
@@ -102,8 +105,9 @@ class inode_manager {
   void read_block(blockid_t bid, char block[BLOCK_SIZE]);
   void write_block(blockid_t bid, const char block[BLOCK_SIZE]);
   void complete(uint32_t inum, uint32_t size);
-  
+
   void prt(char *s);
+  
 };
 
 #endif

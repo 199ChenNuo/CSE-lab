@@ -25,8 +25,6 @@ bool operator==(const DatanodeIDProto &, const DatanodeIDProto &);
 class NameNode {
   struct LocatedBlock {
     blockid_t block_id;
-    // offset is the offset for this block in the file
-    // size is the actual data lenght for the block
     uint64_t offset, size;
     std::list<DatanodeIDProto> locs;
     LocatedBlock(blockid_t block_id,
@@ -51,12 +49,10 @@ private:
   extent_client *ec;
   lock_client_cache *lc;
   yfs_client *yfs;
-  // ?
   DatanodeIDProto master_datanode;
   std::map<yfs_client::inum, uint32_t> pendingWrite;
 
   /* Add your member variables/functions here */
-  void prt(char *s);
 private:
   void GetFileInfo();
   bool RecursiveLookup(const std::string &path, yfs_client::inum &ino, yfs_client::inum &last);
@@ -103,6 +99,8 @@ public:
   void PBSetSafeMode(const SetSafeModeRequestProto &req, SetSafeModeResponseProto &resp);
   void PBGetDatanodeReport(const GetDatanodeReportRequestProto &req, GetDatanodeReportResponseProto &resp);
   void PBDatanodeHeartbeat(const DatanodeHeartbeatRequestProto &req, DatanodeHeartbeatResponseProto &resp);
+
+  void prt(char *s);
 };
 
 #endif

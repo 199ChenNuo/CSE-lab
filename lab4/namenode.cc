@@ -3,78 +3,61 @@
 #include "lock_client.h"
 #include <sys/stat.h>
 #include <unistd.h>
-#include <sstream>
 #include "threader.h"
 
 using namespace std;
-
-void NameNode::prt(char *s){
-  cout << "======== NameNode ========" << endl;
-  cout << s << endl;
-  fflush(stdout);
-}
 
 void NameNode::init(const string &extent_dst, const string &lock_dst) {
   ec = new extent_client(extent_dst);
   lc = new lock_client_cache(lock_dst);
   yfs = new yfs_client(extent_dst, lock_dst);
 
-  prt((char *)"NameNode init");
-
   /* Add your init logic here */
 }
 
-// Call get_block_ids and convert block ids to LocatedBlocks.
-list<NameNode::LocatedBlock> NameNode::GetBlockLocations(yfs_client::inum ino) {
-  // return list<LocatedBlock>();
-  char outchar[100];
-  sprintf(outchar, "namenode\t GetBlockLocations(inum:%lld)", ino);
-  prt(outchar);
-
-  std::list<blockid_t> block_ids;
-  list<NameNode::LocatedBlock> LocatedBlocks;
-  list<blockid_t>::iterator it;
-
-  // yfs->get_block_ids(ino, block_ids);
-  ec->get_block_ids(ino, block_ids);
-  int counter=0;
-  for(auto item : block_ids){
-    LocatedBlocks.push_back(LocatedBlock(item, counter, BLOCK_SIZE, master_datanode));
-    counter++;
-  }
-  return LocatedBlocks;
+void NameNode::prt(char *s){
+  cout << "namenode: " << s << endl;
+  fflush(stdout);
 }
 
-// Call complete and unlock the file.
-bool NameNode::Complete(yfs_client::inum ino, uint32_t new_size) {
-  char outchar[100];
-  prt((char *)"complelte");
-  sprintf(outchar, "Complete(inum:%lld, new_size: %d", ino, new_size);
-  prt(outchar);
+list<NameNode::LocatedBlock> NameNode::GetBlockLocations(yfs_client::inum ino) {
+  char c[100];sprintf(c, "GetBlockLocations: inum:%lld", ino);prt(c);
 
-  bool r = !(ec->complete(ino, new_size));
-  sprintf(outchar, "release ino:%lld", ino);
-  prt(outchar);
-  lc->release(ino);
+  list<LocatedBlock> r;
+  list<blockid_t> block_ids;
+  list<blockid_t>::iterator it;
+  extent_protocol::attr a;
+  int counter = 0;
 
+  ec->get_block_ids(ino, block_ids);
+  ec->getattr(ino, a);
+  for (it=block_ids.begin(); it!=block_ids.end(); it++){
+    unsigned int size = (counter == (block_ids.size()-1)) ? a.size-(counter*BLOCK_SIZE) : BLOCK_SIZE;
+    LocatedBlock lb(*it, counter*BLOCK_SIZE, size, master_datanode);
+    r.push_back(lb);
+    counter++;
+  }
+  prt("end of GetLocatedBlocks");
   return r;
 }
 
-// Call append_block and convert block id to LocatedBlock.
+bool NameNode::Complete(yfs_client::inum ino, uint32_t new_size) {
+  char c[100];sprintf(c, "Complete(ino:%lld, new_size:%d)", ino, new_size);prt(c);
+
+  bool ret = !ec->complete(ino, new_size);
+  if (ret)
+    lc->release(ino);
+  prt((char *)"end of Complete");
+  return ret;
+}
+
 NameNode::LocatedBlock NameNode::AppendBlock(yfs_client::inum ino) {
-  // throw HdfsException("Not implemented");
-  char outchar[100];
-  sprintf(outchar, "appendBlock(ino:%lld)", ino);
-  prt(outchar);
+  char c[100];sprintf(c, "AppendBlock(inum:%lld)", ino);prt(c);
 
-  extent_protocol::attr attr;
   blockid_t bid;
-
-  ec->append_block(ino, bid);
-  sprintf(outchar, "append bid:%d", bid);
-  prt(outchar);
-
+  extent_protocol::attr attr;
   ec->getattr(ino, attr);
+  ec->append_block(ino, bid);
 
   uint64_t size;
   if (attr.size%BLOCK_SIZE == 0){
@@ -82,188 +65,120 @@ NameNode::LocatedBlock NameNode::AppendBlock(yfs_client::inum ino) {
   }else{
     size = attr.size%BLOCK_SIZE;
   }
-
-  LocatedBlock lb = LocatedBlock(bid, attr.size, size, master_datanode);
-  prt((char *)"end of appendBlock");
-  return lb;
+  LocatedBlock ret(bid, attr.size, size, master_datanode);
+  return ret;
 }
 
-// Move a directory entry. Note that src_name/dst_name is entry name, not full path.
-// move a file (file name is sec_name) from src_dir to dst_dir, and rename as dst_name
 bool NameNode::Rename(yfs_client::inum src_dir_ino, string src_name, yfs_client::inum dst_dir_ino, string dst_name) {
-  // return false;
-  prt((char *)"rename");
-  char outchar[100];
-  bool found = false;
-  // inode_t inode;
+  char c[100];sprintf(c, "Rename:src dir:%lld, src_name:%s, dst dir:%lld, dst name:%s", \
+                      src_dir_ino, src_name.c_str(), dst_dir_ino, dst_name.c_str());prt(c);
+  list<yfs_client::dirent> src_dir;
+  list<yfs_client::dirent> dst_dir;
+  Readdir(src_dir_ino, src_dir);
+  Readdir(dst_dir_ino, dst_dir);
+  list<yfs_client::dirent>::iterator sit = src_dir.begin();
+  list<yfs_client::dirent>::iterator dit = dst_dir.begin();
+  stringstream ss, dss;
+  bool found = true;
 
-  sprintf(outchar, "Rename(src_name:%s)", src_name.c_str());
-  prt(outchar);
-
-  list<yfs_client::dirent> entries;
-  list<yfs_client::dirent> dst_entry;
-  list<yfs_client::dirent>::iterator it;
-
-  yfs->readdir(src_dir_ino, entries);
-  yfs->readdir(dst_dir_ino, dst_entry);
-
-  // rename is the same dir
   if(src_dir_ino == dst_dir_ino){
-    prt((char *)"src dir and dst dir is same");
-
-    // if dst already exist
-    for(it=entries.begin(); it!=entries.end(); it++){
-      if(it->name == dst_name){
-        prt((char *)"dst_name already exist");
-        return false;
+    if(src_name == dst_name)
+      return true;
+    for(; sit!=src_dir.end(); sit++){
+      if(sit->name == src_name){
+        ss << sit->inum;
+        ss << "/";
+        for(unsigned int i=0; i<dst_name.size(); i++){
+          ss << dst_name.substr(i, 1);
+        }
+        ss << "/";
+        found = true;
+      } else {
+        ss << sit->inum;
+        ss << "/";
+        ss << sit->name;
+        ss << "/";
       }
     }
-
-    // check if src exist
-    for(it=entries.begin(); it!=entries.end(); it++){
-      if(it->name == src_name){
-        prt((char *)"find src_name");
-        it->name = dst_name;
-        found=true;
-      }
-    }
-
-    // src does not exist
-    if(!found){
-      prt((char *)"src_name not found");
-      return false;
-    }
-
-    // generate dir content
-    stringstream ss;
-    for(it=entries.begin(); it!=entries.end(); it++){
-      ss << it->inum;
-      ss << "/";
-      for(unsigned int i=0; i<it->name.size(); i++){
-        ss << it->name.substr(i, 1);
-      }
-      ss << "/";
-    }
-    // write back
     ec->put(src_dir_ino, ss.str());
-    return true;
+    sprintf(c, "src dir==dst dir, end of rename");prt(c);
+    return found;
   }
 
-  // rename in two different dir
-  // check is dst_name already in dst_dir
-  for (it=dst_entry.begin(); it!=dst_entry.end(); it++){
-    if(it->name == dst_name){
-      prt((char *)("dst_name already exist"));
-      return false;
+  for(; sit!=src_dir.end(); sit++){
+    if(sit->name == src_name){
+      dss << sit->inum;
+      dss << "/";
+      for(unsigned int i=0; i<dst_name.size(); i++){
+        dss << dst_name.substr(i, 1);
+      }
+      dss << "/";
+      found = true;
+    } else {
+      ss << sit->inum;
+      ss << "/";
+      ss << sit->name;
+      ss << "/";
     }
   }
-
-  // check if src_name is in src_dir
-  for (it=entries.begin(); it!=entries.end(); it++){
-    if(it->name == src_name){
-      prt((char *)"src_name is in src_dir");
-      found=true;
-      break;
+  for(; dit!=dst_dir.end(); dit++){
+    dss << dit->inum;
+    dss << "/";
+    for(unsigned int i=0; i<dit->name.size(); i++){
+      dss << dit->name.substr(i, 1);
     }
+    dss << "/";
   }
-  if(!found){
-    prt((char *)"file does not exists");
-    return false;
-  }
-  
-  // remove from src_dir
-  entries.erase(it);
-  
-  stringstream dst_ss;
-  dst_ss << it->inum;
-  dst_ss << "/";
-  for(unsigned int i=0; i<it->name.size(); i++){
-      dst_ss << it->name.substr(i, 1);
-  }
-  dst_ss << "/";
-
-  // construct src entries
-  stringstream ss;
-  for(it=entries.begin(); it!=entries.end(); it++){
-    ss << it->inum;
-    ss << "/";
-    for(unsigned int i=0; i<it->name.size(); i++){
-      ss << it->name.substr(i, 1);
-    }
-    ss << "/";
-  }
-
-  // construct dst entries
-
-  for (it=dst_entry.begin(); it!=dst_entry.end(); it++){
-    ss << it->inum;
-    ss << "/";
-    for(unsigned int i=0; i<it->name.size(); i++){
-      ss << it->name.substr(i, 1);
-    }
-    ss << "/";
-  }
-
-  // put back
   ec->put(src_dir_ino, ss.str());
-  ec->put(dst_dir_ino, dst_ss.str());
-  return true;
+  ec->put(dst_dir_ino, dss.str());
+  sprintf(c, "src dir!=dst dir, end of rename");prt(c);
+  return found;
 }
 
-// Just call mkdir.
 bool NameNode::Mkdir(yfs_client::inum parent, string name, mode_t mode, yfs_client::inum &ino_out) {
   // return false;
-  char outchar[100];
-  sprintf(outchar, "namenode\t Mkdir(parent:%lld, name:%s)", parent, name.c_str());
-  prt(outchar);
+  char c[100];sprintf(c, "Mkdir(parent:%lld)", parent);prt(c);
 
-  // OK=0
-  return !(yfs->mkdir(parent, name.c_str(), mode, ino_out));
+  int r = !(yfs->mkdir(parent, name.c_str(), mode, ino_out));
+
+  sprintf(c, "ino_out:%lld, r:%d", ino_out, r);
+  return r;
 }
 
-// Create a file, remember to lock it before return.
 bool NameNode::Create(yfs_client::inum parent, string name, mode_t mode, yfs_client::inum &ino_out) {
-  char outchar[100];
-  sprintf(outchar, "namenode\t Create(parent:%lld, name:%s, mode:%d)", parent, name.c_str(), mode);
-  prt(outchar);
+  char c[100];sprintf(c, "Create(parent:%lld, name:%s)", parent, name.c_str());prt(c);
 
   bool res =  !(yfs->create(parent, name.c_str(), mode, ino_out));
-
-
-  if (res)
+  
+  if (res){
+    sprintf(c, "create inode is : %lld", ino_out);prt(c);
     lc->acquire(ino_out);
-  else 
-    return false;
-  return true;
-}
-
-// The same as the functions in yfs_client, 
-// but the framework will call these functions with the locks held, 
-// so you shouldn't try to lock them again. Otherwise there will be a deadlock.
-bool NameNode::Isfile(yfs_client::inum ino) {
-  prt((char *)"IsFile");
-  extent_protocol::attr a;
-
-  if (ec->getattr(ino, a) != extent_protocol::OK) {
-      prt((char *)"error get attr");
-      return false;
+    return true;
   }
-
-  if (a.type == extent_protocol::T_FILE) {
-      return true;
-  } else if(a.type == extent_protocol::T_DIR) {
-      // printf("isfile: %lld is a dir\n", inum);
-  } else {
-      // printf("isfile: %lld is a symlink\n", inum);
-  }
+  prt((char *)"res is not OK");
   return false;
 }
 
-// The same as the functions in yfs_client, 
-// but the framework will call these functions with the locks held, 
-// so you shouldn't try to lock them again. Otherwise there will be a deadlock.
+bool NameNode::Isfile(yfs_client::inum ino) {
+  char c[100];sprintf(c, "Isfile(inum:%lld)", ino);prt(c);
+
+  extent_protocol::attr a;
+
+  if (ec->getattr(ino, a) != extent_protocol::OK) {
+    prt((char *)"error get attr");
+    return false;
+  }
+
+  if (a.type == extent_protocol::T_FILE) {
+    prt((char *)"is file");
+    return true;
+  }
+  prt((char *)"not a file");
+  return false;
+}
+
 bool NameNode::Isdir(yfs_client::inum ino) {
-  prt((char *)"Isdir");
+  char c[100];sprintf(c, "Isdir(inum:%lld)", ino);prt(c);
   extent_protocol::attr a;
 
   if (ec->getattr(ino, a) != extent_protocol::OK) {
@@ -272,71 +187,50 @@ bool NameNode::Isdir(yfs_client::inum ino) {
   }
 
   if (a.type == extent_protocol::T_DIR) {
-      // printf("isdir: %lld is a dir\n", inum);
+      prt((char *)"is dir");
       return true;
-  } else if(a.type == extent_protocol::T_FILE) {
-      // printf("isdir: %lld is a file\n", inum);
-  } else {
-      // printf("isfile: %lld is a symlink\n", inum);
-  }
+  } 
+  prt((char *)"not a dir");
   return false;
 }
 
-// The same as the functions in yfs_client, 
-// but the framework will call these functions with the locks held, 
-// so you shouldn't try to lock them again. Otherwise there will be a deadlock.
 bool NameNode::Getfile(yfs_client::inum ino, yfs_client::fileinfo &info) {
-  prt((char *)"GetFile");
-  int r = true;
-
-  extent_protocol::attr a;
-  if (ec->getattr(ino, a) != extent_protocol::OK) {
-    r = yfs_client::IOERR;
-    prt("error");
-    goto release;
+  char c[100];sprintf(c, "Getfile(inum:%lld)", ino);prt(c);
+  extent_protocol::attr attr;
+  if (ec->getattr(ino, attr) != extent_protocol::OK) {
+    prt((char *)"error get attr");
+    return false;
   }
-  info.atime = a.atime;
-  info.mtime = a.mtime;
-  info.ctime = a.ctime;
-  info.size = a.size;
-  // printf("getfile %016llx -> sz %llu\n", ino, info.size);
-
-release:
+  info.atime = attr.atime;
+  info.mtime = attr.mtime;
+  info.ctime = attr.ctime;
+  info.size = attr.size;
   prt((char *)"end of Getfile");
-  return r;
+  return true;
 }
 
-// The same as the functions in yfs_client, 
-// but the framework will call these functions with the locks held, 
-// so you shouldn't try to lock them again. Otherwise there will be a deadlock.
 bool NameNode::Getdir(yfs_client::inum ino, yfs_client::dirinfo &info) {
-  prt((char *)"GetDir");
-  // return false;
-  int r = true;
+  char c[100];sprintf(c, "Getdir(inum:%lld)", ino);prt(c);
 
-  // printf("getdir %016llx\n", ino);
-  extent_protocol::attr a;
-  if (ec->getattr(ino, a) != extent_protocol::OK) {
-      r = false;
-      goto release;
+  extent_protocol::attr attr;
+  if (ec->getattr(ino, attr) != extent_protocol::OK) {
+    prt((char *)"error get attr");
+    return false;
   }
-  info.atime = a.atime;
-  info.mtime = a.mtime;
-  info.ctime = a.ctime;
-
-release:
-  return r;
+  info.atime = attr.atime;
+  info.mtime = attr.mtime;
+  info.ctime = attr.ctime;
+  prt((char *)"end of Getdir");
+  return true;
 }
 
-// The same as the functions in yfs_client, 
-// but the framework will call these functions with the locks held, 
-// so you shouldn't try to lock them again. Otherwise there will be a deadlock.
 bool NameNode::Readdir(yfs_client::inum ino, std::list<yfs_client::dirent> &dir) {
-  prt((char *)"namenode\t readdir");
+  char c[100];sprintf(c, "Readdir(inum:%lld)", ino);prt(c);
+
   int r = true;
   std::string buf;
   std::istringstream ss;
-  std::string de_name; // dirent name
+  std::string de_name;
   char delima;
   yfs_client::dirent de;
   
@@ -358,61 +252,40 @@ bool NameNode::Readdir(yfs_client::inum ino, std::list<yfs_client::dirent> &dir)
               de_name += delima;
           }
       }
+      sprintf(c, "file name is :%s", de_name.c_str()); prt(c);
       de.name = de_name;
       dir.push_back(de);
       de_name = "";
   }
-  return true;;
+  prt((char *)"end of readdir");
+  return true;
 }
 
-// The same as the functions in yfs_client, 
-// but the framework will call these functions with the locks held, 
-// so you shouldn't try to lock them again. Otherwise there will be a deadlock.
 bool NameNode::Unlink(yfs_client::inum parent, string name, yfs_client::inum ino) {
-  // return false;
-  char outchar[100];
-  int r;
-  prt((char *)"namenode\t unlink");
+  char c[100];sprintf(c, "Unlink(parent:%lld, name:%s, ino:%lld",parent, name.c_str(), ino);prt(c);
 
   std::list<yfs_client::dirent> entries;
   std::list<yfs_client::dirent>::iterator it;
-  if(!Readdir(ino, entries)){
-    prt((char *)"readdir error");
-    return false;
-  }
-  bool found=false;
-  // std::list<yfs_client::dirent>::iterator it;
-  for (it=entries.begin(); it!=entries.end(); it++){
-    if(it->name == name){
-        if(Isdir(it->inum)){
-          prt((char *)"unlink a dir");
-          return false;
-        }
-        lc->acquire(it->inum);
-        ec->remove(it->inum);
-        lc->release(it->inum);
-        found = true;
-        break;
-    }
-  }
-  if(!found){
-    prt((char *)"name not exist");
-    return false;
-  }
+  bool found;
   stringstream ss;
-  ss.unsetf(std::ios::skipws);
-  for (it=entries.begin(); it!=entries.end(); it++){
-    ss << it->inum;
-    ss << "/";
-    for(unsigned int i=0; i<it->name.size(); i++){
-      ss << it->name.substr(i, 1);
+
+  Readdir(parent, entries);
+  for(it=entries.begin(); it!=entries.end(); it++){
+    if(it->name == name){
+      ec->remove(ino);
+      found=true;
+    }else{
+      ss << it->inum;
+      ss << "/";
+      for(unsigned int i=0; i<it->name.size(); i++){
+        ss << it->name.substr(i, 1);
+      }
+      ss << "/";
     }
-    ss << "/";
   }
-  r = !(ec->put(parent, ss.str()));
-  sprintf(outchar, "r:%d", r);
-  prt(outchar);
-  return r;
+  ec->put(parent, ss.str());
+  sprintf(c, "found:%d", found);prt(c);
+  return found;
 }
 
 void NameNode::DatanodeHeartbeat(DatanodeIDProto id) {
