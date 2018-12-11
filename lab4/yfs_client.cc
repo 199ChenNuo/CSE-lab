@@ -27,14 +27,14 @@ yfs_client::yfs_client(std::string extent_dst, std::string lock_dst)
   lc = new lock_client_cache(lock_dst);
   if (ec->put(1, "") != extent_protocol::OK)
       printf("error init root dir\n"); // XYB: init root dir
-    prt("init in yfs");
+    prt((char *)"init in yfs");
 }
 
 yfs_client::yfs_client(extent_client * nec, lock_client_cache* nlc){
     ec = nec;
     //lc = new lock_client(lock_dst);
     lc = nlc;
-    prt("yfs::init in namenode");
+    prt((char *)"yfs::init in namenode");
 }
 
 
@@ -294,11 +294,10 @@ yfs_client::mkdir(inum parent, const char *name, mode_t mode, inum &ino_out)
     }
     r = ec->put(parent, ss.str());
     if(r != extent_protocol::OK){
-        printf("ERROR: yfs::create  \n");
+        printf("ERROR: in create() ec->put failed\n");
         lc->release(parent);
         return r;
     }
-    prt((char *)"end of mkdir");
     lc->release(parent);
     return r;
 }
@@ -307,7 +306,7 @@ int
 yfs_client::lookup(inum parent, const char *name, bool &found, inum &ino_out)
 {
     char c[100];
-    sprintf(c, "lookup parent:%lld, name:%s", parent, name);
+    sprintf(c, "lookup(parent:%lld, name:%s)", parent, name);
     prt(c);
 
     int r = OK;
@@ -317,19 +316,18 @@ yfs_client::lookup(inum parent, const char *name, bool &found, inum &ino_out)
     r = readdir(parent, dirents);
     found = false;
     if(r != extent_protocol::OK){
-        prt((char *)"readdir failed");
+        prt((char *)"ERROR: in lookup() readdir failed");
         return r;
     }
     it = dirents.begin();
     for(; it!=dirents.end(); it++){
         if(it->name == name){
-            prt((char *)"lookup find");
+            sprintf(c, (char *)"lookup find:%s", name);prt(c);
             found=true;
             ino_out = it->inum;
             break;
         }
     }
-    prt((char *)"end of lookup");
     return r;
 }
 

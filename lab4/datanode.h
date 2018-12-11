@@ -24,8 +24,10 @@ private:
   bool ReadBlock(blockid_t bid, uint64_t offset, uint64_t len, std::string &buf);
   bool WriteBlock(blockid_t bid, uint64_t offset, uint64_t len, const std::string &buf);
   bool SendHeartbeat();
+  void periodSendHb();
 
   /* Feel free to add your member variables/functions here */
+  void prt(char *s);
 public:
   int init(const std::string &extent_dst, const std::string &namenode, const struct sockaddr_in *bindaddr);
   bool _ReadBlock(google::protobuf::io::CodedInputStream &is, google::protobuf::io::CodedOutputStream &os, google::protobuf::io::FileOutputStream &raw_os);

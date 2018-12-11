@@ -5,6 +5,8 @@
 #include <unistd.h>
 #include "threader.h"
 
+#define ALIVE_DDL 5
+
 using namespace std;
 
 void NameNode::init(const string &extent_dst, const string &lock_dst) {
@@ -13,6 +15,15 @@ void NameNode::init(const string &extent_dst, const string &lock_dst) {
   yfs = new yfs_client(extent_dst, lock_dst);
 
   /* Add your init logic here */
+  heartbeat = 0;
+  NewThread(this, &NameNode::counter);
+}
+
+void NameNode::counter(){
+  while(true){
+    heartbeat++;
+    sleep(1);
+  }
 }
 
 void NameNode::prt(char *s){
@@ -27,17 +38,17 @@ list<NameNode::LocatedBlock> NameNode::GetBlockLocations(yfs_client::inum ino) {
   list<blockid_t> block_ids;
   list<blockid_t>::iterator it;
   extent_protocol::attr a;
-  int counter = 0;
+  unsigned int counter = 0;
 
   ec->get_block_ids(ino, block_ids);
   ec->getattr(ino, a);
   for (it=block_ids.begin(); it!=block_ids.end(); it++){
     unsigned int size = (counter == (block_ids.size()-1)) ? a.size-(counter*BLOCK_SIZE) : BLOCK_SIZE;
-    LocatedBlock lb(*it, counter*BLOCK_SIZE, size, master_datanode);
+    LocatedBlock lb(*it, counter*BLOCK_SIZE, size, GetDatanodes());
     r.push_back(lb);
     counter++;
   }
-  prt("end of GetLocatedBlocks");
+  prt((char *)"end of GetLocatedBlocks");
   return r;
 }
 
@@ -65,7 +76,8 @@ NameNode::LocatedBlock NameNode::AppendBlock(yfs_client::inum ino) {
   }else{
     size = attr.size%BLOCK_SIZE;
   }
-  LocatedBlock ret(bid, attr.size, size, master_datanode);
+  commited_blocks.insert(bid);
+  LocatedBlock ret(bid, attr.size, size, GetDatanodes());
   return ret;
 }
 
@@ -136,7 +148,6 @@ bool NameNode::Rename(yfs_client::inum src_dir_ino, string src_name, yfs_client:
 }
 
 bool NameNode::Mkdir(yfs_client::inum parent, string name, mode_t mode, yfs_client::inum &ino_out) {
-  // return false;
   char c[100];sprintf(c, "Mkdir(parent:%lld)", parent);prt(c);
 
   int r = !(yfs->mkdir(parent, name.c_str(), mode, ino_out));
@@ -289,11 +300,44 @@ bool NameNode::Unlink(yfs_client::inum parent, string name, yfs_client::inum ino
 }
 
 void NameNode::DatanodeHeartbeat(DatanodeIDProto id) {
+  prt((char *)"receive DatanodeHeartbeat");
+  // int m = 0;
+  // for (auto i : datanodes){
+  //   m = max(m, i.second);
+  // }
+  // char c[100];sprintf(c, "update id:%s", id.c_str());prt(c);
+  datanodes[id] = this->heartbeat;
 }
 
 void NameNode::RegisterDatanode(DatanodeIDProto id) {
+  prt((char *)"RegisterDatanode");
+
+  if (this->heartbeat > ALIVE_DDL){
+      // for(auto b : commited_blocks){
+      //   ReplicateBlock(b, master_datanode, id);
+      // }
+      prt((char *)"replicate all blocks from master_datanode into id");
+      std::set<blockid_t>::iterator it = commited_blocks.begin();
+      for(; it!=commited_blocks.end(); it++){
+        ReplicateBlock(*it, master_datanode, id);
+      }
+    }
+  // datanodes.insert(make_pair(id, this->heart));
+  datanodes[id] = this->heartbeat;
 }
 
 list<DatanodeIDProto> NameNode::GetDatanodes() {
-  return list<DatanodeIDProto>();
+  prt((char *)"GetDatanodes()");
+
+  list<DatanodeIDProto> ids;
+  map<DatanodeIDProto, int>::iterator it;
+
+  for(it=datanodes.begin(); it!=datanodes.end(); it++){
+    if(abs(it->second - this->heartbeat) <= ALIVE_DDL){
+      ids.push_back(it->first);
+    }else{
+      prt((char *)"one datanode dies");
+    }
+  }
+  return ids;
 }

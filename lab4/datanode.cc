@@ -7,6 +7,20 @@
 
 using namespace std;
 
+void DataNode::prt(char *s){
+  cout << "DataNode: " << s << endl;
+  fflush(stdout);
+}
+
+void DataNode::periodSendHb(){
+  while(true){
+    if(SendHeartbeat() != true){
+      prt((char *)"SendHeartbeat() return false");
+    }
+    sleep(1);
+  }
+}
+
 int DataNode::init(const string &extent_dst, const string &namenode, const struct sockaddr_in *bindaddr) {
   ec = new extent_client(extent_dst);
 
@@ -36,31 +50,43 @@ int DataNode::init(const string &extent_dst, const string &namenode, const struc
   }
 
   /* Add your initialization here */
-
+  if (ec->put(1, "") != extent_protocol::OK)
+    printf("error init root dir\n"); // XYB: init root dir
+  
+  NewThread(this, &DataNode::periodSendHb);
   return 0;
 }
 
 bool DataNode::ReadBlock(blockid_t bid, uint64_t offset, uint64_t len, string &buf) {
   /* Your lab4 part 2 code */
+  char c[100];sprintf(c, "ReadBlock(bid:%u, offset:%lu)", bid, offset);prt(c);
   string content;
-  ec->read_block(bid,content);
+  int r;
+  r = !(ec->read_block(bid,content));
   if (offset > content.size()){
     buf = "";
   }else{
-    buf = content.substr(offset,len);
+    if(offset+len <= content.size())
+      buf = content.substr(offset,len);
+    else{
+      buf = content.substr(offset, content.size());
+      buf.resize(offset+len, '\0');
+    }
   }
-  return true;
+  return r;
 }
 
 bool DataNode::WriteBlock(blockid_t bid, uint64_t offset, uint64_t len, const string &buf) {
   /* Your lab4 part 2 code */
+  char c[100];sprintf(c, "WriteBlock(bid:%u, offset:%lu, len:%lu)", bid, offset, len);prt(c);
   string content;
-  ec->read_block(bid,content);
-  string new_cont = "";
-  new_cont += content.substr(0,offset);
-  new_cont += buf;
-  new_cont += content.substr(offset+len);
-  ec->write_block(bid,new_cont);
-  return true;
+  int r;
+  r = !(ec->read_block(bid,content));
+  string wbuf = "";
+  wbuf += content.substr(0,offset);
+  wbuf += buf;
+  wbuf += content.substr(offset+len);
+  ec->write_block(bid,wbuf);
+  return r;
 }
 

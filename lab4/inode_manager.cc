@@ -334,7 +334,8 @@ inode_manager::write_file(uint32_t inum, const char *buf, int size)
     printf("im::write_file() ERROR, invalid inum or buf\n");
     return;
   }
-  if(size >= MAXFILE*BLOCK_SIZE){
+  int maxFileSize = MAXFILE*BLOCK_SIZE;
+  if(size >= maxFileSize){
     printf("im::write_file() file bigger than maxfile size\n");
     return;
   }
@@ -510,7 +511,7 @@ inode_manager::append_block(uint32_t inum, blockid_t &bid)
    * your code goes here.
    */
   char c[100];
-  sprintf(c, "append_block: inum:%lld", inum);
+  sprintf(c, "append_block: inum:%d", inum);
   prt(c);
 
   struct inode * ino = get_inode(inum);

@@ -53,6 +53,11 @@ private:
   std::map<yfs_client::inum, uint32_t> pendingWrite;
 
   /* Add your member variables/functions here */
+  void prt(char *s);
+  void counter();
+  std::map<DatanodeIDProto, int> datanodes;
+  std::set<blockid_t> commited_blocks;
+  long long heartbeat;
 private:
   void GetFileInfo();
   bool RecursiveLookup(const std::string &path, yfs_client::inum &ino, yfs_client::inum &last);
@@ -99,8 +104,6 @@ public:
   void PBSetSafeMode(const SetSafeModeRequestProto &req, SetSafeModeResponseProto &resp);
   void PBGetDatanodeReport(const GetDatanodeReportRequestProto &req, GetDatanodeReportResponseProto &resp);
   void PBDatanodeHeartbeat(const DatanodeHeartbeatRequestProto &req, DatanodeHeartbeatResponseProto &resp);
-
-  void prt(char *s);
 };
 
 #endif
